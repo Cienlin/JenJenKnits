@@ -1,0 +1,10 @@
+{
+  "name": "TODO 商品名稱",
+  "category": "TODO 分類",
+  "price": 0,
+  "material": "TODO 材質",
+  "dimensions": "TODO 尺寸",
+  "shortDescription": "TODO 一句話介紹 (首頁卡片用)",
+  "buyUrl": "TODO 賣貨便連結 (必填)",
+  "featured": null
+}

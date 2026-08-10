@@ -1,0 +1,10 @@
+{
+  "name": "網格托特包",
+  "category": "TODO 填分類 (例如: 手工編織 / 肩背包 / 純棉)",
+  "price": 0,
+  "material": "TODO 填材質 (例如: 100% 有機棉編織繩)",
+  "dimensions": "TODO 填尺寸 (例如: W35 × H35 × D10 cm)",
+  "shortDescription": "本款提供紅、黃、紫三色可選。",
+  "buyUrl": "TODO 賣貨便連結 (必填,若空則不會顯示於網站)",
+  "featured": 1
+}

@@ -48,34 +48,34 @@ a {
 }
 
 .site-nav-container {
-  min-height: 72px;
+  min-height: 100px;
 }
 
 .site-brand {
   display: inline-flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.5rem;
   text-decoration: none;
   color: var(--color-primary);
-  line-height: 1.05;
+}
+
+.site-brand-logo {
+  display: block;
+  height: 80px;
+  width: auto;
 }
 
 .site-brand span {
   font-family: var(--font-serif);
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   font-weight: 700;
-}
-
-.site-brand small {
-  color: var(--color-clay);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  line-height: 1;
 }
 
 .site-nav-menu .nav-link {
   color: rgba(31, 33, 23, 0.72);
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
@@ -408,6 +408,14 @@ a {
 @media (max-width: 575.98px) {
   .site-nav-container {
     min-height: 64px;
+  }
+
+  .site-brand-logo {
+    height: 60px;
+  }
+
+  .site-brand span {
+    font-size: 1.1rem;
   }
 
   .home-hero {

@@ -1,10 +1,96 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "貞織手作";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="home-hero">
+    <img class="home-hero-image" alt="雙手正在編織天然羊毛線" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmM-s8Hs_uClaCFt83kvDg7Q88o87FQd3LZLWTQ56g6lZBr0uHbqKK3H06nwpMDXWkuUGFReP7Kb4-04xzzeahX0bX-bld6HwKG1jcICwX1dDm3s1u49Ca4j7J0IInjx0uJzlQG83hVT--4RJe6YT_nDx2XzSyO9R4v7jQPQPbjxc070fw6kElj2vV7hubtAQHdiMRb9IT24Zv4YvwEGQCENw0eVV7jyuMjCsLMsXJpB3lrdwofLde" />
+    <div class="home-hero-shade"></div>
+    <div class="container home-hero-content">
+        <p class="script-note">Slow Living</p>
+        <h1>從農場到衣櫃，每一針都是溫度的延續</h1>
+        <p class="hero-copy">
+            貞織手作選用天然纖維與柔和色系，製作能陪伴日常的針織小物。作品不走大量上架，而是依季節、材料與手感慢慢推出。
+        </p>
+        <div class="hero-actions">
+            <a class="btn-brand" href="#market">前往賣貨便</a>
+            <a class="btn-quiet" href="#story">認識品牌</a>
+        </div>
+    </div>
+</section>
+
+<section id="collections" class="section-block reveal-on-scroll">
+    <div class="container">
+        <div class="section-heading">
+            <p>Selected Works</p>
+            <h2>手感小物</h2>
+        </div>
+        <div class="product-grid">
+            <article class="product-card">
+                <img alt="大地色系手織羊毛襪" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQzjcEEd_hQd6A13aLChKjMnoZx0RBy73VudsOuCSMAFBPmiFQ_jjJuKfsxMR0PvNGS9vscutRn_lXcezA2Fl4D8efTw1AGtOwNXESDfjET9y4y_mGRRNwgqt5tB5_Fbwfsiu38L3FgojuJPaMgzCE5PYHuddfILV9YPx00U3X3wbV6pjsYT_vUtsmaWrjejpzULv51WVLmm6wJjX7dJvNAyBCV8wlJ2dABIUeftFQ7AMCbRK5nE0D" />
+                <div>
+                    <span>純羊毛</span>
+                    <h3>大地色系針織襪</h3>
+                    <p>日常穿搭與冬季送禮都合適的柔軟織品。</p>
+                </div>
+            </article>
+            <article class="product-card product-card-offset">
+                <img alt="溫和有機棉嬰兒毯" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2k5ZrRUJHyQKj8Dtz-Y1VqDfFBCQSyIhyxWsPViaVvZbnjzTZhqgiceJmW8mP8lKZMau3IL8Js7wGUI30HXX7d4XLq0U3lBoc1IKHEPoKeZMW5MUfoup64aZIelg-1SI16z085Z9E9ZrfWD7et74kelHuMAjrdjQYWkAABBWga2nxm6Nh4zVHwGxSWBHDiq2xooAPzC2wkym_SA2Rjb8fjqii5ZqdMrJoi3UcW8d5U9DXyYBoUDwv" />
+                <div>
+                    <span>有機棉</span>
+                    <h3>溫和有機棉嬰兒毯</h3>
+                    <p>親膚、輕暖，適合新生兒禮物與居家使用。</p>
+                </div>
+            </article>
+            <article class="product-card">
+                <img alt="陶製手工記號圈" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD93w96rFuHNu3Iu1Bw4pRcegkB63HlzVfrNK9UZL99tFEEt-bv5lOZpTSJwJskppv4Qz_JtdSnoDZwmpdaGRTrfrHYwcT4Ly3mxHu5yB1fcqGyv2-jUsT-HxyTV_VViberv-6gscjFw-l8IhB6U86frUxY5mSCqxy_e2iArflA7367r0VGPH26xspLx3a-Id5GKYFIff4K1pRbxJZ2yWtl3Ky-SPB4_U0uDI6GEJtNwAU7unkeTQux" />
+                <div>
+                    <span>職人手作</span>
+                    <h3>陶製手工記號圈</h3>
+                    <p>為編織過程增添細節感的小工具。</p>
+                </div>
+            </article>
+            <article class="product-card product-card-offset">
+                <img alt="芥末黃蜂巢織紋提袋" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDinfyC7g6kGf-2FZZpCqFc2bC4n9JKXDvorAXFntCgCxGUFuXgeQkgFA-8e3YzTZ_7XrZpFw541vY0CoRzXZBBtHOGA6MEfGxOO0dH8jHNDCcDvpxUVFsTGgYG0_WXLJEs_6Y_765tZM4ftt71B0pBydKBekzj4V8JGy3MYrWvfmWE3JKziJtt4EquRPKXkh9ScO1N4afePkNcQ6kV80RqXo2isEg5qOGEcEMcIvEnlhZPpMOOcMNc" />
+                <div>
+                    <span>限量</span>
+                    <h3>芥末黃蜂巢織紋提袋</h3>
+                    <p>小量製作的織紋提袋，適合日常外出。</p>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section id="story" class="story-section reveal-on-scroll">
+    <div class="container story-layout">
+        <div>
+            <p class="script-note">Made Slowly</p>
+            <h2>不急著把每件作品做成一樣</h2>
+            <p>
+                每批線材的觸感、厚薄與顏色都不完全相同，貞織手作保留這些細微差異，讓小物帶有手作才有的表情。
+            </p>
+            <p>
+                這裡更像一間線上工作室：你可以先認識材料、款式與製作節奏，再到賣貨便查看目前可購入的作品。
+            </p>
+        </div>
+        <img alt="自然光下的手作針織作品" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDinfyC7g6kGf-2FZZpCqFc2bC4n9JKXDvorAXFntCgCxGUFuXgeQkgFA-8e3YzTZ_7XrZpFw541vY0CoRzXZBBtHOGA6MEfGxOO0dH8jHNDCcDvpxUVFsTGgYG0_WXLJEs_6Y_765tZM4ftt71B0pBydKBekzj4V8JGy3MYrWvfmWE3JKziJtt4EquRPKXkh9ScO1N4afePkNcQ6kV80RqXo2isEg5qOGEcEMcIvEnlhZPpMOOcMNc" />
+    </div>
+</section>
+
+<section id="market" class="market-section reveal-on-scroll">
+    <div class="container market-layout">
+        <div>
+            <p class="eyebrow">How to Buy</p>
+            <h2>購買以 7-11 賣貨便為主</h2>
+            <p>
+                最新上架品項、價格與庫存會以賣貨便頁面為準。若想詢問客製、尺寸或材質，也可以先透過社群私訊確認。
+            </p>
+        </div>
+        <div class="market-actions">
+            <a class="btn-brand" href="#" aria-label="前往 7-11 賣貨便賣場">前往賣貨便</a>
+            <a class="btn-quiet" href="#" aria-label="前往貞織手作 Instagram">Instagram</a>
+        </div>
+    </div>
+</section>

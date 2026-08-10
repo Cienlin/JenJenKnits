@@ -1,46 +1,60 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - JenJenKnits</title>
+    <title>@ViewData["Title"] - 貞織手作 JenJen Knits</title>
     <script type="importmap"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Zeyada&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/JenJenKnits.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">JenJenKnits</a>
+<body class="site-shell">
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md">
+            <div class="container site-nav-container">
+                <a class="site-brand" asp-area="" asp-page="/Index">
+                    <span>貞織手作</span>
+                    <small>JenJen Knits</small>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                        aria-expanded="false" aria-label="切換導覽選單">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse site-nav-menu">
+                    <ul class="navbar-nav ms-auto align-items-md-center">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-page="/Index" asp-fragment="collections">作品分類</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-page="/Index" asp-fragment="story">品牌故事</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Index" asp-fragment="market">購買方式</a>
                         </li>
                     </ul>
-                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main role="main" class="site-main">
+        @RenderBody()
+    </main>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - JenJenKnits - <a asp-area="" asp-page="/Privacy">Privacy</a>
+    <footer class="site-footer">
+        <div class="container site-footer-inner">
+            <div>
+                <strong>貞織手作 JenJen Knits</strong>
+                <p>天然纖維、手作小物與慢生活織品。</p>
+            </div>
+            <div class="site-footer-links">
+                <a asp-area="" asp-page="/Index" asp-fragment="market">賣貨便</a>
+                <a asp-area="" asp-page="/Index" asp-fragment="story">關於我們</a>
+                <a asp-area="" asp-page="/Privacy">Privacy</a>
+            </div>
         </div>
     </footer>
 

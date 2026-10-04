@@ -1,0 +1,17 @@
+@model Product
+
+<a class="product-card" asp-page="/Products/Detail" asp-route-slug="@Model.Slug">
+    <span class="product-card-media">
+        <img src="@Model.CoverImagePath" alt="@(Model.ShortDescription ?? "")" loading="lazy"
+             style="view-transition-name: @Model.ViewTransitionName" />
+        @if (Model.HoverImagePath is string hover)
+        {
+            <img class="product-card-hover" src="@hover" alt="" loading="lazy" />
+        }
+    </span>
+    <span class="product-card-name">@Model.Name</span>
+    @if (Model.Price is int price)
+    {
+        <span class="product-card-price">NT$ @price.ToString("N0")</span>
+    }
+</a>

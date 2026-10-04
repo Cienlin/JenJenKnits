@@ -1,0 +1,130 @@
+@*
+    泡芙小花提網配色模擬器：主色 = 網子與花朵外圈，配色 = 提把與花心。
+    預設為照片中的「藏青配芥末黃」（12 號 / 6 號）。
+*@
+@{
+    const int defaultMain = 12;
+    const int defaultAccent = 6;
+    var main = YarnPalette.Colors.First(c => c.Number == defaultMain);
+    var accent = YarnPalette.Colors.First(c => c.Number == defaultAccent);
+    var parts = new[]
+    {
+        (Part: "main", Label: "主色", Note: "網子和花朵外圈", Selected: defaultMain),
+        (Part: "accent", Label: "配色", Note: "提把和花心", Selected: defaultAccent),
+    };
+}
+
+<div class="simulator" data-simulator style="--main: @main.Hex; --accent: @accent.Hex">
+    <div class="simulator-preview">
+        <svg class="simulator-flower" viewBox="0 0 200 210" role="img" aria-labelledby="simulator-title">
+            <title id="simulator-title">泡芙小花配色預覽</title>
+            <defs>
+                <g id="sim-outer-shape">
+                    <circle cx="100" cy="132" r="40" />
+                    <circle cx="100" cy="98" r="30" />
+                    <circle cx="132.34" cy="121.49" r="30" />
+                    <circle cx="119.98" cy="159.51" r="30" />
+                    <circle cx="80.02" cy="159.51" r="30" />
+                    <circle cx="67.66" cy="121.49" r="30" />
+                </g>
+                <g id="sim-inner-shape">
+                    <circle cx="100" cy="132" r="24" />
+                    <circle cx="100" cy="111" r="18" />
+                    <circle cx="119.97" cy="125.51" r="18" />
+                    <circle cx="112.34" cy="148.99" r="18" />
+                    <circle cx="87.66" cy="148.99" r="18" />
+                    <circle cx="80.03" cy="125.51" r="18" />
+                </g>
+                @* clipPath 裡的 <use> 不能指向 <g>，所以圓形要直接寫進來 *@
+                <clipPath id="sim-outer-clip">
+                    <circle cx="100" cy="132" r="40" />
+                    <circle cx="100" cy="98" r="30" />
+                    <circle cx="132.34" cy="121.49" r="30" />
+                    <circle cx="119.98" cy="159.51" r="30" />
+                    <circle cx="80.02" cy="159.51" r="30" />
+                    <circle cx="67.66" cy="121.49" r="30" />
+                </clipPath>
+                <clipPath id="sim-inner-clip">
+                    <circle cx="100" cy="132" r="24" />
+                    <circle cx="100" cy="111" r="18" />
+                    <circle cx="119.97" cy="125.51" r="18" />
+                    <circle cx="112.34" cy="148.99" r="18" />
+                    <circle cx="87.66" cy="148.99" r="18" />
+                    <circle cx="80.03" cy="125.51" r="18" />
+                </clipPath>
+                @* 左上亮、右下暗，做出蓬鬆的「泡芙」立體感；用整朵花的座標，避免每片花瓣各自打光 *@
+                <radialGradient id="sim-puff-outer" gradientUnits="userSpaceOnUse" cx="88" cy="112" r="82">
+                    <stop offset="0%" stop-color="#fff" stop-opacity="0.26" />
+                    <stop offset="50%" stop-color="#fff" stop-opacity="0" />
+                    <stop offset="100%" stop-color="#000" stop-opacity="0.22" />
+                </radialGradient>
+                <radialGradient id="sim-puff-inner" gradientUnits="userSpaceOnUse" cx="93" cy="122" r="48">
+                    <stop offset="0%" stop-color="#fff" stop-opacity="0.28" />
+                    <stop offset="55%" stop-color="#fff" stop-opacity="0" />
+                    <stop offset="100%" stop-color="#000" stop-opacity="0.18" />
+                </radialGradient>
+                <g id="sim-outer-rounds">
+                    <circle cx="100" cy="132" r="47" />
+                    <circle cx="100" cy="132" r="56" />
+                    <circle cx="100" cy="132" r="65" />
+                </g>
+                <g id="sim-inner-rounds">
+                    <circle cx="100" cy="132" r="6" />
+                    <circle cx="100" cy="132" r="13" />
+                    <circle cx="100" cy="132" r="20" />
+                    <circle cx="100" cy="132" r="27" />
+                </g>
+            </defs>
+
+            <ellipse class="sim-shadow" cx="100" cy="200" rx="48" ry="5" />
+
+            <path class="sim-handle-outline" d="M93 74 C70 10, 130 10, 107 74" />
+            <path class="sim-handle" d="M93 74 C70 10, 130 10, 107 74" />
+            <path class="sim-stitch" d="M93 74 C70 10, 130 10, 107 74" />
+
+            <use class="sim-outline" href="#sim-outer-shape" />
+            <use class="sim-main" href="#sim-outer-shape" />
+            <g clip-path="url(#sim-outer-clip)">
+                <use class="sim-rounds-dark" href="#sim-outer-rounds" />
+                <use class="sim-rounds-light" href="#sim-outer-rounds" />
+            </g>
+            <rect class="sim-puff" x="0" y="0" width="200" height="210" fill="url(#sim-puff-outer)" clip-path="url(#sim-outer-clip)" />
+
+            <use class="sim-outline" href="#sim-inner-shape" />
+            <use class="sim-accent" href="#sim-inner-shape" />
+            <g clip-path="url(#sim-inner-clip)">
+                <use class="sim-rounds-dark" href="#sim-inner-rounds" />
+                <use class="sim-rounds-light" href="#sim-inner-rounds" />
+            </g>
+            <rect class="sim-puff" x="0" y="0" width="200" height="210" fill="url(#sim-puff-inner)" clip-path="url(#sim-inner-clip)" />
+
+            <circle class="sim-button" cx="157" cy="146" r="7.5" />
+            <circle class="sim-button-hole" cx="154.6" cy="146" r="1.3" />
+            <circle class="sim-button-hole" cx="159.4" cy="146" r="1.3" />
+        </svg>
+        <p class="simulator-result" aria-live="polite">
+            主色 <strong data-number="main">@defaultMain</strong> 號<br />
+            配色 <strong data-number="accent">@defaultAccent</strong> 號
+        </p>
+    </div>
+
+    @foreach (var part in parts)
+    {
+        <fieldset class="swatches">
+            <legend>@part.Label<span>@part.Note</span></legend>
+            <div class="swatch-grid">
+                @foreach (var yarn in YarnPalette.Colors)
+                {
+                    <label class="swatch" title="@yarn.Number 號">
+                        <input type="radio" name="sim-@part.Part" value="@yarn.Number" data-part="@part.Part" data-hex="@yarn.Hex"
+                               checked="@(yarn.Number == part.Selected)" />
+                        <span class="swatch-dot" style="--c: @yarn.Hex"></span>
+                        <span class="visually-hidden">@yarn.Number 號</span>
+                    </label>
+                }
+            </div>
+        </fieldset>
+    }
+
+    <p class="hint">螢幕上的顏色和實際線材會有些差異，請以下方色卡照片為準。</p>
+</div>

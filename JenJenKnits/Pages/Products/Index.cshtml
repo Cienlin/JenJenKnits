@@ -1,0 +1,46 @@
+@page
+@model JenJenKnits.Pages.Products.IndexModel
+@{
+    ViewData["Title"] = string.IsNullOrEmpty(Model.Category) ? "作品" : $"{Model.Category}｜作品";
+}
+
+<section class="page-head">
+    <div class="wrap">
+        <h1>作品</h1>
+
+        @if (Model.Categories.Count > 0)
+        {
+            <nav class="pills" aria-label="依分類篩選">
+                <a class="pill" asp-page="/Products/Index" aria-current="@(string.IsNullOrEmpty(Model.Category) ? "page" : null)">全部</a>
+                @foreach (var category in Model.Categories)
+                {
+                    <a class="pill" asp-page="/Products/Index" asp-route-category="@category"
+                       aria-current="@(category == Model.Category ? "page" : null)">@category</a>
+                }
+            </nav>
+        }
+    </div>
+</section>
+
+<section class="section band band-pink">
+    <div class="wrap">
+        @if (Model.Products.Count > 0)
+        {
+            <div class="product-grid">
+                @foreach (var product in Model.Products)
+                {
+                    <partial name="_ProductCard" model="product" />
+                }
+            </div>
+        }
+        else if (!string.IsNullOrEmpty(Model.Category))
+        {
+            <p class="empty">此分類目前無商品。</p>
+            <a class="text-link" asp-page="/Products/Index">回全部作品</a>
+        }
+        else
+        {
+            <p class="empty">作品準備中。</p>
+        }
+    </div>
+</section>

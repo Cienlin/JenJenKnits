@@ -1,0 +1,118 @@
+@page "/products/{slug}"
+@model JenJenKnits.Pages.Products.DetailModel
+@{
+    var product = Model.Product;
+    ViewData["Title"] = product.Name;
+    ViewData["Description"] = product.ShortDescription;
+}
+
+<article class="wrap detail">
+    <a class="back-link" asp-page="/Products/Index">全部作品</a>
+
+    <div class="detail-grid">
+        <div class="gallery" data-gallery>
+            @* 手機可左右滑動換照片；第一張帶 view-transition-name，從作品卡片點進來時照片會平滑放大 *@
+            <div class="gallery-track" data-gallery-track tabindex="0" aria-label="商品照片，可左右滑動">
+                @for (var i = 0; i < Model.Images.Count; i++)
+                {
+                    <img class="gallery-slide" src="@Model.Images[i]" alt="@product.Name 第 @(i + 1) 張照片"
+                         loading="@(i == 0 ? "eager" : "lazy")"
+                         style="@(i == 0 ? $"view-transition-name: {product.ViewTransitionName}" : null)" />
+                }
+            </div>
+            @if (Model.Images.Count > 1)
+            {
+                <ul class="gallery-thumbs" aria-label="選擇照片">
+                    @for (var i = 0; i < Model.Images.Count; i++)
+                    {
+                        <li>
+                            <button type="button" data-gallery-thumb aria-label="看第 @(i + 1) 張照片"
+                                    aria-current="@(i == 0 ? "true" : "false")">
+                                <img src="@Model.Images[i]" alt="" loading="lazy" />
+                            </button>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+
+        <div class="detail-info">
+            @if (product.Category is string category)
+            {
+                <a class="detail-category" asp-page="/Products/Index" asp-route-category="@category">@category</a>
+            }
+            <h1>@product.Name</h1>
+            @if (product.Price is int price)
+            {
+                <p class="detail-price">NT$ @price.ToString("N0")</p>
+            }
+            @if (product.ShortDescription is string lead)
+            {
+                <p class="detail-lead">@lead</p>
+            }
+
+            @if (product.Material is not null || product.Dimensions is not null)
+            {
+                <dl class="detail-specs">
+                    @if (product.Material is string material)
+                    {
+                        <dt>材質</dt>
+                        <dd>@material</dd>
+                    }
+                    @if (product.Dimensions is string dimensions)
+                    {
+                        <dt>尺寸</dt>
+                        <dd>@dimensions</dd>
+                    }
+                </dl>
+            }
+
+            <div class="buy-action">
+                @if (product.BuyUrl is string buyUrl)
+                {
+                    <a class="btn btn-large" href="@buyUrl" target="_blank" rel="noopener noreferrer">前往賣貨便</a>
+                    <p class="hint">價格與庫存以賣貨便頁面為準。</p>
+                    @if (Model.Instagram is string instagram)
+                    {
+                        <a class="btn btn-quiet" href="@instagram" target="_blank" rel="noopener noreferrer">私訊詢問客製顏色</a>
+                    }
+                }
+                else if (Model.Instagram is string instagram)
+                {
+                    <a class="btn btn-large" href="@instagram" target="_blank" rel="noopener noreferrer">私訊訂購／客製顏色</a>
+                    <p class="hint">賣貨便賣場準備中。</p>
+                }
+                else
+                {
+                    <p class="btn btn-large is-pending">即將開賣</p>
+                    <p class="hint">賣貨便賣場準備中。</p>
+                }
+            </div>
+
+            @if (product.StoryHtml is string story)
+            {
+                <div class="story">@Html.Raw(story)</div>
+            }
+
+            @if (product.ColorChartImagePath is not null || product.ColorSimulator is not null)
+            {
+                <section class="colors" aria-labelledby="colors-title">
+                    <h2 id="colors-title">可選顏色</h2>
+                    @if (product.ColorSimulator == "puff-flower")
+                    {
+                        <p>點選色點試試看配色，訂購時告訴我們兩個色號即可。</p>
+                        <partial name="_PuffFlowerSimulator" />
+                    }
+                    else
+                    {
+                        <p>從色卡挑選線的顏色，色號標在每球線上。</p>
+                    }
+                    @if (product.ColorChartImagePath is string colorChart)
+                    {
+                        <img class="colors-chart" src="@colorChart" alt="線材色卡，每一球線上標有色號" loading="lazy" />
+                    }
+                </section>
+            }
+        </div>
+    </div>
+</article>

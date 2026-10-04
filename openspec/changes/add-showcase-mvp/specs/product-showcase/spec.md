@@ -12,7 +12,7 @@
 #### Scenario: 精選商品不足時 fallback
 
 - **WHEN** 資料夾中 `featured` 為數字的商品少於 3 件
-- **THEN** 系統以最新 6 件商品（依資料夾修改時間降冪或名稱升冪）填補精選區
+- **THEN** 系統先列出精選商品（依 `featured` 升冪），再以其餘商品（依資料夾名稱升冪）填補，精選區合計最多 6 件
 
 #### Scenario: 完全無商品時
 
@@ -26,7 +26,7 @@
 #### Scenario: 訪客瀏覽全部商品
 
 - **WHEN** 訪客造訪 `/products`
-- **THEN** 系統顯示所有 `wwwroot/products/` 下有效商品（含 `meta.json`、`cover.*`、非空 `buyUrl`）之 grid，並於頁上方列出分類 pills
+- **THEN** 系統顯示所有 `wwwroot/products/` 下有效商品（含 `meta.json` 且有 `name`、`cover.*`）之 grid，並於頁上方列出分類 pills
 
 #### Scenario: 依分類過濾
 
@@ -45,17 +45,21 @@
 #### Scenario: 檢視商品詳細
 
 - **WHEN** 訪客造訪 `/products/{slug}` 且 slug 對應資料夾為有效商品
-- **THEN** 系統顯示 `cover.*` 為主圖、`01.*, 02.*, ...` 為 gallery（依檔名字元升冪），以及 `name`、`category`、`price`（含 NT$ 符號）、`material`、`dimensions`、由 `story.md` 經 Markdig 渲染的 HTML，以及大型「前往賣貨便」按鈕
+- **THEN** 系統顯示 `cover.*` 為主圖、`01.*, 02.*, ...` 為 gallery（依檔名數字升冪），以及 `name`、`category`、`price`（含 NT$ 符號）、`material`、`dimensions`（有值者才顯示）、由 `story.md` 經 Markdig 渲染的 HTML，以及大型購買按鈕
 
 #### Scenario: 商品不存在
 
 - **WHEN** 訪客造訪 `/products/{slug}` 且 slug 無對應資料夾，或該資料夾未通過有效性檢查
 - **THEN** 系統回傳 HTTP 404 並顯示友善錯誤頁
 
-#### Scenario: 「前往賣貨便」按鈕行為
+#### Scenario: 購買按鈕依可用管道自動切換
 
-- **WHEN** 訪客點選詳細頁的「前往賣貨便」按鈕
-- **THEN** 系統於新分頁開啟該商品 `meta.json` 中的 `buyUrl`，`<a>` 帶 `target="_blank"` 與 `rel="noopener noreferrer"`
+- **WHEN** 商品 `meta.json` 有有效的 `buyUrl`
+- **THEN** 主按鈕為「前往賣貨便」，於新分頁開啟 `buyUrl`，`<a>` 帶 `target="_blank"` 與 `rel="noopener noreferrer"`
+- **WHEN** 商品沒有 `buyUrl`，但 `appsettings.json` 的 `Site:InstagramUrl` 有值
+- **THEN** 主按鈕為「私訊訂購／客製顏色」，連到 Instagram，並註明「賣貨便賣場準備中」
+- **WHEN** 商品沒有 `buyUrl`，且未設定 `Site:InstagramUrl`
+- **THEN** 顯示不可點的「即將開賣」，並註明「賣貨便賣場準備中」
 
 #### Scenario: 缺少 story.md 的商品
 
@@ -86,10 +90,20 @@
 - **WHEN** 某商品資料夾中無 `cover.jpg`, `cover.jpeg`, `cover.png` 或 `cover.webp`
 - **THEN** 系統跳過該商品 + log warning
 
-#### Scenario: buyUrl 為必要欄位
+#### Scenario: name 為唯一必填欄位
 
-- **WHEN** `meta.json` 中 `buyUrl` 為空字串、`null` 或欄位缺失
-- **THEN** 系統將該商品視為未上架（不顯示於首頁、列表、詳細頁），並 log warning
+- **WHEN** `meta.json` 中 `name` 為空字串、`null` 或欄位缺失
+- **THEN** 系統跳過該商品 + log warning
+
+#### Scenario: 選填欄位缺失
+
+- **WHEN** `category`、`price`、`material`、`dimensions`、`shortDescription`、`buyUrl` 任一為空字串、`null` 或缺失（`price` 為 `0` 亦視為缺失）
+- **THEN** 商品照常顯示，頁面上省略該欄位（不顯示空白或 TODO 字樣）；沒有 `buyUrl` 時購買按鈕依「購買按鈕依可用管道自動切換」處理
+
+#### Scenario: buyUrl 不是有效網址
+
+- **WHEN** `buyUrl` 有值但不是 `http://` 或 `https://` 開頭的絕對網址
+- **THEN** 系統視同沒有 `buyUrl`，並 log warning
 
 #### Scenario: 下劃線前綴視為草稿（可選）
 
@@ -114,6 +128,48 @@
 
 - **WHEN** 商品資料夾中圖檔副檔名為 `.jpg`, `.jpeg`, `.png`, `.webp`
 - **THEN** 系統識別並提供 serve；其他副檔名（如 `.gif`, `.bmp`, `.heic`）被忽略
+
+#### Scenario: 色卡圖
+
+- **WHEN** 商品資料夾含 `colors.jpg` / `colors.jpeg` / `colors.png` / `colors.webp` 之一
+- **THEN** 詳細頁於故事之後顯示「可選顏色」區塊與該色卡圖；色卡不列入 gallery
+
+### Requirement: 配色模擬器
+
+系統 SHALL 讓 `meta.json` 設定 `colorSimulator` 的商品，在詳細頁「可選顏色」區塊提供配色預覽。
+
+#### Scenario: 選擇主色與配色
+
+- **WHEN** 商品 `colorSimulator` 為 `"puff-flower"`，訪客在模擬器中點選主色與配色色點
+- **THEN** 小花預覽圖即時換成所選顏色（主色 = 外圈，配色 = 花心與提把），並顯示兩個色號；頁面註明螢幕顏色以色卡照片為準
+
+#### Scenario: 未設定模擬器
+
+- **WHEN** 商品沒有 `colorSimulator`
+- **THEN** 不顯示模擬器；若有 `colors.*` 仍顯示色卡圖
+
+### Requirement: 商品照片瀏覽
+
+系統 SHALL 讓訪客在詳細頁以滑動或縮圖瀏覽所有商品照片。
+
+#### Scenario: 手機滑動
+
+- **WHEN** 訪客在詳細頁大圖上左右滑動
+- **THEN** 大圖逐張切換，縮圖列標示目前那一張
+
+#### Scenario: 點縮圖
+
+- **WHEN** 訪客點選縮圖
+- **THEN** 大圖捲動到該張照片，該縮圖標示為目前選取
+
+### Requirement: 頁尾版本號
+
+系統 SHALL 於每頁頁尾以不起眼的小字顯示版本號，供確認線上是否為最新版。
+
+#### Scenario: 顯示版本
+
+- **WHEN** 訪客瀏覽任一頁面
+- **THEN** 頁尾顯示 `v{csproj Version} ({建置時 git commit 前 7 碼})`，例如 `v1.0.0 (3f2a1c9)`；無法取得 commit 時只顯示 `v{Version}`
 
 ### Requirement: 精選排序與 featured 欄位
 

@@ -68,16 +68,19 @@ wwwroot/products/
 | 欄位 | 型別 | 必填 | 說明 |
 |------|------|:----:|------|
 | `name` | string | ✅ | 商品名稱 |
-| `category` | string | ✅ | 分類（自由字串，用於 pill 過濾） |
-| `price` | number | ✅ | NT$ 整數 |
-| `material` | string | ✅ | 材質描述 |
-| `dimensions` | string | ✅ | 尺寸描述 |
-| `shortDescription` | string | ✅ | 首頁卡片一句話 |
-| `buyUrl` | string | ✅ | 賣貨便連結（無 = 不上架） |
+| `category` | string | ⭕ | 分類（自由字串，用於 pill 過濾） |
+| `price` | number | ⭕ | NT$ 整數；`0` / null = 不顯示價格 |
+| `material` | string | ⭕ | 材質描述 |
+| `dimensions` | string | ⭕ | 尺寸描述 |
+| `shortDescription` | string | ⭕ | 卡片圖片 alt、商品頁導言、meta description |
+| `buyUrl` | string | ⭕ | 賣貨便連結（無 = 購買按鈕改走 D11 的備援） |
 | `featured` | number \| null | ⭕ | 首頁精選排序權重，愈小愈前，null/省略 = 不上精選 |
+| `colorSimulator` | string | ⭕ | 配色模擬器造型，目前只有 `"puff-flower"`；省略 = 不顯示（見 D14） |
+
+> 2026-10-04 修訂：原本除 `featured` 外皆必填、且無 `buyUrl` 不上架。實際上線時賣貨便尚未開賣、多數商品資料未齊，若照原規則網站會一件商品都沒有，因此改為只有 `name` 必填，缺的欄位不顯示。
 
 **Rationale**
-- `buyUrl` 必填 = 交易通路單一，沒賣貨便就不上網站（避免訪客無所適從）
+- 只有 `name` 必填：資料不齊的商品仍可先展示，缺的欄位頁面上自動省略
 - `featured` 用 number 而非 boolean，兼容「顯示與否」與「排序」兩個需求
 - 未加 `availability`（售完 / 訂製中）欄位：即時狀態以賣貨便為準，網站不同步（見 D5）
 - 未加 `slug` / `images` / `createdAt` 欄位：分別由資料夾名 / 檔案掃描 / git log 提供
@@ -130,6 +133,8 @@ wwwroot/products/
 - .NET 9 minimal Razor Pages 專案結構清楚，有學習價值
 - 未來若真的要加後台，`dotnet aspnet-codegenerator` 或 `dotnet new webapp --auth Individual` 到暫存資料夾複製 scaffold 都很快；且未來 admin 更可能走 headless CMS（Decap / Sanity）而非自幹 admin
 
+> 2026-10-04 補充：一併移除 `Pages/Privacy.cshtml(.cs)`（網站不收集任何資料）、`_LoginPartial`、`_ValidationScriptsPartial`。
+
 ### D7. 三路由結構
 
 | Route | 內容 |
@@ -161,6 +166,52 @@ wwwroot/products/
 - `story.md` 缺失 → 商品仍上架，詳細頁不顯示故事區塊（此為 optional）
 
 **Rationale**：MVP 由使用者手動維護，容錯優於嚴格；避免一個資料夾打錯字讓整個網站掛掉。
+
+> 2026-10-04 修訂：`buyUrl` 為空不再跳過商品（見 D2、D11）；`name` 缺失才跳過；`buyUrl` 不是 http(s) 網址時視同沒有並記 warning。
+
+### D10. 色卡圖以檔名慣例識別（2026-10-04 新增）
+
+商品資料夾中的 `colors.*` 為色卡圖，詳細頁在故事之後顯示「可選顏色」區塊。沿用 D3「檔名即語意」的慣例，不在 `meta.json` 新增欄位。客製細節（例如主色 / 配色各用在哪）寫在該商品的 `story.md`。
+
+### D11. 購買按鈕三段切換（2026-10-04 新增）
+
+賣貨便與 Instagram 皆尚未開設，按鈕依可用管道自動切換，補上連結即生效、不需改程式：
+
+1. 商品有 `buyUrl` → 「前往賣貨便」
+2. 否則若 `appsettings.json` 的 `Site:InstagramUrl` 有值 → 「私訊訂購／客製顏色」
+3. 都沒有 → 不可點的「即將開賣」
+
+首頁「購買方式」文案同樣依「是否已有任一商品開賣」切換；IG 按鈕在未設定時隱藏。不公開個人 LINE / email。
+
+### D12. 視覺方向（2026-10-04 新增，取代 landing page 初版樣式）
+
+- 網站本身中性、照片當主角：白底 `#FFFFFF`、淺灰 `#F3F2EF`、線灰 `#E4E1DB`、灰字 `#6E6A64`、墨色 `#262421`
+- 唯一的大膽元素：首頁品牌名下方一排 22 色線圓點（取自 Excel LOTTO EX088 色卡），也是全站唯一的動畫，尊重 `prefers-reduced-motion`
+- 字體：標題「粉圓」Huninn，內文 Noto Sans TC
+- 拿掉初版的米黃底 + 襯線 + 陶土色、英文 eyebrow 小標、每區塊捲動淡入
+- 移除 Bootstrap 與 jQuery（`wwwroot/lib/`），全站改為自寫 CSS 與少量原生 JS
+
+### D13. 頁尾版本號（2026-10-04 新增）
+
+頁尾小字顯示 `v{Version} ({commit 前 7 碼})`。版號手動維護於 csproj `<Version>`；commit 由 .NET SDK 於建置時自動寫入 `AssemblyInformationalVersion`，與 GitHub 最新 commit 比對即可確認線上是否最新版。
+
+### D15. 「鉤織花邊」視覺（2026-10-04 新增，修訂 D12 的全白中性底）
+
+試用後覺得全白底、整齊格子太死板，改用鉤織本身當設計語言：
+
+- 區塊改成線色色帶：作品淡粉 `#F9EDF0`、關於鼠尾草綠 `#E8EFE9`、購買方式奶油黃 `#FBF5D9`（取自色卡 23 / 25 / 24 再調淡），頁尾淺灰 `#F3F2EF`；第一屏與商品頁維持白底讓照片最準
+- 色帶上緣是一排半圓的扇形花邊（`.band::before`，radial-gradient），像鉤織的收邊
+- 首頁主照片以 CSS mask 裁成泡芙小花的五瓣外形，陰影沿花瓣落下
+- 作品卡片上下錯落：兩欄時偶數張下移，三欄時中間欄下移
+
+### D14. 回應操作的頁面效果（2026-10-04 新增，修訂 D12「全站只有一個動畫」）
+
+只加「回應訪客動作」的效果，不加捲動淡入等自動播放的動畫；全部尊重 `prefers-reduced-motion`，不支援的瀏覽器退回一般行為。
+
+- **換頁轉場**：CSS cross-document View Transitions。作品卡片照片與商品頁大圖共用 `view-transition-name: product-{slug}`，點進去時照片平滑放大；頁首固定不動。名稱跟著商品頁目前顯示的那張照片移動
+- **配色模擬器**：`meta.json` 的 `colorSimulator: "puff-flower"` 啟用。SVG 繪製泡芙小花（主色 = 外圈、配色 = 花心與提把），22 色由 `Models/YarnPalette.cs` 提供（首頁色點共用）；顯示色號並註明螢幕顏色以色卡照片為準
+- **照片互動**：電腦版滑過作品卡片換成第一張 gallery（`display: none` + lazy，手機不下載）；商品頁大圖改為 scroll-snap 軌道，手機可左右滑動，縮圖與目前照片同步
+- **首頁色點**：滑過或手指劃過 22 色點，標題換成該線色並顯示色號；淺色自動加細邊以維持可讀性。純裝飾（`aria-hidden`）
 
 ## Risks / Trade-offs
 

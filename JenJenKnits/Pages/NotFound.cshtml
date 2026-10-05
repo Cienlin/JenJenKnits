@@ -3,12 +3,12 @@
     ViewData["Title"] = "找不到頁面";
 }
 
-<section class="section">
-    <div class="wrap">
-        <div class="measure">
-            <h1 class="page-title">找不到這個頁面</h1>
-            <p class="page-lead">網址可能打錯了，或這件作品已經下架。</p>
-            <a class="btn" asp-page="/Products/Index">看全部作品</a>
-        </div>
+<section class="wrap notice">
+    <div class="sec-head">
+        <span class="sec-no">404</span>
+        <h1>找不到這個頁面</h1>
+        <span class="sec-en">Not found</span>
     </div>
+    <p>網址可能打錯了，或這件作品已經下架。</p>
+    <a class="cta" asp-page="/Products/Index">看全部作品 <span aria-hidden="true">→</span></a>
 </section>

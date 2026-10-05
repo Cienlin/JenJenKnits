@@ -1,81 +1,139 @@
 @page
 @model IndexModel
+@{
+    // 圖號在整頁連續編號：第一屏是 Fig. 01，之後每張作品照片依序往下
+    var fig = 1;
+    string Fig(int n) => $"Fig. {n:00}";
+}
 
-<section class="hero">
-    <div class="wrap hero-grid">
-        <div class="hero-text">
-            <h1 class="hero-title" data-yarn-title>貞心卉織</h1>
-            @* 滑過或用手指劃過色點，標題會換成那個線色；純裝飾，不影響閱讀 *@
-            <div class="yarn" data-yarn aria-hidden="true">
-                <ul class="yarn-row">
-                    @for (var i = 0; i < YarnPalette.Colors.Count; i++)
-                    {
-                        var yarn = YarnPalette.Colors[i];
-                        <li style="--c: @yarn.Hex; --i: @i" data-hex="@yarn.Hex" data-number="@yarn.Number"></li>
-                    }
-                </ul>
-                <p class="yarn-label" data-yarn-label hidden></p>
-            </div>
-            <p class="hero-lead">手鉤織的日常小物，<br />顏色可以客製。</p>
-            <a class="btn" asp-page="/Products/Index">看作品</a>
-        </div>
-        <figure class="hero-figure">
-            <img class="hero-photo" src="~/images/hero/puff-flower-lake.jpg" width="1108" height="1477" fetchpriority="high"
+<section class="wrap hero" aria-labelledby="hero-title">
+    <figure class="hero-fig">
+        <span class="frame">
+            <img src="~/images/hero/puff-flower-lake.jpg" width="1108" height="1477" fetchpriority="high"
                  alt="湖邊的木欄杆上，套著奶茶色與橄欖綠泡芙小花提網的水壺" />
-        </figure>
+        </span>
+        <figcaption><span class="mono fig">@Fig(fig++)</span>湖邊的木欄杆上，奶茶色與橄欖綠的泡芙小花提網。</figcaption>
+    </figure>
+
+    <div class="hero-copy">
+        <p class="mono">Handmade Crochet · @YarnPalette.Colors.Count Colours</p>
+        <p class="lead">手鉤織的<br />日常小物，<br />顏色<em>可以客製</em>。</p>
+        <a class="cta" href="#works">看作品 <span aria-hidden="true">→</span></a>
+        <nav class="toc" aria-label="目錄">
+            <h2>目錄</h2>
+            <ol>
+                <li><a href="#works"><span class="mono toc-no">01</span><span class="toc-title">作品</span><span class="toc-dots"></span><span class="toc-page">p.02</span></a></li>
+                <li><a href="#buy"><span class="mono toc-no">02</span><span class="toc-title">購買方式</span><span class="toc-dots"></span><span class="toc-page">p.08</span></a></li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="hero-title">
+        <h1 class="vtitle" id="hero-title"><span style="--i: 0">貞</span><span style="--i: 1">心</span><span style="--i: 2">卉</span><span style="--i: 3">織</span></h1>
+        <span class="mono vsub" aria-hidden="true">J&amp;S Crafted — Handmade</span>
+        <span class="seal" aria-hidden="true">J&amp;S</span>
     </div>
 </section>
 
-<section class="section band band-pink" id="works" aria-labelledby="works-title">
+<section id="works" aria-labelledby="works-title">
     <div class="wrap">
-        <div class="section-head">
+        <div class="sec-head">
+            <span class="sec-no">01</span>
             <h2 id="works-title">作品</h2>
-            <a class="text-link" asp-page="/Products/Index">全部作品</a>
+            <span class="sec-en">Works</span>
         </div>
+
         @if (Model.Featured.Count == 0)
         {
-            <p class="empty">作品準備中。</p>
+            <p class="empty chapter">作品準備中。</p>
+        }
+
+        @* 雜誌跨頁：奇數件照片在左、偶數件照片在右；下方最多 4 張 gallery 小圖 *@
+        @for (var i = 0; i < Model.Featured.Count; i++)
+        {
+            var product = Model.Featured[i];
+            var strip = product.GalleryImagePaths.Take(4).ToList();
+            var hasSpec = product.Price is not null || product.Material is not null || product.Dimensions is not null;
+
+            <article class="spread @(i % 2 == 1 ? "spread--rev" : null)" aria-labelledby="work-@product.Slug">
+                <figure class="spread-main">
+                    <a class="frame" asp-page="/Products/Detail" asp-route-slug="@product.Slug" tabindex="-1" aria-hidden="true">
+                        <img src="@product.CoverImagePath" alt="" loading="@(i == 0 ? "eager" : "lazy")"
+                             style="view-transition-name: @product.ViewTransitionName" />
+                    </a>
+                    <figcaption><span class="mono fig">@Fig(fig++)</span>@product.Name</figcaption>
+                </figure>
+
+                <div class="spread-text">
+                    <p class="mono">No. @((i + 1).ToString("00"))@(product.Category is string category ? $" · {category}" : null)</p>
+                    <h3 id="work-@product.Slug"><a asp-page="/Products/Detail" asp-route-slug="@product.Slug">@product.Name</a></h3>
+                    @if (product.ShortDescription is string lead)
+                    {
+                        <p class="dek">@lead</p>
+                    }
+                    @if (hasSpec)
+                    {
+                        <dl class="spec">
+                            @if (product.Price is int price)
+                            {
+                                <div><dt class="mono">Price</dt><dd class="price">NT$ @price.ToString("N0")</dd></div>
+                            }
+                            @if (product.Material is string material)
+                            {
+                                <div><dt class="mono">Material</dt><dd>@material</dd></div>
+                            }
+                            @if (product.Dimensions is string dimensions)
+                            {
+                                <div><dt class="mono">Size</dt><dd>@dimensions</dd></div>
+                            }
+                        </dl>
+                    }
+                    <a class="more" asp-page="/Products/Detail" asp-route-slug="@product.Slug">看這件作品 →</a>
+                </div>
+
+                @if (strip.Count > 0)
+                {
+                    <div class="strip">
+                        @for (var s = 0; s < strip.Count; s++)
+                        {
+                            <figure>
+                                <img src="@strip[s]" alt="@product.Name 照片 @(s + 2)" loading="lazy" />
+                                <figcaption><span class="mono fig">@Fig(fig++)</span></figcaption>
+                            </figure>
+                        }
+                    </div>
+                }
+            </article>
+        }
+    </div>
+</section>
+
+<section class="wrap chapter" id="buy" aria-labelledby="buy-title">
+    <div class="sec-head">
+        <span class="sec-no">02</span>
+        <h2 id="buy-title">購買方式</h2>
+        <span class="sec-en">How to buy</span>
+    </div>
+
+    <div class="buy-intro">
+        @if (Model.IsOnSale)
+        {
+            <p>作品在 7-11 賣貨便販售。進入作品頁面，點「前往賣貨便」就能下單付款，再到 7-11 門市取貨。</p>
         }
         else
         {
-            <div class="product-grid">
-                @foreach (var product in Model.Featured)
-                {
-                    <partial name="_ProductCard" model="product" />
-                }
-            </div>
+            <span class="stamp">即將開賣</span>
+            <p>作品即將在 7-11 賣貨便開賣。開賣後，每件作品頁面都會有前往賣場的按鈕，下單、付款和取貨都在賣貨便完成。</p>
+        }
+        @if (Model.Instagram is string instagram)
+        {
+            <a class="cta" href="@instagram" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>
         }
     </div>
-</section>
 
-<section class="section band band-sage" id="about" aria-labelledby="about-title">
-    <div class="wrap about-grid">
-        <img class="about-photo" src="~/images/about/puff-flower-glacier.jpg" width="1477" height="1108" loading="lazy"
-             alt="雪山與冰河湖前，收成小花的橄欖綠提網" />
-        <div class="measure">
-            <h2 id="about-title">關於貞心卉織</h2>
-            <p>貞心卉織 J&amp;S Crafted 做手鉤織的日常小物：提著水壺出門的提網、裝得下日常的托特包。</p>
-            <p>部分作品可以從色卡挑選線的顏色，做成自己想要的配色。</p>
-        </div>
-    </div>
-</section>
-
-<section class="section band band-butter" id="buy" aria-labelledby="buy-title">
-    <div class="wrap">
-        <div class="measure">
-            <h2 id="buy-title">購買方式</h2>
-            @if (Model.IsOnSale)
-            {
-                <p>作品在 7-11 賣貨便販售。進入作品頁面，點「前往賣貨便」就能下單付款，再到 7-11 門市取貨。</p>
-            }
-            else
-            {
-                <p>作品即將在 7-11 賣貨便開賣。開賣後，每件作品頁面都會有前往賣場的按鈕，下單、付款和取貨都在賣貨便完成。</p>
-            }
-            @if (Model.Instagram is string instagram)
-            {
-                <a class="btn btn-quiet" href="@instagram" target="_blank" rel="noopener noreferrer">Instagram</a>
-            }
-        </div>
-    </div>
+    <ol class="steps">
+        <li><b>一</b><h3>進入作品頁</h3><p>點「前往賣貨便」，到賣場頁面。</p></li>
+        <li><b>二</b><h3>下單付款</h3><p>下單和付款都在賣貨便完成。</p></li>
+        <li><b>三</b><h3>門市取貨</h3><p>到 7-11 門市取貨。</p></li>
+    </ol>
 </section>

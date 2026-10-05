@@ -1,6 +1,6 @@
 @*
     泡芙小花提網配色模擬器：主色 = 網子與花朵外圈，配色 = 提把與花心。
-    預設為照片中的「藏青配芥末黃」（12 號 / 6 號）。
+    先點「主色」或「配色」選要換的部位，再點色票。預設為照片中的「藏青配芥末黃」（12 號 / 6 號）。
 *@
 @{
     const int defaultMain = 12;
@@ -9,9 +9,12 @@
     var accent = YarnPalette.Colors.First(c => c.Number == defaultAccent);
     var parts = new[]
     {
-        (Part: "main", Label: "主色", Note: "網子和花朵外圈", Selected: defaultMain),
-        (Part: "accent", Label: "配色", Note: "提把和花心", Selected: defaultAccent),
+        (Part: "main", Label: "主色", Note: "網子和花朵外圈", Yarn: main),
+        (Part: "accent", Label: "配色", Note: "提把和花心", Yarn: accent),
     };
+
+    // 色票上的「主」「配」標籤，兩個部位選同一色時兩個字都標
+    string Role(int number) => (number == defaultMain ? "主" : "") + (number == defaultAccent ? "配" : "");
 }
 
 <div class="simulator" data-simulator style="--main: @main.Hex; --accent: @accent.Hex">
@@ -102,29 +105,33 @@
             <circle class="sim-button-hole" cx="154.6" cy="146" r="1.3" />
             <circle class="sim-button-hole" cx="159.4" cy="146" r="1.3" />
         </svg>
-        <p class="simulator-result" aria-live="polite">
-            主色 <strong data-number="main">@defaultMain</strong> 號<br />
-            配色 <strong data-number="accent">@defaultAccent</strong> 號
-        </p>
+        @* 色號本身就是切換鈕：點「配色」就改成換配色；手機上和小花一起固定在畫面上方 *@
+        <div class="parts" role="group" aria-label="要換哪個部位的顏色" aria-live="polite">
+            @foreach (var part in parts)
+            {
+                <button class="part" type="button" data-part="@part.Part" aria-pressed="@(part.Part == "main" ? "true" : "false")">
+                    <span class="part-swatch" data-swatch style="--c: @part.Yarn.Hex"></span>
+                    <span>
+                        <span class="part-label">@part.Label<span class="part-note">・@part.Note</span></span>
+                        <span class="part-number"><span data-number>@part.Yarn.Number.ToString("00")</span><small>號</small></span>
+                    </span>
+                </button>
+            }
+        </div>
     </div>
 
-    @foreach (var part in parts)
-    {
-        <fieldset class="swatches">
-            <legend>@part.Label<span>@part.Note</span></legend>
-            <div class="swatch-grid">
-                @foreach (var yarn in YarnPalette.Colors)
-                {
-                    <label class="swatch" title="@yarn.Number 號">
-                        <input type="radio" name="sim-@part.Part" value="@yarn.Number" data-part="@part.Part" data-hex="@yarn.Hex"
-                               checked="@(yarn.Number == part.Selected)" />
-                        <span class="swatch-dot" style="--c: @yarn.Hex"></span>
-                        <span class="visually-hidden">@yarn.Number 號</span>
-                    </label>
-                }
-            </div>
-        </fieldset>
-    }
-
-    <p class="hint">螢幕上的顏色和實際線材會有些差異，請以下方色卡照片為準。</p>
+    <div>
+        <p class="simulator-how">先點<b>主色</b>或<b>配色</b>，再點色票換顏色。</p>
+        <ol class="chips" aria-label="22 色線材">
+            @foreach (var yarn in YarnPalette.Colors)
+            {
+                <li>
+                    <button class="chip" type="button" style="--c: @yarn.Hex" data-yarn="@yarn.Number" data-hex="@yarn.Hex"
+                            data-role="@Role(yarn.Number)" aria-pressed="@(yarn.Number == defaultMain ? "true" : "false")"
+                            aria-label="@yarn.Number 號"><b>@yarn.Number.ToString("00")</b></button>
+                </li>
+            }
+        </ol>
+        <p class="hint">螢幕上的顏色和實際線材會有些差異，請以下方色卡照片為準。</p>
+    </div>
 </div>

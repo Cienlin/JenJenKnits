@@ -9,9 +9,13 @@
             <img class="product-card-hover" src="@hover" alt="" loading="lazy" />
         }
     </span>
+    @if (Model.Category is string category)
+    {
+        <span class="mono product-card-meta">@category</span>
+    }
     <span class="product-card-name">@Model.Name</span>
     @if (Model.Price is int price)
     {
-        <span class="product-card-price">NT$ @price.ToString("N0")</span>
+        <span class="price">NT$ @price.ToString("N0")</span>
     }
 </a>

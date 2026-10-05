@@ -4,16 +4,16 @@
     ViewData["Title"] = "發生錯誤";
 }
 
-<section class="section">
-    <div class="wrap">
-        <div class="measure">
-            <h1 class="page-title">網站出了點問題</h1>
-            <p class="page-lead">請稍後重新整理頁面，或先回到作品列表。</p>
-            <a class="btn" asp-page="/Products/Index">看全部作品</a>
-            @if (Model.ShowRequestId)
-            {
-                <p class="hint">錯誤代碼：<code>@Model.RequestId</code></p>
-            }
-        </div>
+<section class="wrap notice">
+    <div class="sec-head">
+        <span class="sec-no">500</span>
+        <h1>網站出了點問題</h1>
+        <span class="sec-en">Error</span>
     </div>
+    <p>請稍後重新整理頁面，或先回到作品列表。</p>
+    <a class="cta" asp-page="/Products/Index">看全部作品 <span aria-hidden="true">→</span></a>
+    @if (Model.ShowRequestId)
+    {
+        <p class="hint">錯誤代碼：<code>@Model.RequestId</code></p>
+    }
 </section>

@@ -490,3 +490,6 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# GitHub Pages 靜態輸出（tools/export-static.mjs）
+site-export/

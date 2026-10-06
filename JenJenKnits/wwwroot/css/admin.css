@@ -1,0 +1,369 @@
+/*
+  後台：沿用前台的色彩與字體變數（site.css），但以清楚好填為主，不做編織誌的裝飾。
+  以電腦操作為主；手機上也不出現水平捲軸，按鈕至少 44px。
+*/
+
+/* 前台的換頁轉場在後台用不到（表單送出後的轉址會讓轉場中止並在主控台報錯） */
+@view-transition {
+  navigation: none;
+}
+
+.admin {
+  background-image: none;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.admin-bar {
+  border-bottom: 3px double var(--ink);
+}
+
+.admin-bar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding-block: 0.4rem;
+}
+
+.admin-brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  min-height: 44px;
+  padding-block: 0.5rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+}
+
+.admin-brand .mono {
+  color: var(--blue);
+}
+
+.admin-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 1.2rem;
+}
+
+.admin-nav a,
+.admin-nav button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.admin-nav a:hover,
+.admin-nav button:hover {
+  color: var(--blue);
+}
+
+.admin-nav form {
+  display: contents;
+}
+
+.admin-main {
+  padding-block: 2rem 4rem;
+}
+
+.admin-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--ink);
+}
+
+.admin-head h1 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+}
+
+.admin-head h1 .mono {
+  color: var(--blue);
+  font-size: 0.9rem;
+}
+
+.admin-head .btn {
+  min-height: 44px;
+  padding-block: 0.4rem;
+}
+
+.admin-notice {
+  margin-bottom: 1.5rem;
+  padding: 0.7rem 1rem;
+  border-left: 4px solid var(--blue);
+  background: var(--card);
+}
+
+.admin-foot {
+  padding-block: 1.5rem 2.5rem;
+  border-top: 1px solid var(--hair);
+  color: var(--muted);
+  text-transform: none;
+}
+
+/* ---------- 商品列表：電腦上是表格，手機上每件一張卡片 ---------- */
+
+.admin-list {
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--ink);
+}
+
+.admin-list li {
+  display: grid;
+  gap: 0.3rem 1rem;
+  padding-block: 0.9rem;
+  border-bottom: 1px solid var(--hair);
+}
+
+.admin-list-name a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 1.15rem;
+  font-weight: 900;
+}
+
+.admin-list-name .mono {
+  display: block;
+  color: var(--muted);
+}
+
+@media (min-width: 52rem) {
+  .admin-list li {
+    grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr) 5.5rem minmax(0, 1.2fr) minmax(0, 2.6fr);
+    align-items: center;
+  }
+}
+
+.status {
+  display: inline-block;
+  padding: 0.05rem 0.6rem;
+  border: 1px solid currentColor;
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.status.is-published {
+  color: var(--blue);
+}
+
+.status.is-draft {
+  color: var(--muted);
+}
+
+.warn {
+  color: #a60d20;
+  font-weight: 600;
+}
+
+.done {
+  color: var(--muted);
+}
+
+.missing {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.chip-todo {
+  padding: 0.05rem 0.55rem;
+  border-radius: 999px;
+  background: #f3e3c4;
+  font-size: 0.8rem;
+}
+
+/* ---------- 表單 ---------- */
+
+.admin-form {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.admin-form-narrow {
+  max-width: 34rem;
+}
+
+.admin-form label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.admin-form label > span:first-child {
+  font-weight: 600;
+}
+
+.admin-form input:not([type="checkbox"]),
+.admin-form select,
+.admin-form textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--muted);
+  border-radius: 0;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+}
+
+.admin-form textarea {
+  resize: vertical;
+}
+
+.admin-form input[readonly] {
+  background: var(--card);
+  color: var(--muted);
+}
+
+.admin-form input:focus,
+.admin-form select:focus,
+.admin-form textarea:focus {
+  outline: 2px solid var(--blue);
+  outline-offset: 0;
+  border-color: var(--blue);
+}
+
+.admin-form .btn {
+  justify-self: start;
+  min-height: 48px;
+  padding-inline: 2rem;
+}
+
+.admin-form .hint {
+  margin: 0;
+}
+
+.field-error,
+.form-error {
+  color: #a60d20;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.form-error ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+/* 沒有錯誤時不佔位置 */
+.form-error.validation-summary-valid,
+.field-error:empty {
+  display: none;
+}
+
+.admin-row {
+  display: grid;
+  gap: 1.2rem;
+}
+
+@media (min-width: 40rem) {
+  .admin-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.admin-section {
+  display: grid;
+  gap: 1.2rem;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--ink);
+}
+
+.admin-section h2 {
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.story-editor {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.story-editor textarea {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.story-preview {
+  min-height: 6rem;
+  margin-top: 0.8rem;
+  padding: 1rem 1.2rem;
+  border: 1px dashed var(--hair);
+  background: var(--card);
+}
+
+.story-preview:empty::before {
+  content: "按「預覽」看故事在前台的樣子。";
+  color: var(--muted);
+}
+
+@media (min-width: 52rem) {
+  .story-editor {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.admin-actions {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 1.5rem;
+  padding-block: 1rem;
+  border-top: 3px double var(--ink);
+  background: var(--paper);
+}
+
+.admin-form .admin-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+  font-weight: 600;
+}
+
+.admin-check input {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--blue);
+}
+
+/* ---------- 登入 ---------- */
+
+.admin-login {
+  max-width: 24rem;
+  margin: clamp(1rem, 6vh, 4rem) auto 0;
+}
+
+.admin-login h1 {
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.admin-login .btn {
+  justify-self: stretch;
+}

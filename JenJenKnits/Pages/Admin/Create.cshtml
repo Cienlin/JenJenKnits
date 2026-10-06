@@ -1,0 +1,25 @@
+@page
+@model JenJenKnits.Pages.Admin.CreateModel
+@{
+    ViewData["Title"] = "新增商品";
+}
+
+<div class="admin-head">
+    <h1>新增商品</h1>
+</div>
+
+<form method="post" class="admin-form admin-form-narrow">
+    <label>
+        <span>名稱</span>
+        <input asp-for="Input.Name" required />
+        <span asp-validation-for="Input.Name" class="field-error"></span>
+    </label>
+    <label>
+        <span>網址代稱（slug）</span>
+        <input asp-for="Input.Slug" required pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="例如 puff-flower-net" autocapitalize="off" spellcheck="false" />
+        <small class="hint">會變成網址 /products/代稱，也是照片資料夾的名稱；建立後不能修改。</small>
+        <span asp-validation-for="Input.Slug" class="field-error"></span>
+    </label>
+    <p class="hint">新商品會先存成草稿，補完資料、放好照片後再發布。</p>
+    <button class="btn" type="submit">建立草稿</button>
+</form>

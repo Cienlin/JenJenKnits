@@ -1,0 +1,58 @@
+@using JenJenKnits.Data
+@inject SiteDbContext Db
+@{
+    var signedIn = User.Identity?.IsAuthenticated == true;
+    // 提醒：資料庫檔進 git，改完要 commit + push，另一台電腦才拿得到
+    var lastUpdated = signedIn ? Db.Products.Max(p => (DateTime?)p.UpdatedAt) : null;
+}
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>@(ViewData["Title"] is string title ? $"{title}｜" : "")後台｜貞心卉織</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+</head>
+<body class="admin">
+    <a class="skip-link" href="#main">跳到主要內容</a>
+    <header class="admin-bar">
+        <div class="wrap admin-bar-inner">
+            <a class="admin-brand" asp-page="/Admin/Index">貞心卉織 <span class="mono">後台</span></a>
+            @if (signedIn)
+            {
+                <nav class="admin-nav" aria-label="後台選單">
+                    <a asp-page="/Admin/Index">商品</a>
+                    <a asp-page="/Admin/Create">新增商品</a>
+                    <a href="/" target="_blank" rel="noopener">看前台 ↗</a>
+                    <form method="post" asp-page="/Admin/Logout">
+                        <button type="submit">登出</button>
+                    </form>
+                </nav>
+            }
+        </div>
+    </header>
+
+    <main id="main" class="wrap admin-main">
+        @if (TempData["Notice"] is string notice)
+        {
+            <p class="admin-notice" role="status">@notice</p>
+        }
+        @RenderBody()
+    </main>
+
+    @if (signedIn)
+    {
+        <footer class="wrap admin-foot mono">
+            資料最後更新：@(lastUpdated?.ToLocalTime().ToString("yyyy-MM-dd HH:mm") ?? "—")
+            · 改完記得 commit 並 push <code>App_Data/jenjenknits.db</code>
+        </footer>
+    }
+
+    <script src="~/js/admin.js" asp-append-version="true"></script>
+</body>
+</html>

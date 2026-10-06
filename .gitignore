@@ -1,8 +1,10 @@
 ## Claude Code private memory — per-user, not project state
 memory/
 
-## SQLite databases — local dev data, not source of truth
+## SQLite：只有 App_Data/jenjenknits.db（商品資料正本）進 git，見 add-admin-backend design D2
 *.db
+!JenJenKnits/App_Data/jenjenknits.db
+*.db-journal
 *.db-shm
 *.db-wal
 

@@ -1,0 +1,58 @@
+@page
+@model JenJenKnits.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "商品";
+}
+
+<div class="admin-head">
+    <h1>商品 <span class="mono">@Model.Rows.Count</span></h1>
+    <a class="btn btn-quiet" asp-page="/Admin/Create">＋ 新增商品</a>
+</div>
+
+@if (Model.Rows.Count == 0)
+{
+    <p class="empty">還沒有商品。</p>
+}
+else
+{
+    <ul class="admin-list">
+        @foreach (var row in Model.Rows)
+        {
+            var product = row.Product;
+            <li>
+                <div class="admin-list-name">
+                    <a asp-page="/Admin/Edit" asp-route-slug="@product.Slug">@product.Name</a>
+                    <span class="mono">@product.Slug</span>
+                </div>
+                <div>@(product.Category ?? "—")</div>
+                <div>
+                    <span class="status @(product.IsPublished ? "is-published" : "is-draft")">@(product.IsPublished ? "已發布" : "草稿")</span>
+                </div>
+                <div>
+                    @if (row.Images.CoverPath is null)
+                    {
+                        <span class="warn">缺封面</span>
+                    }
+                    else
+                    {
+                        <span>封面 ＋ @row.Images.GalleryPaths.Count 張</span>
+                    }
+                </div>
+                <div class="missing">
+                    @if (row.Missing.Count == 0)
+                    {
+                        <span class="done">資料齊全</span>
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">待補：</span>
+                        @foreach (var field in row.Missing)
+                        {
+                            <span class="chip-todo">@field</span>
+                        }
+                    }
+                </div>
+            </li>
+        }
+    </ul>
+}

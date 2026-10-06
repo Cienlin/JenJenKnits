@@ -1,0 +1,126 @@
+@page "{slug}"
+@model JenJenKnits.Pages.Admin.EditModel
+@{
+    ViewData["Title"] = $"編輯 {Model.Input.Name}";
+}
+
+<div class="admin-head">
+    <h1>@Model.Input.Name</h1>
+    @if (Model.Input.IsPublished && Model.Images.CoverPath is not null)
+    {
+        <a class="more" href="/products/@Model.Slug" target="_blank" rel="noopener">看前台頁面 ↗</a>
+    }
+</div>
+
+<form method="post" class="admin-form admin-edit" data-edit-form>
+    <div asp-validation-summary="ModelOnly" class="form-error" role="alert"></div>
+
+    <section class="admin-section" aria-labelledby="basic-title">
+        <h2 id="basic-title">基本資料</h2>
+        <label>
+            <span>網址代稱</span>
+            <input value="@Model.Slug" readonly aria-describedby="slug-hint" />
+            <small id="slug-hint" class="hint">照片資料夾與網址都依賴它，建立後不能修改。</small>
+        </label>
+        <label>
+            <span>名稱</span>
+            <input asp-for="Input.Name" required />
+            <span asp-validation-for="Input.Name" class="field-error"></span>
+        </label>
+        <label>
+            <span>分類</span>
+            <input asp-for="Input.Category" list="categories" placeholder="例如 飲料提網" />
+            <datalist id="categories">
+                @foreach (var category in Model.Categories)
+                {
+                    <option value="@category"></option>
+                }
+            </datalist>
+            <span asp-validation-for="Input.Category" class="field-error"></span>
+        </label>
+        <div class="admin-row">
+            <label>
+                <span>價格（NT$）</span>
+                <input asp-for="Input.Price" type="number" min="1" step="1" inputmode="numeric" />
+                <span asp-validation-for="Input.Price" class="field-error"></span>
+            </label>
+            <label>
+                <span>首頁精選排序</span>
+                <input asp-for="Input.Featured" type="number" min="1" step="1" inputmode="numeric" aria-describedby="featured-hint" />
+                <small id="featured-hint" class="hint">數字愈小愈前面；留空 = 不放首頁。</small>
+                <span asp-validation-for="Input.Featured" class="field-error"></span>
+            </label>
+        </div>
+        <div class="admin-row">
+            <label>
+                <span>材質</span>
+                <input asp-for="Input.Material" placeholder="例如 棉線" />
+                <span asp-validation-for="Input.Material" class="field-error"></span>
+            </label>
+            <label>
+                <span>尺寸</span>
+                <input asp-for="Input.Dimensions" placeholder="例如 寬 12 × 高 20 cm" />
+                <span asp-validation-for="Input.Dimensions" class="field-error"></span>
+            </label>
+        </div>
+        <label>
+            <span>簡介</span>
+            <textarea asp-for="Input.ShortDescription" rows="2"></textarea>
+            <small class="hint">一兩句話，顯示在商品頁名稱下方與首頁。</small>
+            <span asp-validation-for="Input.ShortDescription" class="field-error"></span>
+        </label>
+        <label>
+            <span>賣貨便連結</span>
+            <input asp-for="Input.BuyUrl" type="url" placeholder="https://myship.7-11.com.tw/..." />
+            <small class="hint">留空時，商品頁顯示「即將開賣」。</small>
+            <span asp-validation-for="Input.BuyUrl" class="field-error"></span>
+        </label>
+        <label>
+            <span>配色模擬器</span>
+            <select asp-for="Input.ColorSimulator">
+                @foreach (var (value, label) in EditModel.Simulators)
+                {
+                    <option value="@value">@label</option>
+                }
+            </select>
+            <span asp-validation-for="Input.ColorSimulator" class="field-error"></span>
+        </label>
+    </section>
+
+    <section class="admin-section" aria-labelledby="story-title">
+        <h2 id="story-title">故事</h2>
+        <p class="hint">支援 Markdown：**粗體**、## 標題、- 清單、[連結](網址)。&lt;!-- 註解 --&gt; 不會顯示在前台。</p>
+        <div class="story-editor">
+            <label>
+                <span class="visually-hidden">故事 Markdown</span>
+                <textarea asp-for="Input.StoryMarkdown" rows="14" data-story></textarea>
+            </label>
+            <div>
+                <button class="btn btn-quiet" type="button" data-preview>預覽</button>
+                <div class="story story-preview" data-preview-output aria-live="polite"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="admin-section" aria-labelledby="photos-title">
+        <h2 id="photos-title">照片</h2>
+        @if (Model.Images.CoverPath is null)
+        {
+            <p class="warn">還沒有封面照片，發布後前台也不會顯示這件商品。</p>
+        }
+        else
+        {
+            <p>封面 ＋ gallery @Model.Images.GalleryPaths.Count 張@(Model.Images.ColorChartPath is not null ? " ＋ 色卡" : "")</p>
+        }
+        <p class="hint">照片放在 <code>wwwroot/products/@Model.Slug/</code>：cover.jpg（封面）、01.jpg、02.jpg…（gallery）、colors.jpg（色卡）。</p>
+    </section>
+
+    <div class="admin-actions">
+        <label class="admin-check">
+            <input asp-for="Input.IsPublished" />
+            <span>發布到前台</span>
+        </label>
+        <button class="btn" type="submit">儲存</button>
+        <a class="more" asp-page="/Admin/Index">回列表</a>
+    </div>
+</form>

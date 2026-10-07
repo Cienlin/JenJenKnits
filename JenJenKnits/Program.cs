@@ -93,7 +93,12 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<SiteDbContext>();
-    db.Database.Migrate();
+    // 有新的遷移才執行：Migrate() 每次都會在 __EFMigrationsLock 寫入再刪除一筆，
+    // 只是啟動網站也會改到資料庫檔，git 就會一直顯示它被修改
+    if (db.Database.GetPendingMigrations().Any())
+    {
+        db.Database.Migrate();
+    }
     // EF Core 建立 SQLite 時預設開 WAL，寫入的資料會先留在旁邊的 -wal 檔；
     // 切回單一檔案模式（切換時會把 -wal 寫回主檔），資料庫檔才能直接進 git（design D2）
     db.Database.ExecuteSqlRaw("PRAGMA journal_mode=DELETE;");

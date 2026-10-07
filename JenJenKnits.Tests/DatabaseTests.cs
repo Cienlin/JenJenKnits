@@ -34,4 +34,23 @@ public class DatabaseTests
         // WAL 會把資料放在被 .gitignore 忽略的 -wal 檔，資料就進不了 git
         Assert.Equal("delete", command.ExecuteScalar() as string);
     }
+
+    [Fact]
+    public void Starting_the_site_again_does_not_touch_the_database_file()
+    {
+        using var first = new SiteFactory();
+        first.Client(); // 第一次啟動：建立資料庫
+        var dbPath = first.Folder.Combine("site.db");
+        Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools();
+        var before = File.ReadAllBytes(dbPath);
+
+        // 用同一個資料庫再啟動一次（像是隔天再打開網站）
+        using var second = new SiteFactory();
+        second.UseDatabase(dbPath);
+        second.Client().GetAsync("/products").Wait();
+        Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools();
+
+        // 只是啟動和瀏覽，資料庫檔一個位元組都不該變，git 才不會顯示它被修改
+        Assert.Equal(before, File.ReadAllBytes(dbPath));
+    }
 }

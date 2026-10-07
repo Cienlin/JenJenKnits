@@ -22,11 +22,17 @@ public sealed partial class SiteFactory : WebApplicationFactory<Program>
 
     public string ProductsPath => Folder.Combine("products");
 
+    private string? _databasePath;
+
+    /// <summary>改用指定的資料庫檔（預設是暫存資料夾裡的新資料庫），要在第一次 Client() 之前呼叫。</summary>
+    public void UseDatabase(string path) => _databasePath = path;
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         Directory.CreateDirectory(ProductsPath);
         builder.UseEnvironment("Testing");
-        builder.UseSetting("ConnectionStrings:Site", TestDatabase.ConnectionString(Folder));
+        builder.UseSetting("ConnectionStrings:Site",
+            _databasePath is null ? TestDatabase.ConnectionString(Folder) : $"Data Source={_databasePath}");
         builder.UseSetting("Catalog:ProductsPath", ProductsPath);
         builder.UseSetting("Admin:UserName", UserName);
         builder.UseSetting("Admin:PasswordHash", AdminPassword.Hash(Password));

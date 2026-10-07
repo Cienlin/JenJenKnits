@@ -214,11 +214,12 @@ ul {
   background: var(--c);
 }
 
+/* 色條像油墨一格格印上去：只在首頁播放；作品頁、商品頁每次換頁都重播會像在等開場，也會讓刊頭閃一下 */
 @media (prefers-reduced-motion: no-preference) {
-  .colorbar li::before {
+  .is-home .colorbar li::before {
     transform-origin: left;
-    animation: ink-in 500ms ease both;
-    animation-delay: calc(var(--i) * 30ms + 100ms);
+    animation: ink-in 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i) * 15ms + 100ms);
   }
 }
 
@@ -508,21 +509,28 @@ figcaption {
   display: inline-block;
 }
 
+/*
+  首頁開場和色條同一個概念：油墨印上去。直排標題每個字由上往下印出，最後蓋上印章，整段約 1 秒。
+  印章的回彈是刻意的：蓋章那一下的手感。
+*/
 @media (prefers-reduced-motion: no-preference) {
   .vtitle span {
-    animation: drop 1s cubic-bezier(0.2, 0.7, 0.1, 1) both;
-    animation-delay: calc(var(--i) * 130ms + 250ms);
+    animation: print-down 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i) * 70ms + 120ms);
   }
 
   .seal {
-    animation: stamp 450ms cubic-bezier(0.3, 1.6, 0.5, 1) both 1s;
+    animation: stamp 350ms cubic-bezier(0.3, 1.6, 0.5, 1) both 600ms;
   }
 }
 
-@keyframes drop {
+@keyframes print-down {
   from {
-    opacity: 0;
-    transform: translateY(-0.4em);
+    clip-path: inset(0 0 100% 0);
+  }
+
+  to {
+    clip-path: inset(0 0 -10% 0);
   }
 }
 
@@ -678,19 +686,11 @@ figcaption {
   margin-bottom: clamp(4rem, 9vw, 8.5rem);
 }
 
-.spread-main a {
-  overflow: hidden;
-}
-
+/* 滑過照片不放大：那是裝飾性的制式效果，可點的提示交給標題連結 */
 .spread-main img {
   width: 100%;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  transition: transform 700ms cubic-bezier(0.2, 0.7, 0.1, 1);
-}
-
-.spread-main a:hover img {
-  transform: scale(1.03);
 }
 
 .spread-main figcaption {
@@ -793,14 +793,6 @@ figcaption {
 
   .strip figure:nth-child(even) {
     margin-top: clamp(1rem, 3vw, 3rem);
-  }
-
-  .strip img {
-    transition: transform 500ms cubic-bezier(0.2, 0.7, 0.1, 1);
-  }
-
-  .strip figure:hover img {
-    transform: scale(1.04);
   }
 }
 
@@ -954,7 +946,7 @@ figcaption {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 450ms ease;
+  transition: opacity 250ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -1591,9 +1583,10 @@ figcaption {
   line-height: 1;
 }
 
+/* 滑過色票只描邊，不浮起；浮起留給「選中」狀態，兩者才分得清楚 */
 @media (hover: hover) {
-  .chip:hover {
-    transform: translateY(-4px);
+  .chip:hover:not([aria-pressed="true"]) {
+    box-shadow: 0 0 0 1px var(--muted);
   }
 }
 
@@ -1760,11 +1753,13 @@ figcaption {
   }
 }
 
+/* 減少動態效果：拿掉開場動畫與位移，但保留短暫的顏色、透明度變化，點了有沒有反應還看得出來 */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation: none !important;
-    transition: none !important;
+    transition-property: color, background-color, border-color, opacity, fill, stroke !important;
+    transition-duration: 150ms !important;
   }
 }

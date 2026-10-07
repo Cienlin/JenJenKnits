@@ -2,6 +2,8 @@
     // 刊頭導覽標示目前所在的區段：作品列表與商品頁都算「作品」
     var path = Context.Request.Path.Value ?? "";
     var inWorks = path.StartsWith("/products", StringComparison.OrdinalIgnoreCase);
+    // 首頁才播開場動畫（色條印上去）；其他頁換頁時刊頭保持不動
+    var isHome = path == "/";
 }
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
@@ -17,7 +19,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/JenJenKnits.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="@(isHome ? "is-home" : null)">
     <a class="skip-link" href="#main">跳到主要內容</a>
     <header class="masthead">
         <div class="wrap">

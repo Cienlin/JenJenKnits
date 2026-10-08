@@ -55,6 +55,7 @@ public class DbProductCatalog(SiteDbContext db, ProductFolders folders, ILogger<
                 ColorChartImagePath = images.ColorChartPath,
                 ColorSimulator = record.ColorSimulator,
                 StoryHtml = StoryRenderer.ToHtml(record.StoryMarkdown),
+                UpdatedAt = record.UpdatedAt,
             });
         }
 

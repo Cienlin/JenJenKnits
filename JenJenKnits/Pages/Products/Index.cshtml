@@ -2,6 +2,9 @@
 @model JenJenKnits.Pages.Products.IndexModel
 @{
     ViewData["Title"] = string.IsNullOrEmpty(Model.Category) ? "作品" : $"{Model.Category}｜作品";
+    ViewData["Description"] = "織物製造所的全部作品：手鉤織的提網、提袋等日常小物，部分作品可以從 22 色線材挑選顏色。";
+    // 分類篩選是 /products 的子集，canonical 指回主列表
+    ViewData["Seo"] = new PageSeo { CanonicalPath = "/products" };
 }
 
 <section class="wrap page" aria-labelledby="page-title">

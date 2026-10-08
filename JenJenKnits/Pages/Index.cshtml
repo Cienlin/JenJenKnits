@@ -4,6 +4,21 @@
     // 圖號在整頁連續編號：第一屏是 Fig. 01，之後每張作品照片依序往下
     var fig = 1;
     string Fig(int n) => $"Fig. {n:00}";
+
+    // 品牌的結構化資料：搜尋引擎認得這是一個品牌與它的 Instagram
+    ViewData["Seo"] = new PageSeo
+    {
+        JsonLd = new Dictionary<string, object?>
+        {
+            ["@context"] = "https://schema.org",
+            ["@type"] = "Organization",
+            ["name"] = "織物製造所",
+            ["url"] = Model.Site.PageUrl("/"),
+            ["logo"] = Model.Site.Absolute("/images/brand-icon.svg"),
+            ["description"] = "手鉤織的日常小物，顏色可以客製。",
+            ["sameAs"] = Model.Instagram is string ig ? new[] { ig } : null,
+        },
+    };
 }
 
 <section class="wrap hero" aria-labelledby="hero-title">

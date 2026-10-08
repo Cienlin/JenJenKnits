@@ -27,6 +27,8 @@ public class IndexModel : PageModel
 
     public string? Instagram => _site.Instagram;
 
+    public SiteOptions Site => _site;
+
     public void OnGet()
     {
         var featured = _catalog.GetFeatured();

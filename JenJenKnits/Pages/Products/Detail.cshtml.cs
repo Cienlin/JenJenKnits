@@ -30,6 +30,8 @@ public class DetailModel : PageModel
 
     public string? Instagram => _site.Instagram;
 
+    public SiteOptions Site => _site;
+
     public IActionResult OnGet(string slug)
     {
         var product = _catalog.GetBySlug(slug);

@@ -4,7 +4,7 @@
 //   node tools/export-static.mjs [輸出資料夾] [網站網址] [子路徑]
 //   預設：./site-export  http://localhost:5178  /JenJenKnits
 //
-// 做的事：從首頁開始爬所有站內頁面，存成 資料夾/index.html；下載頁面用到的 CSS、JS、圖片；
+// 做的事：從首頁開始爬所有站內頁面（另外輸出 sitemap.xml、robots.txt 與社群分享照片），存成 資料夾/index.html；下載頁面用到的 CSS、JS、圖片；
 // 所有站內連結加上 GitHub Pages 的子路徑；分類篩選 /products?category=X 改成 /products/category/X/；
 // /not-found 存成 404.html。最後檢查每個站內連結都對得到檔案。
 import fs from "node:fs/promises";
@@ -47,6 +47,10 @@ const exportPage = async (url, file) => {
     if (isAsset(clean.split("?")[0])) assets.add(clean);
     else if (clean && !seen.has(clean)) { seen.add(clean); queue.push(clean); }
   }
+  // 社群分享照片是絕對網址（Site:BaseUrl），不一定有 <img> 用到，也要一起輸出
+  for (const [, link] of html.matchAll(new RegExp(`content="https?://[^"/]+${base}(/[^"]+)"`, "g"))) {
+    if (isAsset(link)) assets.add(link);
+  }
   html = html.replace(/(href|src)="(\/[^"]*)"/g, (_, attr, link) => `${attr}="${rewrite(link.replace(/&amp;/g, "&"))}"`);
   await save(file, html);
 };
@@ -63,6 +67,13 @@ for (const url of assets) {
   await save(path.join(out, url.split("?")[0]), Buffer.from(await res.arrayBuffer()));
 }
 await save(path.join(out, ".nojekyll"), "");
+
+// 搜尋引擎用的檔案：內容已是絕對網址，原樣輸出
+for (const file of ["sitemap.xml", "robots.txt"]) {
+  const res = await fetch(`${origin}/${file}`);
+  if (!res.ok) throw new Error(`/${file} → HTTP ${res.status}`);
+  await save(path.join(out, file), await res.text());
+}
 
 // 檢查：每個站內連結都要對得到輸出的檔案
 const missing = [];

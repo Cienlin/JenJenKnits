@@ -4,14 +4,36 @@
     var inWorks = path.StartsWith("/products", StringComparison.OrdinalIgnoreCase);
     // 首頁才播開場動畫（色條印上去）；其他頁換頁時刊頭保持不動
     var isHome = path == "/";
+
+    // 搜尋引擎與社群分享：網址一律用 Site:BaseUrl 組成的絕對網址
+    var site = SiteOptions.Value;
+    var seo = ViewData["Seo"] as PageSeo ?? new PageSeo();
+    var pageTitle = ViewData["Title"] is string title ? $"{title}｜織物製造所" : "織物製造所｜手鉤織的日常小物";
+    var description = ViewData["Description"] as string ?? "織物製造所，手鉤織的日常小物，顏色可以客製。";
+    var canonical = site.PageUrl(seo.CanonicalPath ?? path);
 }
+@inject Microsoft.Extensions.Options.IOptions<SiteOptions> SiteOptions
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@(ViewData["Title"] is string title ? $"{title}｜織物製造所" : "織物製造所｜手鉤織的日常小物")</title>
-    <meta name="description" content="@(ViewData["Description"] as string ?? "織物製造所，手鉤織的日常小物，顏色可以客製。")" />
+    <title>@pageTitle</title>
+    <meta name="description" content="@description" />
+    <link rel="canonical" href="@canonical" />
+    <meta property="og:site_name" content="織物製造所" />
+    <meta property="og:locale" content="zh_TW" />
+    <meta property="og:type" content="@seo.Type" />
+    <meta property="og:title" content="@pageTitle" />
+    <meta property="og:description" content="@description" />
+    <meta property="og:url" content="@canonical" />
+    <meta property="og:image" content="@site.Absolute(seo.Image ?? PageSeo.DefaultImage)" />
+    <meta name="twitter:card" content="summary_large_image" />
+    @if (seo.JsonLd is not null)
+    {
+        @* 整段直接輸出：寫成 Razor 標籤時 type 裡的 + 會被編碼成 &#x2B; *@
+        @Html.Raw($"<script type=\"application/ld+json\">{PageSeo.Serialize(seo.JsonLd)}</script>")
+    }
     <link rel="icon" type="image/svg+xml" href="~/images/brand-icon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

@@ -1,6 +1,7 @@
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Threading.RateLimiting;
+using System.Xml.Linq;
 using JenJenKnits.Admin;
 using JenJenKnits.Data;
 using JenJenKnits.Models;
@@ -135,6 +136,25 @@ app.UseRouting();
 app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
+
+// 搜尋引擎：sitemap 列出前台看得到的頁面；robots.txt 擋掉後台並指向 sitemap
+app.MapGet("/sitemap.xml", (IProductCatalog catalog, IOptions<SiteOptions> options) =>
+{
+    var site = options.Value;
+    XNamespace ns = "http://www.sitemaps.org/schemas/sitemap/0.9";
+    XElement Url(string path, DateTime? lastModified = null) => new(ns + "url",
+        new XElement(ns + "loc", site.PageUrl(path)),
+        lastModified is DateTime date ? new XElement(ns + "lastmod", date.ToString("yyyy-MM-dd")) : null);
+
+    var sitemap = new XDocument(new XDeclaration("1.0", "utf-8", null), new XElement(ns + "urlset",
+        Url("/"),
+        Url("/products"),
+        catalog.GetAll().Select(p => Url($"/products/{Uri.EscapeDataString(p.Slug)}", p.UpdatedAt))));
+    return Results.Text(sitemap.Declaration + sitemap.ToString(), "application/xml; charset=utf-8");
+});
+app.MapGet("/robots.txt", (IOptions<SiteOptions> options) => Results.Text(
+    $"User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: {options.Value.Absolute("/sitemap.xml")}\n",
+    "text/plain; charset=utf-8"));
 
 app.MapStaticAssets();
 app.MapRazorPages()

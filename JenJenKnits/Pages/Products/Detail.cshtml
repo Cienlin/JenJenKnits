@@ -4,6 +4,32 @@
     var product = Model.Product;
     ViewData["Title"] = product.Name;
     ViewData["Description"] = product.ShortDescription;
+    // 分享時顯示商品封面；結構化資料讓搜尋結果認得這是商品（有價格才宣告 Offer，不宣告庫存狀態）
+    ViewData["Seo"] = new PageSeo
+    {
+        Type = "product",
+        Image = product.CoverImagePath,
+        JsonLd = new Dictionary<string, object?>
+        {
+            ["@context"] = "https://schema.org",
+            ["@type"] = "Product",
+            ["name"] = product.Name,
+            ["description"] = product.ShortDescription,
+            ["image"] = Model.Images.Select(Model.Site.Absolute).ToArray(),
+            ["brand"] = new Dictionary<string, object?> { ["@type"] = "Brand", ["name"] = "織物製造所" },
+            ["category"] = product.Category,
+            ["material"] = product.Material,
+            ["offers"] = product.Price is int amount
+                ? new Dictionary<string, object?>
+                {
+                    ["@type"] = "Offer",
+                    ["price"] = amount,
+                    ["priceCurrency"] = "TWD",
+                    ["url"] = Model.Site.PageUrl($"/products/{product.Slug}"),
+                }
+                : null,
+        },
+    };
 
     var hasSpec = product.Material is not null || product.Dimensions is not null;
     var hasColours = product.ColorChartImagePath is not null || product.ColorSimulator is not null;

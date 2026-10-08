@@ -28,6 +28,9 @@ public class Product
 
     public string? StoryHtml { get; init; }
 
+    /// <summary>最後修改時間（UTC），sitemap 用。</summary>
+    public DateTime UpdatedAt { get; init; }
+
     /// <summary>作品卡片滑鼠移上去時換上的照片（第一張 gallery）。</summary>
     public string? HoverImagePath => GalleryImagePaths.Count > 0 ? GalleryImagePaths[0] : null;
 

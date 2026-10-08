@@ -24,7 +24,7 @@
 - [x] 3.5 錯誤處理：`cover.*` 缺失或 `name` 空 → 跳過 + warning（2026-10-04 修訂：`buyUrl` 改為選填，見 design D2 / D11）
 - [x] 3.6 Story 渲染：使用 Markdig 將 `story.md` 轉為 HTML 存於 `Product.StoryHtml`
 - [x] 3.7 於 `Program.cs` 註冊 DI：dev 用 `AddScoped`（每 request 重掃），prod 用 `AddSingleton`（startup 掃一次）
-- [ ] 3.8 建立單元測試（可選）：假 folder 結構驗證 scan 邏輯
+- [x] 3.8 建立單元測試（可選）：假 folder 結構驗證 scan 邏輯（2026-10-08：由 add-admin-backend 的匯入與資料庫目錄測試取代）
 
 ## 4. Home Page（Index）
 
@@ -70,6 +70,6 @@
 ## 9. Verification & Handoff
 
 - [x] 9.1 手動測試 `product-showcase` spec 所有 scenarios（首頁 / 列表 / 過濾 / 詳細 / 賣貨便 CTA / 404 / meta 缺失容錯）
-- [ ] 9.2 於乾淨環境（新 clone）執行 `dotnet run` 可正常起（無 db 初始化步驟）
-- [ ] 9.3 撰寫 `README.md`：專案簡介 / 如何跑起來 / **如何上架新商品**（照著範例資料夾 copy）
-- [ ] 9.4 更新 `.gitignore`：確保 `bin/`, `obj/` 排除；移除 `*.db` 相關（若有）；可加 `wwwroot/products/**/_*` 讓下劃線前綴為草稿
+- [x] 9.2 於乾淨環境（新 clone）執行 `dotnet run` 可正常起（無 db 初始化步驟）（2026-10-08：資料庫於啟動時自動建立／遷移，無需手動初始化）
+- [x] 9.3 撰寫 `README.md`：專案簡介 / 如何跑起來 / **如何上架新商品**（照著範例資料夾 copy）（2026-10-08：README 已撰寫；上架改由後台，見 add-admin-backend）
+- [x] 9.4 更新 `.gitignore`：確保 `bin/`, `obj/` 排除；移除 `*.db` 相關（若有）；可加 `wwwroot/products/**/_*` 讓下劃線前綴為草稿（2026-10-08：bin/obj 已排除；資料庫例外見 add-admin-backend D2；草稿改為後台狀態）

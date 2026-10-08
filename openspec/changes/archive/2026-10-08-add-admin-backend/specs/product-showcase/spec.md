@@ -42,12 +42,12 @@
 
 系統 SHALL 讀取商品的故事 Markdown（若有填寫），以 Markdig 渲染為 HTML 供詳細頁使用。
 
-#### Scenario: 故事已填寫
+#### Scenario: story.md 存在
 
 - **WHEN** 商品在資料庫中有故事內容
 - **THEN** 系統以 Markdig 將其內容轉為安全的 HTML（可支援段落、標題、粗體、斜體、清單、連結），顯示於詳細頁的故事區塊
 
-#### Scenario: 故事未填寫
+#### Scenario: story.md 不存在
 
 - **WHEN** 商品的故事為空白或只有 HTML 註解
 - **THEN** 系統仍將該商品視為有效（其他欄位齊全），僅詳細頁不顯示故事區塊

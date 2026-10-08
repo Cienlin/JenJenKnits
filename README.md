@@ -4,7 +4,7 @@
 
 - 技術：ASP.NET Core 9 Razor Pages、EF Core + SQLite、Cookie 驗證、xUnit
 - 展示網站（靜態輸出）：https://cienlin.github.io/JenJenKnits/
-- 設計與決策紀錄：`openspec/changes/`（每個 change 的 proposal / design / specs / tasks）
+- 規格：`openspec/specs/`（網站目前的行為）；設計與決策紀錄：`openspec/changes/archive/`（每個 change 的 proposal / design / specs / tasks）
 
 ## 在本機執行
 

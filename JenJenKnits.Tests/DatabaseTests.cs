@@ -36,7 +36,7 @@ public class DatabaseTests
     }
 
     [Fact]
-    public void Starting_the_site_again_does_not_touch_the_database_file()
+    public async Task Starting_the_site_again_does_not_touch_the_database_file()
     {
         using var first = new SiteFactory();
         first.Client(); // 第一次啟動：建立資料庫
@@ -47,7 +47,7 @@ public class DatabaseTests
         // 用同一個資料庫再啟動一次（像是隔天再打開網站）
         using var second = new SiteFactory();
         second.UseDatabase(dbPath);
-        second.Client().GetAsync("/products").Wait();
+        await second.Client().GetAsync("/products");
         Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools();
 
         // 只是啟動和瀏覽，資料庫檔一個位元組都不該變，git 才不會顯示它被修改

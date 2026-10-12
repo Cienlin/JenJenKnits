@@ -61,6 +61,11 @@ push ──▶ GitHub Actions：測試 → 部署
 - 購買時確認：續約價、自動續約、可自行設定 DNS（A／CNAME）、WHOIS 隱私保護
 - 買了先放著，部署上線後再設定 DNS 與 HTTPS
 
+## 不考慮的選項
+
+- **台灣的虛擬主機**（例如 PChome 虛擬主機）：多為 PHP／WordPress 共用主機，未必支援 .NET 9；年約、包含用不到的信箱等服務所以較貴；只能 FTP 上傳，無法接 GitHub Actions。網域可以在 PChome 等註冊商單獨購買，不必加購主機
+- **地端**（自己的伺服器）：要自己處理硬體、停電、網路與更新，對小品牌網站負擔太大
+
 ## 待決定（Open Questions）
 
 1. 主機：Azure App Service、Fly.io，或路線二

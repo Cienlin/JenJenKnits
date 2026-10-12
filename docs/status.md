@@ -1,4 +1,4 @@
-# 專案進度（最後更新：2026-10-08）
+# 專案進度（最後更新：2026-10-12）
 
 給下一次開工（不論哪台電腦、哪個 Claude）快速接手用。
 
@@ -34,6 +34,19 @@
 - 登錄 Google Search Console 並提交 sitemap
 - 用 LINE 或 Facebook 分享偵錯工具測試分享預覽
 - IG 個人檔案的連結欄位填網站網址
+
+## 已討論過的決定（不在 OpenSpec 裡的）
+
+- **商品頁不做頁籤**（2026-10-07）：維持「01 故事、02 可選顏色」的章節長頁。頁面長約 5.4 屏，主要是故事配圖與色卡照片造成；若之後嫌長，優先考慮「縮短內容」：故事配圖改小、色卡照片預設收起
+- **前端 skill 評估**（2026-10-07）：最推薦 impeccable（audit / polish；animate 是其中的指令）；frontend-design 已用過；design-taste-frontend、brandkit、canvas-design 目前不需要。不要同時裝多個設計 skill，規則可能衝突，也很吃 token
+- **impeccable animate 檢查**（2026-10-07）：已依其規則調整動態，原則記在 `openspec/changes/archive/2026-10-08-redesign-editorial/design.md` D11
+- **Stitch AI**：適合之後設計新頁面時快速產生多版視覺，挑好後交給 Claude 實作進 Razor Pages；風格已定，短期不需要
+- **SEO**：不需要另外裝 SEO skill；剩下的是「照片產生較小的版本」，與照片管理一起做
+- **主機**：台灣的「虛擬主機」（PChome 等）多為 PHP／WordPress 共用主機、年約、無法 CI/CD，不適合；網域與主機分開買
+
+## 品牌與社群素材
+
+見 `docs/brand/README.md`：IG 帳號、頭貼 5 種版本、自介文字、泡芙小花提網貼文。
 
 ## 開工前提醒
 

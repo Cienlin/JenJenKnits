@@ -50,6 +50,7 @@
 
 ## 開工前提醒
 
+- 公司電腦：repo 在 `D:jenjenknits`（從這裡開 Claude Code 與 `JenJenKnits.sln`）；樣稿、舊版 MVC、Stitch 匯出在 `D:jenjenknits-workspace`
 - 先 `git pull`；後台改資料後要 commit 並 push `JenJenKnits/App_Data/jenjenknits.db`（部署前的過渡做法）
 - 每台電腦要各自用 `dotnet run -- hash-password` + `dotnet user-secrets` 設定管理員帳號
 - 網站執行中時 `dotnet build` / `dotnet test` 會因為 exe 被鎖住失敗，先關掉網站

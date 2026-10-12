@@ -70,8 +70,12 @@ GitHub Pages 只能放靜態檔案，所以是把本機執行中的網站輸出�
 
 ```bash
 cd JenJenKnits && dotnet run --launch-profile http     # 另開一個終端機讓它一直跑
-node tools/export-static.mjs                            # 在 repo 根目錄執行，輸出到 site-export/（需要 Node.js）
-cd site-export
-git init -b gh-pages && git add -A && git commit -m "deploy"
-git push -f https://github.com/Cienlin/JenJenKnits.git gh-pages
+bash tools/deploy-pages.sh                              # 在 repo 根目錄執行：輸出到 site-export/ 並推到 gh-pages（需要 Node.js）
 ```
+
+## 開工、收工
+
+專案內附兩個 Claude Code skill（`.claude/skills/`），兩台電腦切換時使用：
+
+- **開工**（`/start-work`）：同步另一台電腦的進度、檢查管理員帳號等環境、讀 `docs/status.md` 並建議今天的下一步
+- **收工**（`/end-work`）：確認後台改的資料庫是真的變更（`tools/db-diff.mjs`）、跑測試、更新 `docs/status.md`、commit 並 push，需要時更新 GitHub Pages

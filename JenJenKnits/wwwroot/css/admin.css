@@ -181,7 +181,13 @@
 .missing {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.35rem;
+}
+
+.missing-label {
+  color: var(--muted);
+  font-size: 0.8rem;
 }
 
 .chip-todo {

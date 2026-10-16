@@ -278,6 +278,12 @@
 
 - **WHEN** 搜尋引擎讀取首頁
 - **THEN** 頁面包含品牌（Organization）資料：名稱、網址、標誌；已設定 Instagram 時列為品牌的社群帳號
+- **AND** 頁面包含網站（WebSite）資料：名稱「織物製造所」、別名「JH Craft Studio」、網址為首頁的絕對網址，並標示網站的發行者是同一個品牌
+
+#### Scenario: 未設定 Instagram
+
+- **WHEN** 搜尋引擎讀取首頁，且網站沒有設定 Instagram 帳號
+- **THEN** 品牌資料不包含社群帳號欄位（不輸出空值）
 
 ### Requirement: Sitemap 與 robots.txt
 

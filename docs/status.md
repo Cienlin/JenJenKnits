@@ -13,6 +13,7 @@
 | 品牌改名「織物製造所」、IG 串接（@jh.craft.studio） | commit `b09a10a`、`9ce2f7c` |
 | 官網改用自己的網域 `jhcraftstudio.com`（GitHub Pages、HTTPS、舊網址與 www 自動轉址） | `openspec/changes/archive/2026-10-16-use-custom-domain` |
 | 後台列表顯示「待補：」，提醒還沒填的欄位 | commit `ebbb462` |
+| SEO 網站名稱：首頁 WebSite 結構化資料（「織物製造所」／JH Craft Studio），Schema Markup Validator 0 錯誤 | `openspec/changes/archive/2026-10-16-add-site-name` |
 
 - 目前規格：`openspec/specs/product-showcase`、`openspec/specs/product-admin`
 - 26 個自動化測試（`dotnet test`）
@@ -20,11 +21,6 @@
 - 官網：https://jhcraftstudio.com （GitHub Pages 靜態輸出；改內容後要重新輸出才會更新，步驟見 README）
 
 ## 進行中
-
-**SEO：網站名稱**（`openspec/changes/add-site-name`，6/6 任務完成，**剩下封存：執行 `/opsx:archive`**）
-- 首頁結構化資料改為 `@graph`：既有的 Organization＋新增 WebSite（name「織物製造所」、alternateName「JH Craft Studio」），讓 Google 在搜尋結果顯示品牌名稱；順便修正陣列裡的 `null` 會被輸出
-- 2026-10-16 已上線（commit `4899a00`），Schema Markup Validator 檢查 `https://jhcraftstudio.com/`：WebSite＋Organization（publisher）都讀到，0 錯誤 0 警告
-- 網站名稱生效需幾天到幾週，Google 不保證採用；約 2026-10-23 確認收錄時順便看搜尋結果顯示的名稱
 
 **第三階段：部署＋CI/CD**
 - 官網先用 GitHub Pages＋自己的網域（2026-10-16 已完成）；後台仍只在本機使用
@@ -40,7 +36,7 @@
 
 - 跟貞貞收集泡芙小花提網的尺寸、各商品的賣貨便連結，到後台補上
 - （暫緩）網格托特包的價格、材質、尺寸、賣貨便連結：2026-10-16 先從前台下架，目前不是主力
-- 一週後（約 2026-10-23）在 Google 搜尋 `site:jhcraftstudio.com`，或看 Search Console 的「網頁」報表，確認已收錄（2026-10-16 已用「網域」類型登錄 Search Console、提交 sitemap，並對首頁與兩件商品頁要求建立索引）
+- 一週後（約 2026-10-23）在 Google 搜尋 `site:jhcraftstudio.com`，或看 Search Console 的「網頁」報表，確認已收錄（2026-10-16 已用「網域」類型登錄 Search Console、提交 sitemap，並對首頁與兩件商品頁要求建立索引）。順便看搜尋結果是否顯示網站名稱「織物製造所」（2026-10-16 上線，生效需幾天到幾週，Google 不保證採用）
 - Namecheap：15 天內點 ICANN 驗證信（2026-10-16 購買）、帳號開兩步驟驗證、確認網域自動續約已開
 
 ## 已討論過的決定（不在 OpenSpec 裡的）

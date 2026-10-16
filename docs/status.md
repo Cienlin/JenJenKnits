@@ -52,6 +52,7 @@
 - **官網先用 GitHub Pages，Azure 延後**（2026-10-16）：客源與 IG 還在起步，先不付主機費（Azure 約 6,000 元／年，GitHub Pages 只有網域費約 490 元／年）。上 Azure 時選 Linux：本專案是 ASP.NET Core，跨平台；Windows B1 貴約 4 倍。細節見 `openspec/changes/add-deployment/design.md`
 - **網域**（2026-10-16）：`jhcraftstudio.com` 在 Namecheap 購買，登記在個人名下（沒勾「代表公司」），有免費 Domain Privacy，DNS 用 BasicDNS。Namecheap 推銷的主機、SSL、PremiumDNS、信箱都不需要；要品牌信箱時用免費的信件轉寄
 - **分享預覽測試**：LINE Page Poker 已在 2025-06 停止服務；改在 LINE 把網址傳給自己看卡片，Facebook（也涵蓋 IG、Threads）用分享偵錯工具
+- **整理 repo**（2026-10-16）：網站沒用到的檔案從 `wwwroot` 移出：舊品牌「貞心卉織 / J&S Crafted」logo（`images/logo/`）、`images/hero/net-tote-trio.jpg`、`images/about/puff-flower-glacier.jpg`、肩背包照片（`products/_watermarked/`）、棕色包草稿（`products/_wip-brown-bag/`）。原檔在筆電的 `D:\jenjenknits-workspace\repo-unused\`（保留原本相對路徑），git 歷史也查得到（commit `ffef3d9` 以前）。舊的 LINE 原始照片在同一台的 `D:\jenjenknits-workspace\photo\`
 - **手機實測**：公司電腦的 Edge 被公司政策關閉遠端偵錯（`RemoteDebuggingAllowed=0`），自動化點擊與截圖改用無頭 Chrome
 
 ## 品牌與社群素材

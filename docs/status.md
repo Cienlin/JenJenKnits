@@ -21,6 +21,10 @@
 
 ## 進行中
 
+**SEO：網站名稱**（`openspec/changes/add-site-name`，提案已完成、還沒實作，**下次開工從這裡繼續：執行 `/opsx:apply`**）
+- 首頁結構化資料改為 `@graph`：既有的 Organization＋新增 WebSite（name「織物製造所」、alternateName「JH Craft Studio」），讓 Google 在搜尋結果顯示品牌名稱；順便修正陣列裡的 `null` 會被輸出
+- 共 6 項任務，最後要部署並用 Schema Markup Validator 檢查；一般開發，medium effort
+
 **第三階段：部署＋CI/CD**
 - 官網先用 GitHub Pages＋自己的網域（2026-10-16 已完成）；後台仍只在本機使用
 - 之後上主機用 Azure App Service（Linux B1），目前延後；什麼時候該搬（想用手機改資料、要加伺服器端功能、找工作時）、費用、注意事項都記在 `openspec/changes/add-deployment/design.md`
@@ -35,7 +39,7 @@
 
 - 跟貞貞收集泡芙小花提網的尺寸、各商品的賣貨便連結，到後台補上
 - （暫緩）網格托特包的價格、材質、尺寸、賣貨便連結：2026-10-16 先從前台下架，目前不是主力
-- 登錄 Google Search Console（用 `jhcraftstudio.com`）並提交 sitemap
+- 一週後（約 2026-10-23）在 Google 搜尋 `site:jhcraftstudio.com`，或看 Search Console 的「網頁」報表，確認已收錄（2026-10-16 已用「網域」類型登錄 Search Console、提交 sitemap，並對首頁與兩件商品頁要求建立索引）
 - Namecheap：15 天內點 ICANN 驗證信（2026-10-16 購買）、帳號開兩步驟驗證、確認網域自動續約已開
 
 ## 已討論過的決定（不在 OpenSpec 裡的）
@@ -45,6 +49,8 @@
 - **impeccable animate 檢查**（2026-10-07）：已依其規則調整動態，原則記在 `openspec/changes/archive/2026-10-08-redesign-editorial/design.md` D11
 - **Stitch AI**：適合之後設計新頁面時快速產生多版視覺，挑好後交給 Claude 實作進 Razor Pages；風格已定，短期不需要
 - **SEO**：不需要另外裝 SEO skill；剩下的是「照片產生較小的版本」，與照片管理一起做
+- **搜尋「織物製造所」**（2026-10-16）：這在日文是一般名詞（織布工廠），目前搜尋結果幾乎都是日本的紡織工廠。台灣用戶用中文搜尋時日本網站權重較低，但也觀察「織物製造所 鉤織」、「jh craft studio」。做法：Search Console（已完成）、網站名稱結構化資料（`add-site-name`）、外部連結（IG 已放；賣貨便賣場介紹欄、其他社群也放官網網址），貼文與自介把「織物製造所」和「手鉤織」寫在一起。網站名稱只影響搜尋結果怎麼顯示，不直接影響排名
+- **Search Console**（2026-10-16）：用「網域」類型登錄，只能用 DNS 驗證，「新增多種驗證方法」的提示可以不理；網址審查顯示「Google 可為網址建立索引」代表技術上沒問題，但不代表已收錄；已要求建立索引的網址不用重複提交
 - **主機**：台灣的「虛擬主機」（PChome 等）多為 PHP／WordPress 共用主機、年約、無法 CI/CD，不適合；網域與主機分開買
 - **官網先用 GitHub Pages，Azure 延後**（2026-10-16）：客源與 IG 還在起步，先不付主機費（Azure 約 6,000 元／年，GitHub Pages 只有網域費約 490 元／年）。上 Azure 時選 Linux：本專案是 ASP.NET Core，跨平台；Windows B1 貴約 4 倍。細節見 `openspec/changes/add-deployment/design.md`
 - **網域**（2026-10-16）：`jhcraftstudio.com` 在 Namecheap 購買，登記在個人名下（沒勾「代表公司」），有免費 Domain Privacy，DNS 用 BasicDNS。Namecheap 推銷的主機、SSL、PremiumDNS、信箱都不需要；要品牌信箱時用免費的信件轉寄
@@ -61,5 +67,6 @@
 - 先 `git pull`；後台改資料後要 commit 並 push `JenJenKnits/App_Data/jenjenknits.db`（部署前的過渡做法）
 - 每台電腦要各自用 `dotnet run -- hash-password` + `dotnet user-secrets` 設定管理員帳號
 - 網站執行中時 `dotnet build` / `dotnet test` 會因為 exe 被鎖住失敗，先關掉網站
+- Namecheap DNS 的兩筆 TXT 不能刪：`_github-pages-challenge-cienlin`（GitHub 網域驗證）、`@` 的 `google-site-verification=...`（Search Console 驗證）
 - `bash tools/deploy-pages.sh` 會直接更新正式官網 `https://jhcraftstudio.com`。自訂網域靠輸出裡的 `CNAME` 檔（由 `Site:BaseUrl` 產生）維持，不要在 GitHub repo Settings → Pages 手動改 Custom domain
 - 偏好：繁體中文回答；UI 要用手機實際操作檢查（390px）；前台維持編織誌風格

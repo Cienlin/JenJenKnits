@@ -6,7 +6,7 @@ namespace JenJenKnits.Tests;
 
 public partial class SeoTests
 {
-    private const string Base = "https://cienlin.github.io/JenJenKnits";
+    private const string Base = SiteFactory.BaseUrl;
 
     private static ProductRecord Product(string slug, int? price = null, bool published = true) => new()
     {

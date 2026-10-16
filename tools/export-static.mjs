@@ -1,17 +1,30 @@
 // 把執行中的網站輸出成靜態檔案，給 GitHub Pages 用。
 //
 // 用法（先在 JenJenKnits 資料夾 `dotnet run --launch-profile http`）：
-//   node tools/export-static.mjs [輸出資料夾] [網站網址] [子路徑]
-//   預設：./site-export  http://localhost:5178  /JenJenKnits
+//   node tools/export-static.mjs [輸出資料夾] [網站網址]
+//   預設：./site-export  http://localhost:5178
+//
+// 對外網址（Site:BaseUrl）從網站的 robots.txt 取得，不另外指定：網址有子路徑時（例如 https://cienlin.github.io/JenJenKnits）
+// 站內連結都加上子路徑；網域不是 *.github.io 時另外輸出 CNAME（GitHub Pages 的自訂網域）。
 //
 // 做的事：從首頁開始爬所有站內頁面（另外輸出 sitemap.xml、robots.txt 與社群分享照片），存成 資料夾/index.html；下載頁面用到的 CSS、JS、圖片；
-// 所有站內連結加上 GitHub Pages 的子路徑；分類篩選 /products?category=X 改成 /products/category/X/；
+// 所有站內連結加上子路徑；分類篩選 /products?category=X 改成 /products/category/X/；
 // /not-found 存成 404.html。最後檢查每個站內連結都對得到檔案。
 import fs from "node:fs/promises";
 import path from "node:path";
 
-const [out = "site-export", origin = "http://localhost:5178", base = "/JenJenKnits"] = process.argv.slice(2);
+const [out = "site-export", origin = "http://localhost:5178"] = process.argv.slice(2);
 const isAsset = (p) => /\.(css|js|png|jpe?g|webp|gif|svg|ico|woff2?)$/i.test(p);
+const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+// robots.txt 的 Sitemap 是 Site:BaseUrl + /sitemap.xml
+const robots = await fetch(`${origin}/robots.txt`);
+if (!robots.ok) throw new Error(`/robots.txt → HTTP ${robots.status}`);
+const sitemapUrl = (await robots.text()).match(/^Sitemap: (\S+)$/m)?.[1];
+if (!sitemapUrl?.endsWith("/sitemap.xml")) throw new Error("/robots.txt 找不到 Sitemap 網址");
+const baseUrl = sitemapUrl.slice(0, -"/sitemap.xml".length);
+const { hostname, pathname } = new URL(sitemapUrl);
+const base = pathname.slice(0, -"/sitemap.xml".length); // 子路徑；網域根目錄時是空字串
 
 // 站內網址 → 輸出後的網址（含子路徑）
 const rewrite = (url) => {
@@ -48,7 +61,7 @@ const exportPage = async (url, file) => {
     else if (clean && !seen.has(clean)) { seen.add(clean); queue.push(clean); }
   }
   // 社群分享照片是絕對網址（Site:BaseUrl），不一定有 <img> 用到，也要一起輸出
-  for (const [, link] of html.matchAll(new RegExp(`content="https?://[^"/]+${base}(/[^"]+)"`, "g"))) {
+  for (const [, link] of html.matchAll(new RegExp(`content="${escapeRegExp(baseUrl)}(/[^"]+)"`, "g"))) {
     if (isAsset(link)) assets.add(link);
   }
   html = html.replace(/(href|src)="(\/[^"]*)"/g, (_, attr, link) => `${attr}="${rewrite(link.replace(/&amp;/g, "&"))}"`);
@@ -67,6 +80,8 @@ for (const url of assets) {
   await save(path.join(out, url.split("?")[0]), Buffer.from(await res.arrayBuffer()));
 }
 await save(path.join(out, ".nojekyll"), "");
+// 自訂網域記在發布分支根目錄的 CNAME；deploy-pages.sh 每次都重建分支，所以每次輸出都要帶上
+if (!hostname.endsWith(".github.io")) await save(path.join(out, "CNAME"), `${hostname}\n`);
 
 // 搜尋引擎用的檔案：內容已是絕對網址，原樣輸出
 for (const file of ["sitemap.xml", "robots.txt"]) {
@@ -85,7 +100,7 @@ for (const f of files.filter((f) => f.endsWith(".html"))) {
     await fs.access(target).catch(() => missing.push(`${f} → ${link}`));
   }
 }
-console.log(`pages: ${seen.size} + 404, assets: ${assets.size}, missing links: ${missing.length}`);
+console.log(`base: ${baseUrl}, pages: ${seen.size} + 404, assets: ${assets.size}, missing links: ${missing.length}`);
 if (missing.length) {
   console.log(missing.join("\n"));
   process.exit(1);

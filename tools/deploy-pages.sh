@@ -23,4 +23,5 @@ git config user.email "$(git -C "$root" config user.email)"
 git add -A
 git commit -q -m "deploy: static export of $commit"
 git push -q -f "$(git -C "$root" remote get-url origin)" gh-pages
-echo "已推到 gh-pages（$commit），約 1 分鐘後在 https://cienlin.github.io/JenJenKnits/ 生效。"
+site="https://$(cat "$out/CNAME" 2>/dev/null || echo cienlin.github.io/JenJenKnits)"  # 沒有自訂網域時是 GitHub Pages 的預設網址
+echo "已推到 gh-pages（$commit），約 1 分鐘後在 $site 生效。"

@@ -18,6 +18,9 @@ public sealed partial class SiteFactory : WebApplicationFactory<Program>
     public const string UserName = "admin";
     public const string Password = "correct horse battery";
 
+    /// <summary>測試用的對外網址；刻意帶子路徑，換正式網域也不用改測試。</summary>
+    public const string BaseUrl = "https://example.test/shop";
+
     public TempFolder Folder { get; } = new();
 
     public string ProductsPath => Folder.Combine("products");
@@ -34,6 +37,7 @@ public sealed partial class SiteFactory : WebApplicationFactory<Program>
         builder.UseSetting("ConnectionStrings:Site",
             _databasePath is null ? TestDatabase.ConnectionString(Folder) : $"Data Source={_databasePath}");
         builder.UseSetting("Catalog:ProductsPath", ProductsPath);
+        builder.UseSetting("Site:BaseUrl", BaseUrl);
         builder.UseSetting("Admin:UserName", UserName);
         builder.UseSetting("Admin:PasswordHash", AdminPassword.Hash(Password));
     }

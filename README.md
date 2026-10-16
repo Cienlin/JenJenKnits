@@ -3,7 +3,7 @@
 手鉤織品牌的展示網站：首頁、作品列表、商品頁（照片、故事、配色模擬器），以及只有管理者能進的商品後台。
 
 - 技術：ASP.NET Core 9 Razor Pages、EF Core + SQLite、Cookie 驗證、xUnit
-- 展示網站（靜態輸出）：https://cienlin.github.io/JenJenKnits/
+- 官網（GitHub Pages 靜態輸出）：https://jhcraftstudio.com
 - 目前進度與待辦：`docs/status.md`
 - 規格：`openspec/specs/`（網站目前的行為）；設計與決策紀錄：`openspec/changes/archive/`（每個 change 的 proposal / design / specs / tasks）
 
@@ -72,6 +72,8 @@ GitHub Pages 只能放靜態檔案，所以是把本機執行中的網站輸出�
 cd JenJenKnits && dotnet run --launch-profile http     # 另開一個終端機讓它一直跑
 bash tools/deploy-pages.sh                              # 在 repo 根目錄執行：輸出到 site-export/ 並推到 gh-pages（需要 Node.js）
 ```
+
+網址由 `appsettings.json` 的 `Site:BaseUrl` 決定：社群分享預覽、canonical、sitemap 的網址，輸出時站內連結的子路徑，以及 GitHub Pages 自訂網域用的 `CNAME` 檔，都從這個設定來。網域 `jhcraftstudio.com` 在 Namecheap，DNS 指向 GitHub Pages（設定步驟見 `openspec/changes/use-custom-domain/design.md`）。
 
 ## 開工、收工
 

@@ -15,7 +15,7 @@
 - 目前規格：`openspec/specs/product-showcase`、`openspec/specs/product-admin`
 - 23 個自動化測試（`dotnet test`）
 - 只用 `main` 分支；`gh-pages` 由 `tools/export-static.mjs` 產生，不要手改
-- 展示網站：https://cienlin.github.io/JenJenKnits/ （改內容後要重新輸出才會更新，步驟見 README）
+- 官網：https://jhcraftstudio.com （GitHub Pages 靜態輸出；改內容後要重新輸出才會更新，步驟見 README）
 
 ## 進行中
 

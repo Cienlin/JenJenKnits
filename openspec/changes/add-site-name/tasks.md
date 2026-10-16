@@ -12,5 +12,5 @@
 
 ## 3. 上線
 
-- [ ] 3.1 commit、push，執行 `bash tools/deploy-pages.sh`；線上首頁原始碼的 JSON-LD 有 `@graph`、Organization 與 WebSite
-- [ ] 3.2 用 Schema Markup Validator（validator.schema.org）檢查 `https://jhcraftstudio.com/`，Organization 與 WebSite 都被讀到、沒有錯誤；`docs/status.md` 記下「網站名稱已上線，生效需幾天到幾週」
+- [x] 3.1 commit、push，執行 `bash tools/deploy-pages.sh`；線上首頁原始碼的 JSON-LD 有 `@graph`、Organization 與 WebSite
+- [x] 3.2 用 Schema Markup Validator（validator.schema.org）檢查 `https://jhcraftstudio.com/`，Organization 與 WebSite 都被讀到、沒有錯誤；`docs/status.md` 記下「網站名稱已上線，生效需幾天到幾週」

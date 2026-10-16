@@ -15,15 +15,16 @@
 | 後台列表顯示「待補：」，提醒還沒填的欄位 | commit `ebbb462` |
 
 - 目前規格：`openspec/specs/product-showcase`、`openspec/specs/product-admin`
-- 23 個自動化測試（`dotnet test`）
+- 26 個自動化測試（`dotnet test`）
 - 只用 `main` 分支；`gh-pages` 由 `tools/export-static.mjs` 產生，不要手改
 - 官網：https://jhcraftstudio.com （GitHub Pages 靜態輸出；改內容後要重新輸出才會更新，步驟見 README）
 
 ## 進行中
 
-**SEO：網站名稱**（`openspec/changes/add-site-name`，提案已完成、還沒實作，**下次開工從這裡繼續：執行 `/opsx:apply`**）
+**SEO：網站名稱**（`openspec/changes/add-site-name`，6/6 任務完成，**剩下封存：執行 `/opsx:archive`**）
 - 首頁結構化資料改為 `@graph`：既有的 Organization＋新增 WebSite（name「織物製造所」、alternateName「JH Craft Studio」），讓 Google 在搜尋結果顯示品牌名稱；順便修正陣列裡的 `null` 會被輸出
-- 共 6 項任務，最後要部署並用 Schema Markup Validator 檢查；一般開發，medium effort
+- 2026-10-16 已上線（commit `4899a00`），Schema Markup Validator 檢查 `https://jhcraftstudio.com/`：WebSite＋Organization（publisher）都讀到，0 錯誤 0 警告
+- 網站名稱生效需幾天到幾週，Google 不保證採用；約 2026-10-23 確認收錄時順便看搜尋結果顯示的名稱
 
 **第三階段：部署＋CI/CD**
 - 官網先用 GitHub Pages＋自己的網域（2026-10-16 已完成）；後台仍只在本機使用

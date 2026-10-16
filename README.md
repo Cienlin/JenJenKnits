@@ -73,7 +73,7 @@ cd JenJenKnits && dotnet run --launch-profile http     # 另開一個終端機�
 bash tools/deploy-pages.sh                              # 在 repo 根目錄執行：輸出到 site-export/ 並推到 gh-pages（需要 Node.js）
 ```
 
-網址由 `appsettings.json` 的 `Site:BaseUrl` 決定：社群分享預覽、canonical、sitemap 的網址，輸出時站內連結的子路徑，以及 GitHub Pages 自訂網域用的 `CNAME` 檔，都從這個設定來。網域 `jhcraftstudio.com` 在 Namecheap，DNS 指向 GitHub Pages（設定步驟見 `openspec/changes/use-custom-domain/design.md`）。
+網址由 `appsettings.json` 的 `Site:BaseUrl` 決定：社群分享預覽、canonical、sitemap 的網址，輸出時站內連結的子路徑，以及 GitHub Pages 自訂網域用的 `CNAME` 檔，都從這個設定來。網域 `jhcraftstudio.com` 在 Namecheap，DNS 指向 GitHub Pages（設定步驟見 `openspec/changes/archive/2026-10-16-use-custom-domain/design.md`）。
 
 ## 開工、收工
 

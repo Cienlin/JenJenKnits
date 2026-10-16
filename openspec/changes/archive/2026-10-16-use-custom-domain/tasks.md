@@ -22,11 +22,11 @@
 
 ## 5. 部署與 GitHub Pages 設定（需第 1 組完成）
 
-- [ ] 5.1 commit 並 push 第 2～4 組的修改；執行 `bash tools/deploy-pages.sh`；gh-pages 分支根目錄有 `CNAME`、`index.html` 的站內連結沒有 `/JenJenKnits`
-- [ ] 5.2 （使用者）repo Settings → Pages：Custom domain 顯示 `jhcraftstudio.com`、DNS check 通過；憑證發好後勾 Enforce HTTPS，`http://jhcraftstudio.com` 會轉到 https
+- [x] 5.1 commit 並 push 第 2～4 組的修改；執行 `bash tools/deploy-pages.sh`；gh-pages 分支根目錄有 `CNAME`、`index.html` 的站內連結沒有 `/JenJenKnits`
+- [x] 5.2 （使用者）repo Settings → Pages：Custom domain 顯示 `jhcraftstudio.com`、DNS check 通過；憑證發好後勾 Enforce HTTPS，`http://jhcraftstudio.com` 會轉到 https
 
 ## 6. 上線驗收
 
-- [ ] 6.1 `https://jhcraftstudio.com` 首頁、作品列表、分類、商品頁正常；`https://www.jhcraftstudio.com` 與 `https://cienlin.github.io/JenJenKnits/` 都轉到新網域；`/robots.txt`、`/sitemap.xml`、`/404.html` 在根目錄且內容為新網域
-- [ ] 6.2 用 390px 寬度實際操作首頁、作品列表、商品頁（照片切換、配色模擬器），截圖確認版面與連結正常
-- [ ] 6.3 （使用者）用 LINE 與 Facebook 的分享偵錯工具重新抓取商品頁，預覽顯示新網址與封面；IG 個人檔案的連結欄位改為 `https://jhcraftstudio.com`；`docs/status.md` 的待辦同步更新
+- [x] 6.1 `https://jhcraftstudio.com` 首頁、作品列表、分類、商品頁正常；`https://www.jhcraftstudio.com` 與 `https://cienlin.github.io/JenJenKnits/` 都轉到新網域；`/robots.txt`、`/sitemap.xml`、`/404.html` 在根目錄且內容為新網域
+- [x] 6.2 用 390px 寬度實際操作首頁、作品列表、商品頁（照片切換、配色模擬器），截圖確認版面與連結正常
+- [x] 6.3 （使用者）分享預覽：在 LINE 貼 `http://jhcraftstudio.com/`，卡片顯示首頁標題、介紹與預設分享照片（LINE Page Poker 已於 2025-06 停止服務；新網址沒有舊快取，Facebook 偵錯工具略過，商品頁的 og 已在線上確認）；IG 個人檔案的連結欄位改為 `https://jhcraftstudio.com`；`docs/status.md` 的待辦同步更新

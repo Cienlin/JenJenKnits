@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using JenJenKnits.Data;
+using JenJenKnits.Models;
 
 namespace JenJenKnits.Tests;
 
@@ -26,6 +27,9 @@ public partial class SeoTests
 
     private static JsonElement JsonLd(string html) =>
         JsonDocument.Parse(JsonLdScript().Match(html).Groups[1].Value).RootElement;
+
+    private static JsonElement GraphNode(JsonElement jsonLd, string type) =>
+        jsonLd.GetProperty("@graph").EnumerateArray().Single(node => node.GetProperty("@type").GetString() == type);
 
     [Fact]
     public async Task Product_page_has_share_preview_canonical_and_product_data()
@@ -60,18 +64,56 @@ public partial class SeoTests
     }
 
     [Fact]
-    public async Task Category_filter_points_canonical_at_the_list_and_home_has_brand_data()
+    public async Task Category_filter_points_canonical_at_the_list()
     {
         using var site = new SiteFactory();
-        var client = site.Client();
+        var list = await site.Client().GetStringAsync("/products?category=%E6%8F%90%E8%A2%8B");
 
-        var list = await client.GetStringAsync("/products?category=%E6%8F%90%E8%A2%8B");
         Assert.Equal($"{Base}/products/", Canonical(list));
         Assert.Equal($"{Base}/images/hero/puff-flower-lake.jpg", Meta(list, "og:image"));
+    }
 
-        var home = await client.GetStringAsync("/");
+    [Fact]
+    public async Task Home_has_brand_and_site_name_data()
+    {
+        using var site = new SiteFactory();
+        site.UseSetting("Site:InstagramUrl", "https://www.instagram.com/example/");
+        var home = await site.Client().GetStringAsync("/");
         Assert.Equal($"{Base}/", Canonical(home));
-        Assert.Equal("Organization", JsonLd(home).GetProperty("@type").GetString());
+
+        var organization = GraphNode(JsonLd(home), "Organization");
+        Assert.Equal("織物製造所", organization.GetProperty("name").GetString());
+        Assert.Equal("https://www.instagram.com/example/", organization.GetProperty("sameAs")[0].GetString());
+
+        var website = GraphNode(JsonLd(home), "WebSite");
+        Assert.Equal("織物製造所", website.GetProperty("name").GetString());
+        Assert.Equal("JH Craft Studio", website.GetProperty("alternateName").GetString());
+        Assert.Equal(Canonical(home), website.GetProperty("url").GetString());
+        Assert.Equal(organization.GetProperty("@id").GetString(), website.GetProperty("publisher").GetProperty("@id").GetString());
+    }
+
+    [Fact]
+    public async Task Home_without_instagram_has_no_social_profile()
+    {
+        using var site = new SiteFactory();
+        site.UseSetting("Site:InstagramUrl", "");
+        var home = await site.Client().GetStringAsync("/");
+
+        Assert.False(GraphNode(JsonLd(home), "Organization").TryGetProperty("sameAs", out _));
+    }
+
+    [Fact]
+    public void Serialize_drops_null_fields_inside_arrays()
+    {
+        var json = PageSeo.Serialize(new Dictionary<string, object?>
+        {
+            ["@graph"] = new object[]
+            {
+                new Dictionary<string, object?> { ["@type"] = "Organization", ["sameAs"] = null },
+            },
+        });
+
+        Assert.Equal("{\"@graph\":[{\"@type\":\"Organization\"}]}", json);
     }
 
     [Fact]

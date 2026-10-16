@@ -34,8 +34,14 @@ public class PageSeo
     public static string Serialize(object value) => JsonSerializer.Serialize(WithoutNulls(value), JsonOptions);
 
     // 沒填的欄位（例如沒有價格時的 offers）整個拿掉，不輸出 "offers": null；
-    // JsonIgnoreCondition 只管物件屬性，管不到字典裡的值
-    private static object? WithoutNulls(object? value) => value is IDictionary<string, object?> dictionary
-        ? dictionary.Where(pair => pair.Value is not null).ToDictionary(pair => pair.Key, pair => WithoutNulls(pair.Value))
-        : value;
+    // JsonIgnoreCondition 只管物件屬性，管不到字典裡的值。陣列（例如首頁的 @graph）逐項處理
+    private static object? WithoutNulls(object? value) => value switch
+    {
+        IDictionary<string, object?> dictionary => dictionary
+            .Where(pair => pair.Value is not null)
+            .ToDictionary(pair => pair.Key, pair => WithoutNulls(pair.Value)),
+        string => value,
+        System.Collections.IEnumerable items => items.Cast<object?>().Select(WithoutNulls).ToList(),
+        _ => value,
+    };
 }

@@ -27,8 +27,13 @@ public sealed partial class SiteFactory : WebApplicationFactory<Program>
 
     private string? _databasePath;
 
+    private readonly Dictionary<string, string> _settings = [];
+
     /// <summary>改用指定的資料庫檔（預設是暫存資料夾裡的新資料庫），要在第一次 Client() 之前呼叫。</summary>
     public void UseDatabase(string path) => _databasePath = path;
+
+    /// <summary>覆寫網站設定（例如 Site:InstagramUrl 給空字串 = 沒設定），要在第一次 Client() 之前呼叫。</summary>
+    public void UseSetting(string key, string value) => _settings[key] = value;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -40,6 +45,10 @@ public sealed partial class SiteFactory : WebApplicationFactory<Program>
         builder.UseSetting("Site:BaseUrl", BaseUrl);
         builder.UseSetting("Admin:UserName", UserName);
         builder.UseSetting("Admin:PasswordHash", AdminPassword.Hash(Password));
+        foreach (var (key, value) in _settings)
+        {
+            builder.UseSetting(key, value);
+        }
     }
 
     /// <summary>不自動跟隨轉址，才能檢查導向登入頁；cookie 會保留在這個 client。</summary>

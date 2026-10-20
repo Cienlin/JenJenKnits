@@ -14,8 +14,8 @@
 | 官網改用自己的網域 `jhcraftstudio.com`（GitHub Pages、HTTPS、舊網址與 www 自動轉址） | `openspec/changes/archive/2026-10-16-use-custom-domain` |
 | 後台列表顯示「待補：」，提醒還沒填的欄位 | commit `ebbb462` |
 | SEO 網站名稱：首頁 WebSite 結構化資料（「織物製造所」／JH Craft Studio），Schema Markup Validator 0 錯誤 | `openspec/changes/archive/2026-10-16-add-site-name` |
-| IndexNow：`deploy-pages.sh` 部署後自動通知 Bing 有變動的網址（只送 sitemap 裡內容真的變了的；`--dry-run` 預覽；金鑰 `tools/indexnow-key.txt`，公開的） | `openspec/changes/add-indexnow`（2026-10-20 上線，第一次回 202） |
-| 結構化資料：品牌改 OnlineStore、首頁 WebPage＋FAQPage、商品頁 ItemPage；作者 meta 與 author；頁尾版權頁顯示更新日期（dateModified，台灣時間） | `openspec/changes/add-page-dates-author`（2026-10-20 上線，Validator 0 錯誤） |
+| IndexNow：`deploy-pages.sh` 部署後自動通知 Bing 有變動的網址（只送 sitemap 裡內容真的變了的；`--dry-run` 預覽；金鑰 `tools/indexnow-key.txt`，公開的） | `openspec/changes/archive/2026-10-20-add-indexnow`（2026-10-20 上線） |
+| 結構化資料：品牌 Organization＋OnlineStore（含 IG 聯絡窗口）、首頁 WebPage＋FAQPage、商品頁 ItemPage；作者 meta 與 author；頁尾版權頁顯示更新日期（dateModified，台灣時間）與 IG 聯絡列 | `openspec/changes/archive/2026-10-20-add-page-dates-author`（2026-10-20 上線，Validator 0 錯誤） |
 | AEO：首頁「03 常見問題」6 題＋FAQPage、品牌別名 JH Craft Studio、首頁標題與描述（2026-10-20 上線，`f842c28`；Schema Markup Validator 0 錯誤） | `openspec/changes/archive/2026-10-20-add-faq` |
 
 - 目前規格：`openspec/specs/product-showcase`、`openspec/specs/product-admin`
@@ -24,8 +24,6 @@
 - 官網：https://jhcraftstudio.com （GitHub Pages 靜態輸出；改內容後要重新輸出才會更新，步驟見 README）
 
 ## 進行中
-
-**IndexNow**（`openspec/changes/add-indexnow`）與**頁面作者與更新日期**（`openspec/changes/add-page-dates-author`）：2026-10-20 都已上線、任務全部完成，等歸檔（`/opsx:archive`）
 
 **第三階段：部署＋CI/CD**
 - 官網先用 GitHub Pages＋自己的網域（2026-10-16 已完成）；後台仍只在本機使用

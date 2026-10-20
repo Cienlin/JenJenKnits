@@ -3,7 +3,7 @@ namespace JenJenKnits.Models;
 public record YarnColor(int Number, string Hex);
 
 /// <summary>
-/// 泡芙小花提網色卡（Excel LOTTO EX088）的 22 色。色值從色卡照片取樣，只用於螢幕預覽，
+/// 泡芙小花提網色卡（Excel 樂透棉 LOTTO EX088，100% 棉）的 22 色。色值從色卡照片取樣，只用於螢幕預覽，
 /// 實際線色以色卡照片為準。首頁色點與配色模擬器共用。
 /// </summary>
 public static class YarnPalette

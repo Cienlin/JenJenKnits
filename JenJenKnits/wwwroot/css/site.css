@@ -1768,6 +1768,11 @@ figcaption {
   color: rgba(244, 240, 232, 0.6);
 }
 
+/* 版權頁裡較長的內容分段，窄螢幕只在段落之間換行（例如線材的品名與色號） */
+.colophon .keep {
+  white-space: nowrap;
+}
+
 /* 版權頁裡的連結（IG 聯絡）：點擊範圍放大到約 44px 高，負外距抵銷，列高不變 */
 .colophon dd a {
   display: inline-block;

@@ -20,4 +20,4 @@
 
 - [x] 4.1 品牌 `@type` 改成 `["Organization", "OnlineStore"]`；已設定 IG 時加 `contactPoint`；頁尾版權頁加「聯絡」列（`SiteOptions.InstagramHandle`）。`SeoTests` 斷言 Organization 類型、contactPoint、頁尾連結，沒設定 IG 時都沒有；`dotnet test` 全部通過
 - [x] 4.2 390px、1280px 看頁尾：聯絡列對齊、沒有水平捲軸，IG 連結點擊範圍 44px 高、列高不變
-- [ ] 4.3 部署（先 `--dry-run` 給使用者看）；線上 Validator 首頁 0 錯誤，讀得到 Organization／OnlineStore 與 ContactPoint
+- [x] 4.3 部署（先 `--dry-run` 給使用者看）；線上 Validator 首頁 0 錯誤，讀得到 Organization／OnlineStore 與 ContactPoint（2026-10-20：部署 `aa14d50`，IndexNow 4 個網址回 200，線上 Validator 0 錯誤）

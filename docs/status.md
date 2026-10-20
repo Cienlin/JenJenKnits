@@ -1,4 +1,4 @@
-# 專案進度（最後更新：2026-10-19）
+# 專案進度（最後更新：2026-10-20）
 
 給下一次開工（不論哪台電腦、哪個 Claude）快速接手用。開工、收工請用 `/start-work`、`/end-work`。
 
@@ -25,6 +25,7 @@
 **AEO：首頁常見問題＋品牌別名**（`openspec/changes/add-faq`，2026-10-19 開）
 - proposal、design、specs、tasks 已寫好，還沒實作；**（建議下一步）`/opsx:apply add-faq`，medium effort**
 - 程式可以先做，不用等貞貞的答案：題目清單先留空，首頁就不會出現常見問題章節；收到答案後再放進清單（tasks 第 5 組）
+- 2026-10-20 依外部檢查擴充：加第 5 題「可以丟洗衣機嗎」、第 6 題退換貨，並併入首頁標題與描述（design D7）
 
 **第三階段：部署＋CI/CD**
 - 官網先用 GitHub Pages＋自己的網域（2026-10-16 已完成）；後台仍只在本機使用
@@ -33,13 +34,15 @@
 ## 之後
 
 - GitHub Actions：push 後自動測試、輸出並部署 GitHub Pages，取代手動 `tools/deploy-pages.sh`（另開 change）
-- 後台第二階段：照片上傳、排序、刪除商品（建議部署完成後再做）
+- **品牌故事＋聯絡方式**（另開 change，等貞貞的素材）：品牌故事、聯絡方式（IG 之外要不要放 LINE／Email；Email 用 Namecheap 免費轉寄）、頁尾加版權聲明。注意：2026-10-05 編織誌改版時移除了首頁的「關於」區塊，規格寫著「首頁不顯示品牌故事」，要一起改；放首頁章節還是獨立頁面到時再決定
+- 商品頁加麵包屑的結構化資料（BreadcrumbList），畫面上已經有麵包屑
+- 後台第二階段：照片上傳、排序、刪除商品（建議部署完成後再做）；照片的 alt 改成描述性文字（現在是「泡芙小花提網 照片 2」）
 - 照片產生較小的版本（手機載入速度）
 
 ## 不用寫程式的待辦
 
 - 跟貞貞收集泡芙小花提網的尺寸、各商品的賣貨便連結，到後台補上
-- 把 `openspec/changes/add-faq/design.md` D6 的訊息（可直接貼到 LINE）傳給貞貞，確認常見問題的答案並填數字；第 5 題保養方式是依棉線的一般做法寫的，要特別確認
+- 把 `openspec/changes/add-faq/design.md` D6 的訊息（可直接貼到 LINE）傳給貞貞，確認常見問題的答案並填數字；第 5 題保養方式是依棉線的一般做法寫的，要特別確認；第 6 題退換貨要先確認「每件都接單後才做、沒有現貨」。同一則訊息也問品牌故事與聯絡方式（2026-10-20 更新過訊息，還沒傳的話傳新版）
 - （暫緩）網格托特包的價格、材質、尺寸、賣貨便連結：2026-10-16 先從前台下架，目前不是主力
 - 一週後（約 2026-10-23）在 Google 搜尋 `site:jhcraftstudio.com`，或看 Search Console 的「網頁」報表，確認已收錄（2026-10-16 已用「網域」類型登錄 Search Console、提交 sitemap，並對首頁與兩件商品頁要求建立索引）。順便看搜尋結果是否顯示網站名稱「織物製造所」（2026-10-16 上線，生效需幾天到幾週，Google 不保證採用）。Bing 也一起看：搜尋 `site:jhcraftstudio.com` 或在 Bing Webmaster Tools 重做 URL Inspection
 - Namecheap：15 天內（2026-10-31 前）點 ICANN 驗證信（2026-10-16 購買）、帳號開兩步驟驗證、確認網域自動續約已開
@@ -56,6 +59,12 @@
 - **Bing Webmaster Tools**（2026-10-16，AEO 第一步）：ChatGPT 搜尋、Copilot 很大程度依賴 Bing 的索引，所以也要登錄。用「從 Search Console 匯入」加入網站（自動驗證，不用加 DNS 記錄；不要移除 Bing 對 Google 帳號的存取權，Bing 會定期用它重新驗證）。首頁與兩件商品頁 URL Inspection 顯示「Not discovered」是新網站的正常狀態，已 Request indexing，不用重複送出；用 Bingbot 身分請求各頁都是 200
 - **AEO 下一步**（2026-10-16 討論）：加「常見問題」區塊（製作天數、保養、尺寸、購買與運費；內容要先跟貞貞確認）＋品牌資料補 alternateName「JH Craft Studio」，另開 change，medium effort。FAQPage 結構化資料 Google 只對政府／醫療網站顯示搜尋結果樣式，主要價值是頁面上看得到的問答文字。`llms.txt` 目前沒有主要 AI 搜尋服務確認會使用，暫不做
 - **常見問題的做法**（2026-10-19，`add-faq`）：放首頁「03 常見問題」（在購買方式後面）、全部展開不收合；題目清單寫在程式裡，頁面與 FAQPage 共用同一份，只放確認過的答案；答案是純文字不放連結。細節見該 change 的 `design.md`
+- **外部 SEO／AEO 檢查**（2026-10-20）：用 Google 搜尋的 AI 診斷與 ultralab.tw 掃描首頁（報告 `https://ultralab.tw/probe/report/s5z9v6x3z9`，只掃首頁：SEO 92、AEO 46、AAO 56，總分 65）。報告頁是前端產生的，原始資料在 `https://ultralab.tw/api/probe-collect-email?report=<id>`。處理方式：
+  - 要做：首頁標題與描述太短（併入 `add-faq` D7）、FAQPage／問句標題／直接回答（`add-faq`）、FAQ 加洗衣機與退換貨、品牌故事與聯絡方式（另開 change）
+  - 已經有、AI 沒看到：每件商品直達自己賣場的按鈕（開新分頁，只是還沒填賣貨便連結）、配色模擬器、商品頁可左右滑的照片
+  - 不做：把目錄數字改成文字（連結文字本來就是「作品」「購買方式」，數字只是裝飾，風格已定）、AAO 類（OpenAPI、表單、MCP、RSS、Webhook，是給 API／軟體服務的）、HowTo、作者與發布日期（給文章用）、`rights`／`ai-content-declaration` meta（不是正式標準）、首頁封面照的空 alt（旁邊標題就是商品名稱，刻意留空）
+  - `llms.txt` 維持暫不做；這個工具算了兩次所以扣分多，成本很低，想讓作品集上的分數好看時可以再加
+  - 工具建議的長度（標題 30～60、描述 120～160 字元）是照英文算的，中文控制在標題約 25 字、描述 70～80 字；「多點一次流失 20%」這類數字沒有出處，參考就好
 - **主機**：台灣的「虛擬主機」（PChome 等）多為 PHP／WordPress 共用主機、年約、無法 CI/CD，不適合；網域與主機分開買
 - **官網先用 GitHub Pages，Azure 延後**（2026-10-16）：客源與 IG 還在起步，先不付主機費（Azure 約 6,000 元／年，GitHub Pages 只有網域費約 490 元／年）。上 Azure 時選 Linux：本專案是 ASP.NET Core，跨平台；Windows B1 貴約 4 倍。細節見 `openspec/changes/add-deployment/design.md`
 - **網域**（2026-10-16）：`jhcraftstudio.com` 在 Namecheap 購買，登記在個人名下（沒勾「代表公司」），有免費 Domain Privacy，DNS 用 BasicDNS。Namecheap 推銷的主機、SSL、PremiumDNS、信箱都不需要；要品牌信箱時用免費的信件轉寄

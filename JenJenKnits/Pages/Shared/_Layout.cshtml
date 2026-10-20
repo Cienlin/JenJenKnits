@@ -8,11 +8,11 @@
     // 搜尋引擎與社群分享：網址一律用 Site:BaseUrl 組成的絕對網址
     var site = SiteOptions.Value;
     var seo = ViewData["Seo"] as PageSeo ?? new PageSeo();
-    // 沒有設定標題的是首頁：品牌在前，再寫賣什麼；商品類型改變時要一起改（add-faq design D7）
-    // 商品類型的叫法和分類一致（飲料提網、杯墊）；能裝哪些容器寫在描述裡
-    var pageTitle = ViewData["Title"] is string title ? $"{title}｜織物製造所" : "織物製造所｜手鉤織飲料提網、杯墊，顏色可客製";
+    // 沒有設定標題的是首頁：標題是品牌名與特色，不列商品（商品名在各商品頁、分類在作品列表的標題）。
+    // 描述寫到兩件商品與常見問題確認過的事實，商品或購買方式改變時要一起改（2026-10-20 決定，見 docs/status.md）
+    var pageTitle = ViewData["Title"] is string title ? $"{title}｜織物製造所" : "織物製造所 JH Craft Studio｜顏色可客製的手作編織小物";
     var description = ViewData["Description"] as string
-        ?? $"織物製造所（JH Craft Studio）的手鉤織日常小物：飲料提網、杯墊，可以從 {YarnPalette.Colors.Count} 色棉線挑顏色。飲料提網裝得下水壺、保溫杯和咖啡杯，還能先在網頁上模擬配色。";
+        ?? $"從裝水壺的泡芙小花提網到點綴桌面的花花杯墊，以棉線織物的溫度，陪你度過每一天。每件都是接單後才手工鉤織，可以從 {YarnPalette.Colors.Count} 色線材挑選配色；提網裝得下寶特瓶到 1180 ml 保溫杯，還能先在網頁上模擬配色。大約一週完成，寄到 7-11 門市取貨。";
     var canonical = site.PageUrl(seo.CanonicalPath ?? path);
 }
 @inject Microsoft.Extensions.Options.IOptions<SiteOptions> SiteOptions

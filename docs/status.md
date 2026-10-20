@@ -46,7 +46,7 @@
 - 用 ultralab.tw 重新掃首頁，看 AEO 分數（上次 46），特別是 2026-10-20 修的「Content type schema」「Author information」「Publication date」三項；結果記在這裡。內容類型若仍未通過，不為了分數加 Article 等不準確的類型（見「已討論過的決定」）
 - 幾天後到 Bing Webmaster Tools 左邊選單的「IndexNow」頁面，確認收到 2026-10-20 送出的 4 個網址（第一次回 202 是金鑰驗證中）
 - 開賣（第一件商品填上賣貨便連結）時，改常見問題第 4 題「賣場開賣前，可以私訊 Instagram 訂購」
-- 商品類型改變時（例如網格托特包重新上架），改首頁標題與描述（`_Layout.cshtml`，add-faq D7）；作品列表的標題與描述會自動列出目前的分類，不用改
+- 商品或購買方式改變時（例如網格托特包重新上架、開賣），改首頁描述（`_Layout.cshtml`，描述寫到泡芙小花提網、花花杯墊、一週完成、7-11 取貨）；首頁標題只有品牌與特色，不用改；作品列表的標題與描述會自動列出目前的分類
 - 約 2026-11-10（上線 2～3 週後）：看 Search Console「成效 → 查詢」大家實際搜什麼字，再決定標題要不要調整（商品叫法已在 2026-10-20 統一為「飲料提網」，見「已討論過的決定」）
 - （暫緩）網格托特包的價格、材質、尺寸、賣貨便連結：2026-10-16 先從前台下架，目前不是主力
 - 一週後（約 2026-10-23）在 Google 搜尋 `site:jhcraftstudio.com`，或看 Search Console 的「網頁」報表，確認已收錄（2026-10-16 已用「網域」類型登錄 Search Console、提交 sitemap，並對首頁與兩件商品頁要求建立索引）。順便看搜尋結果是否顯示網站名稱「織物製造所」（2026-10-16 上線，生效需幾天到幾週，Google 不保證採用）。Bing 也一起看：搜尋 `site:jhcraftstudio.com` 或在 Bing Webmaster Tools 重做 URL Inspection
@@ -73,6 +73,7 @@
 - **Bing 網站管理員指南對照**（2026-10-20，https://www.bing.com/webmasters/help/webmaster-guidelines-30fba23a ；網頁是前端產生的，全文在 `https://www.bing.com/webmasters/api/help/htmlcontent?ArticleId=30fba23a`）：伺服器產生的 HTML、robots、sitemap 只列正式網址、下架商品回 404、canonical 與 301、沒有 noindex／nosnippet／noarchive、結構化資料與畫面一致、GitHub Pages 有 ETag，都已符合；禁止事項都沒有。要做的：IndexNow（見「之後」）、商品叫法統一（見待辦）、首頁封面照片連結補 alt（2026-10-20 已改）。
 - **商品叫法統一為「飲料提網」**（2026-10-20，Bing 指南第 16 點）：原本首頁標題寫「水壺提網」、分類是「飲料提網」、常見問題寫「水壺或杯子」。選「飲料提網」是因為分類本來就是它，也涵蓋常見問題寫的寶特瓶、咖啡杯、保溫杯；首頁描述另外寫出「裝得下水壺、保溫杯和咖啡杯」，搜尋「水壺」還是對得上。作品列表標題改為「作品：手鉤織飲料提網、杯墊」（第 13 點：標題太短），由目前的分類自動產生。照片檔名與 alt 描述性（第 12 點）跟照片管理一起做
 - **ultralab 的內容類型、作者、日期三項**（2026-10-20，`add-page-dates-author`）：只標準確的資訊。品牌用 OnlineStore（沒有實體店面，不用 Store／LocalBusiness），頁面用 WebPage／FAQPage／ItemPage；不加 Article、ProfessionalService（不符合事實，Bing 禁止誤導性結構化資料）。作者是品牌。只有更新日期（dateModified），沒有發布日期（資料庫沒有建立時間）；日期一定顯示在頁尾，和結構化資料一致。首頁版型文字改了不會更新日期（沒有可靠來源）
+- **首頁標題改成品牌標題**（2026-10-20，使用者覺得列商品類型的標題「太侷限、不像標題」）：標題「織物製造所 JH Craft Studio｜顏色可客製的手作編織小物」（33 字），商品交給各商品頁與作品列表的標題；描述開頭用使用者寫的句子，後面接常見問題確認過的事實（121 字，符合 ultralab 建議的長度）。英文名維持「JH Craft Studio」（和 IG、結構化資料一致，不用 J&H Craft）；材質資料只寫「棉線」，所以不寫「純棉」，確認是 100% 棉再改。取捨：首頁對「鉤織 飲料提網」這類搜尋稍弱，由商品頁承接
 - **主機**：台灣的「虛擬主機」（PChome 等）多為 PHP／WordPress 共用主機、年約、無法 CI/CD，不適合；網域與主機分開買
 - **官網先用 GitHub Pages，Azure 延後**（2026-10-16）：客源與 IG 還在起步，先不付主機費（Azure 約 6,000 元／年，GitHub Pages 只有網域費約 490 元／年）。上 Azure 時選 Linux：本專案是 ASP.NET Core，跨平台；Windows B1 貴約 4 倍。細節見 `openspec/changes/add-deployment/design.md`
 - **網域**（2026-10-16）：`jhcraftstudio.com` 在 Namecheap 購買，登記在個人名下（沒勾「代表公司」），有免費 Domain Privacy，DNS 用 BasicDNS。Namecheap 推銷的主機、SSL、PremiumDNS、信箱都不需要；要品牌信箱時用免費的信件轉寄

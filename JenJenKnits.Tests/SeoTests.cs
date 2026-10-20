@@ -197,18 +197,19 @@ public partial class SeoTests
     }
 
     [Fact]
-    public async Task Home_title_and_description_say_what_the_shop_sells()
+    public async Task Home_title_names_the_brand_and_description_the_works()
     {
         using var site = new SiteFactory();
         var home = await site.Client().GetStringAsync("/");
 
         var title = PageTitle().Match(home).Groups[1].Value;
-        Assert.StartsWith("織物製造所｜", title);
-        Assert.Contains("飲料提網", title);
+        Assert.StartsWith("織物製造所 JH Craft Studio｜", title);
+        Assert.Contains("顏色可客製", title);
         Assert.Equal(title, Meta(home, "og:title"));
 
         var description = Meta(home, "description");
-        Assert.Contains("JH Craft Studio", description);
+        Assert.Contains("泡芙小花提網", description);
+        Assert.Contains("花花杯墊", description);
         Assert.Contains($"{YarnPalette.Colors.Count} 色", description);
         Assert.Equal(description, Meta(home, "og:description"));
     }

@@ -107,6 +107,13 @@ public partial class SeoTests
         Assert.Equal("織物製造所", organization.GetProperty("name").GetString());
         Assert.Equal("JH Craft Studio", organization.GetProperty("alternateName").GetString());
         Assert.Equal("https://www.instagram.com/example/", organization.GetProperty("sameAs")[0].GetString());
+        Assert.True(HasType(organization, "Organization"), "有些檢測工具只認得 Organization");
+
+        // IG 是聯絡窗口：結構化資料與頁尾都有
+        var contact = organization.GetProperty("contactPoint");
+        Assert.Equal("customer service", contact.GetProperty("contactType").GetString());
+        Assert.Equal("https://www.instagram.com/example/", contact.GetProperty("url").GetString());
+        Assert.Matches(">聯絡</dt><dd[^>]*><a[^>]*href=\"https://www.instagram.com/example/\"[^>]*>Instagram @example</a>", home);
 
         var website = GraphNode(JsonLd(home), "WebSite");
         Assert.Equal("織物製造所", website.GetProperty("name").GetString());
@@ -221,7 +228,10 @@ public partial class SeoTests
         site.UseSetting("Site:InstagramUrl", "");
         var home = await site.Client().GetStringAsync("/");
 
-        Assert.False(GraphNode(JsonLd(home), "OnlineStore").TryGetProperty("sameAs", out _));
+        var organization = GraphNode(JsonLd(home), "OnlineStore");
+        Assert.False(organization.TryGetProperty("sameAs", out _));
+        Assert.False(organization.TryGetProperty("contactPoint", out _));
+        Assert.DoesNotContain(">聯絡</dt>", home);
     }
 
     [Fact]

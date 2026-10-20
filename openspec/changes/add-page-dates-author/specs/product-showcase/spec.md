@@ -26,6 +26,21 @@
 - **WHEN** 訪客瀏覽沒有更新日期的頁面（例如作品列表、找不到頁面）
 - **THEN** 頁尾版權頁不顯示更新日期這一列
 
+### Requirement: 頁尾聯絡方式
+
+系統 SHALL 在已設定 Instagram 時，於每個前台頁面的頁尾版權頁顯示聯絡方式。
+
+#### Scenario: 已設定 Instagram
+
+- **WHEN** 訪客瀏覽任一前台頁面，且網站有設定 Instagram 帳號
+- **THEN** 頁尾版權頁顯示「聯絡」一列，內容為 Instagram 帳號名稱並說明以私訊聯絡，點選後在新分頁開啟 Instagram
+- **AND** 這個連結在手機上的點擊高度至少 44px
+
+#### Scenario: 未設定 Instagram
+
+- **WHEN** 網站沒有設定 Instagram 帳號
+- **THEN** 頁尾版權頁不顯示「聯絡」這一列
+
 ## MODIFIED Requirements
 
 ### Requirement: 結構化資料
@@ -41,14 +56,14 @@
 #### Scenario: 首頁
 
 - **WHEN** 搜尋引擎讀取首頁
-- **THEN** 頁面包含品牌資料，類型為網路商店（OnlineStore）：名稱「織物製造所」、別名「JH Craft Studio」、網址、標誌；已設定 Instagram 時列為品牌的社群帳號
+- **THEN** 頁面包含品牌資料，類型同時標為組織（Organization）與網路商店（OnlineStore）：名稱「織物製造所」、別名「JH Craft Studio」、網址、標誌；已設定 Instagram 時列為品牌的社群帳號，並列為以繁體中文服務的客服聯絡窗口
 - **AND** 頁面包含網站（WebSite）資料：名稱「織物製造所」、別名「JH Craft Studio」、網址為首頁的絕對網址，並標示網站的發行者是同一個品牌
 - **AND** 頁面包含首頁的頁面（WebPage）資料：首頁網址、屬於上述網站、作者為品牌、更新日期與頁尾顯示的相同
 
 #### Scenario: 未設定 Instagram
 
 - **WHEN** 搜尋引擎讀取首頁，且網站沒有設定 Instagram 帳號
-- **THEN** 品牌資料不包含社群帳號欄位（不輸出空值）
+- **THEN** 品牌資料不包含社群帳號與聯絡窗口欄位（不輸出空值）
 
 #### Scenario: 首頁常見問題
 

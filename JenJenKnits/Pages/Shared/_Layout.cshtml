@@ -83,6 +83,10 @@
                         <div><dt>內容</dt><dd>手鉤織的日常小物</dd></div>
                         <div><dt>線材色卡</dt><dd>Excel LOTTO EX088・22 色</dd></div>
                         <div><dt>販售</dt><dd>7-11 賣貨便</dd></div>
+                        @if (site.Instagram is string instagram)
+                        {
+                            <div><dt>聯絡</dt><dd><a href="@instagram" target="_blank" rel="noopener noreferrer">Instagram @site.InstagramHandle</a>（私訊）</dd></div>
+                        }
                         @* 這一頁的更新日期，和結構化資料的 dateModified 是同一個值 *@
                         @if (seo.Modified is DateOnly modified)
                         {

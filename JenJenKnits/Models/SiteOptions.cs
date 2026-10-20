@@ -10,6 +10,12 @@ public class SiteOptions
 
     public string? Instagram => string.IsNullOrWhiteSpace(InstagramUrl) ? null : InstagramUrl.Trim();
 
+    /// <summary>頁尾顯示的帳號名稱：https://www.instagram.com/jh.craft.studio/ → @jh.craft.studio。</summary>
+    public string? InstagramHandle =>
+        Instagram is string url && Uri.TryCreate(url, UriKind.Absolute, out var uri) && uri.AbsolutePath.Trim('/') is { Length: > 0 } name
+            ? $"@{name}"
+            : null;
+
     /// <summary>
     /// 網站對外的完整網址（不含結尾斜線），社群分享、canonical、sitemap 的絕對網址都由它組成。
     /// 目前是 GitHub Pages；換主機時只改這個設定。

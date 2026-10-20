@@ -15,3 +15,9 @@
 - [x] 3.1 390px 手機看首頁與商品頁的頁尾：更新日期這一列和其他列對齊、沒有水平捲軸；桌機 1280px 看一次
 - [x] 3.2 和 `add-indexnow` 一起部署（部署前先 `--dry-run` 給使用者看會通知哪些網址）；Schema Markup Validator 檢查首頁與泡芙小花提網商品頁 0 錯誤，OnlineStore、WebPage／FAQPage、ItemPage、Product 都讀得到；請使用者用 ultralab 重掃首頁，結果記在 `docs/status.md`（2026-10-20：部署 `2266872`，線上 Validator 首頁與商品頁 0 錯誤；ultralab 重掃留給使用者，記在 `docs/status.md` 待辦）
 - [x] 3.3 `docs/status.md`：「已完成」加這個 change；改常見問題的流程補上「一起改 `SiteFaq.UpdatedOn`」
+
+## 4. 追加：品牌類型與 IG 聯絡方式（D5，2026-10-20）
+
+- [x] 4.1 品牌 `@type` 改成 `["Organization", "OnlineStore"]`；已設定 IG 時加 `contactPoint`；頁尾版權頁加「聯絡」列（`SiteOptions.InstagramHandle`）。`SeoTests` 斷言 Organization 類型、contactPoint、頁尾連結，沒設定 IG 時都沒有；`dotnet test` 全部通過
+- [x] 4.2 390px、1280px 看頁尾：聯絡列對齊、沒有水平捲軸，IG 連結點擊範圍 44px 高、列高不變
+- [ ] 4.3 部署（先 `--dry-run` 給使用者看）；線上 Validator 首頁 0 錯誤，讀得到 Organization／OnlineStore 與 ContactPoint

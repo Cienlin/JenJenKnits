@@ -65,6 +65,13 @@ schema.org 的 OnlineStore（網路商店）是 Organization 的子類型，Goog
 - `PageSeo` 加 `Modified`（日期，可以沒有）；有值時，版權頁多一列「更新」，內容是 `<time datetime="YYYY-MM-DD">YYYY-MM-DD</time>`；結構化資料的 `dateModified` 用同一個值，畫面與資料一定一致
 - 作品列表、找不到頁面沒有日期，不顯示這一列
 
+### D5：品牌類型列兩個、IG 當聯絡方式（2026-10-20 追加）
+
+- `@type` 寫成 `["Organization", "OnlineStore"]`：OnlineStore 本來就是 Organization 的子類型，兩個都列不改變意思，Google、Bing、Validator 都支援多個類型；ultralab 只認字面上的 Organization（D1 上線後「品牌名稱一致性」從通過變成找不到品牌資料）
+- 已設定 Instagram 時：品牌資料加 `contactPoint`（`ContactPoint`，`contactType` 為 `customer service`，`url` 是 IG，`availableLanguage` 為 `zh-Hant`）；頁尾版權頁在「販售」後面加「聯絡」一列，「Instagram @帳號（私訊）」連到 IG、開新分頁。帳號名稱由 IG 網址取出（`SiteOptions.InstagramHandle`）
+- 連結的點擊範圍用內距放大到約 44px，負外距抵銷，列高不變（390px 實測）
+- ultralab 的「聯絡方式」可能只認 Email、電話，不一定算通過；但 IG 是目前真正的聯絡管道，對訪客與搜尋引擎都準確
+
 ## Risks / Trade-offs
 
 - [改了常見問題忘記改 `SiteFaq.UpdatedOn`] → 首頁日期會偏舊（不會是錯的「未來」日期）；註解提醒，改題目的流程（status.md）也寫上

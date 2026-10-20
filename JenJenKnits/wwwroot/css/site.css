@@ -1768,6 +1768,13 @@ figcaption {
   color: rgba(244, 240, 232, 0.6);
 }
 
+/* 版權頁裡的連結（IG 聯絡）：點擊範圍放大到約 44px 高，負外距抵銷，列高不變 */
+.colophon dd a {
+  display: inline-block;
+  padding-block: 0.5rem;
+  margin-block: -0.5rem;
+}
+
 .colophon-nav {
   display: flex;
   gap: 0.25rem 1.2rem;

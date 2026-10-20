@@ -109,8 +109,9 @@
 
             <article class="spread @(i % 2 == 1 ? "spread--rev" : null)" aria-labelledby="work-@product.Slug">
                 <figure class="spread-main">
+                    @* 螢幕閱讀器略過這個連結（下面的標題連到同一頁）；alt 給搜尋引擎當連結文字 *@
                     <a class="frame" asp-page="/Products/Detail" asp-route-slug="@product.Slug" tabindex="-1" aria-hidden="true">
-                        <img src="@product.CoverImagePath" alt="" loading="@(i == 0 ? "eager" : "lazy")"
+                        <img src="@product.CoverImagePath" alt="@product.Name" loading="@(i == 0 ? "eager" : "lazy")"
                              style="view-transition-name: @product.ViewTransitionName" />
                     </a>
                     <figcaption><span class="mono fig">@Fig(fig++)</span>@product.Name</figcaption>

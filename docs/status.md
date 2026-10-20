@@ -17,7 +17,7 @@
 | AEO：首頁「03 常見問題」6 題＋FAQPage、品牌別名 JH Craft Studio、首頁標題與描述（2026-10-20 上線，`f842c28`；Schema Markup Validator 0 錯誤） | `openspec/changes/archive/2026-10-20-add-faq` |
 
 - 目前規格：`openspec/specs/product-showcase`、`openspec/specs/product-admin`
-- 31 個自動化測試（`dotnet test`）
+- 32 個自動化測試（`dotnet test`）
 - 只用 `main` 分支；`gh-pages` 由 `tools/export-static.mjs` 產生，不要手改
 - 官網：https://jhcraftstudio.com （GitHub Pages 靜態輸出；改內容後要重新輸出才會更新，步驟見 README）
 
@@ -29,6 +29,7 @@
 
 ## 之後
 
+- **IndexNow**（另開 change，medium effort；Bing 指南提到 4 次，是對照後最主要的缺口）：根目錄放金鑰檔，`deploy-pages.sh` 部署後把有變動的網址送給 IndexNow（Bing、Yandex 等；Google 不用）。順便考慮首頁與作品列表在 sitemap 沒有 lastmod 的問題
 - GitHub Actions：push 後自動測試、輸出並部署 GitHub Pages，取代手動 `tools/deploy-pages.sh`（另開 change）
 - **品牌故事＋聯絡方式**（另開 change，等貞貞的素材）：品牌故事、聯絡方式（IG 之外要不要放 LINE／Email；Email 用 Namecheap 免費轉寄）、頁尾加版權聲明。注意：2026-10-05 編織誌改版時移除了首頁的「關於」區塊，規格寫著「首頁不顯示品牌故事」，要一起改；放首頁章節還是獨立頁面到時再決定
 - 商品頁加麵包屑的結構化資料（BreadcrumbList），畫面上已經有麵包屑
@@ -42,7 +43,7 @@
 - （選擇性）用 ultralab.tw 重新掃首頁，看 AEO 分數（上次 46）。常見問題上線後，Search Console 與 Bing 已在 2026-10-20 對首頁要求建立索引
 - 開賣（第一件商品填上賣貨便連結）時，改常見問題第 4 題「賣場開賣前，可以私訊 Instagram 訂購」
 - 商品類型改變時（例如網格托特包重新上架），改首頁標題與描述（`_Layout.cshtml`，add-faq D7）
-- 約 2026-11-10（上線 2～3 週後）：看 Search Console「成效 → 查詢」大家實際搜什麼字，再決定標題要不要調整
+- 約 2026-11-10（上線 2～3 週後）：看 Search Console「成效 → 查詢」大家實際搜什麼字，再決定標題要不要調整。同時決定泡芙小花提網的主要叫法：首頁標題寫「水壺提網」、分類是「飲料提網」、常見問題寫「水壺或杯子」，要統一（Bing 指南第 16 點）；決定後作品列表標題「作品｜織物製造所」也改長一點（第 13 點）
 - （暫緩）網格托特包的價格、材質、尺寸、賣貨便連結：2026-10-16 先從前台下架，目前不是主力
 - 一週後（約 2026-10-23）在 Google 搜尋 `site:jhcraftstudio.com`，或看 Search Console 的「網頁」報表，確認已收錄（2026-10-16 已用「網域」類型登錄 Search Console、提交 sitemap，並對首頁與兩件商品頁要求建立索引）。順便看搜尋結果是否顯示網站名稱「織物製造所」（2026-10-16 上線，生效需幾天到幾週，Google 不保證採用）。Bing 也一起看：搜尋 `site:jhcraftstudio.com` 或在 Bing Webmaster Tools 重做 URL Inspection
 - Namecheap：15 天內（2026-10-31 前）點 ICANN 驗證信（2026-10-16 購買）、帳號開兩步驟驗證、確認網域自動續約已開
@@ -65,6 +66,7 @@
   - 不做：把目錄數字改成文字（連結文字本來就是「作品」「購買方式」，數字只是裝飾，風格已定）、AAO 類（OpenAPI、表單、MCP、RSS、Webhook，是給 API／軟體服務的）、HowTo、作者與發布日期（給文章用）、`rights`／`ai-content-declaration` meta（不是正式標準）、首頁封面照的空 alt（旁邊標題就是商品名稱，刻意留空）
   - `llms.txt` 維持暫不做；這個工具算了兩次所以扣分多，成本很低，想讓作品集上的分數好看時可以再加
   - 工具建議的長度（標題 30～60、描述 120～160 字元）是照英文算的，中文控制在標題約 25 字、描述 70～80 字；「多點一次流失 20%」這類數字沒有出處，參考就好
+- **Bing 網站管理員指南對照**（2026-10-20，https://www.bing.com/webmasters/help/webmaster-guidelines-30fba23a ；網頁是前端產生的，全文在 `https://www.bing.com/webmasters/api/help/htmlcontent?ArticleId=30fba23a`）：伺服器產生的 HTML、robots、sitemap 只列正式網址、下架商品回 404、canonical 與 301、沒有 noindex／nosnippet／noarchive、結構化資料與畫面一致、GitHub Pages 有 ETag，都已符合；禁止事項都沒有。要做的：IndexNow（見「之後」）、商品叫法統一（見待辦）、首頁封面照片連結補 alt（2026-10-20 已改）。照片檔名與 alt 描述性（第 12 點）跟照片管理一起做
 - **主機**：台灣的「虛擬主機」（PChome 等）多為 PHP／WordPress 共用主機、年約、無法 CI/CD，不適合；網域與主機分開買
 - **官網先用 GitHub Pages，Azure 延後**（2026-10-16）：客源與 IG 還在起步，先不付主機費（Azure 約 6,000 元／年，GitHub Pages 只有網域費約 490 元／年）。上 Azure 時選 Linux：本專案是 ASP.NET Core，跨平台；Windows B1 貴約 4 倍。細節見 `openspec/changes/add-deployment/design.md`
 - **網域**（2026-10-16）：`jhcraftstudio.com` 在 Namecheap 購買，登記在個人名下（沒勾「代表公司」），有免費 Domain Privacy，DNS 用 BasicDNS。Namecheap 推銷的主機、SSL、PremiumDNS、信箱都不需要；要品牌信箱時用免費的信件轉寄

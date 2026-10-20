@@ -94,6 +94,17 @@ public partial class SeoTests
     }
 
     [Fact]
+    public async Task Home_cover_link_has_alt_text()
+    {
+        using var site = new SiteFactory();
+        ProductFiles.Folder(site.ProductsPath, "puff", "cover.jpg");
+        site.Seed(Product("puff"));
+        var home = await site.Client().GetStringAsync("/");
+
+        Assert.Matches("<img src=\"[^\"]*/products/puff/cover\\.jpg\" alt=\"泡芙小花提網\"", home);
+    }
+
+    [Fact]
     public async Task Home_has_faq_data_in_page_order()
     {
         using var site = new SiteFactory();

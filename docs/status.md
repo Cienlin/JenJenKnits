@@ -23,6 +23,8 @@
 
 ## 進行中
 
+**IndexNow**（`openspec/changes/add-indexnow`，2026-10-20 開）：proposal、design、tasks 已寫好，還沒實作；下一步 `/opsx:apply add-indexnow`，medium effort。部署時自動通知 Bing 哪些網址新增、更新、刪除
+
 **第三階段：部署＋CI/CD**
 - 官網先用 GitHub Pages＋自己的網域（2026-10-16 已完成）；後台仍只在本機使用
 - 之後上主機用 Azure App Service（Linux B1），目前延後；什麼時候該搬（想用手機改資料、要加伺服器端功能、找工作時）、費用、注意事項都記在 `openspec/changes/add-deployment/design.md`

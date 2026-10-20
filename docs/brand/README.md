@@ -7,6 +7,10 @@
 - 視覺：編織誌風格。藏青 `#1F3C8E`、紙張 `#F4F0E8`、墨色 `#16140F`；字體 Noto Serif TC（中文）、Instrument Serif、IBM Plex Mono
 - 網站圖示：`JenJenKnits/wwwroot/images/brand-icon.svg`（藏青底、米白「織」）
 
+## 品牌故事（準備中）
+
+要問貞貞的題目與寫法注意事項：[about-questions.md](about-questions.md)
+
 ## IG 頭貼（1080 × 1080，可直接上傳）
 
 | 檔案 | 版本 |

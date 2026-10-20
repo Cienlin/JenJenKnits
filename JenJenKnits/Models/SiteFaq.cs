@@ -13,7 +13,7 @@ public sealed class SiteFaq(IReadOnlyList<FaqItem> items)
 
     /// <summary>
     /// 正式網站的題目，依買家下單前後會想知道的順序。只放確認過的答案，
-    /// 確認的經過記在 openspec/changes/add-faq/design.md D6。清單是空的時候首頁不顯示這個章節。
+    /// 確認的經過記在 openspec/changes/archive/2026-10-20-add-faq/design.md D6。清單是空的時候首頁不顯示這個章節。
     /// </summary>
     public static SiteFaq Default { get; } = new([
         new("可以自己挑顏色嗎？",

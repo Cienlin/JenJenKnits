@@ -14,7 +14,7 @@
 | 官網改用自己的網域 `jhcraftstudio.com`（GitHub Pages、HTTPS、舊網址與 www 自動轉址） | `openspec/changes/archive/2026-10-16-use-custom-domain` |
 | 後台列表顯示「待補：」，提醒還沒填的欄位 | commit `ebbb462` |
 | SEO 網站名稱：首頁 WebSite 結構化資料（「織物製造所」／JH Craft Studio），Schema Markup Validator 0 錯誤 | `openspec/changes/archive/2026-10-16-add-site-name` |
-| AEO：首頁「03 常見問題」6 題＋FAQPage、品牌別名 JH Craft Studio、首頁標題與描述（2026-10-20 上線） | `openspec/changes/add-faq` |
+| AEO：首頁「03 常見問題」6 題＋FAQPage、品牌別名 JH Craft Studio、首頁標題與描述（2026-10-20 上線，`f842c28`；Schema Markup Validator 0 錯誤） | `openspec/changes/archive/2026-10-20-add-faq` |
 
 - 目前規格：`openspec/specs/product-showcase`、`openspec/specs/product-admin`
 - 31 個自動化測試（`dotnet test`）
@@ -22,9 +22,6 @@
 - 官網：https://jhcraftstudio.com （GitHub Pages 靜態輸出；改內容後要重新輸出才會更新，步驟見 README）
 
 ## 進行中
-
-**AEO：首頁常見問題**（`openspec/changes/add-faq`）：程式與 6 題答案都已上線（2026-10-20，`f842c28`；Schema Markup Validator 讀到 Organization（含別名）、WebSite、FAQPage，0 錯誤），只剩 tasks 5.4（Search Console、Bing 對首頁要求建立索引，要你自己操作），做完就可以 `/opsx:archive add-faq`
-- 題目在 `JenJenKnits/Models/SiteFaq.cs`，頁面與 FAQPage 共用；改答案要改這裡、跑測試、重新部署
 
 **第三階段：部署＋CI/CD**
 - 官網先用 GitHub Pages＋自己的網域（2026-10-16 已完成）；後台仍只在本機使用
@@ -41,8 +38,8 @@
 ## 不用寫程式的待辦
 
 - 跟貞貞收集泡芙小花提網的尺寸、各商品的賣貨便連結，到後台補上
-- 問貞貞品牌故事與聯絡方式（要問的題目在 `openspec/changes/add-faq/design.md` D6 的 LINE 訊息最後一段），給之後的「品牌故事＋聯絡方式」change 用
-- Search Console 與 Bing Webmaster Tools 對首頁要求建立索引（常見問題 2026-10-20 上線），之後可以用 ultralab.tw 重新掃首頁，看 AEO 分數（上次 46）
+- 問貞貞品牌故事與聯絡方式（要問的題目在 `openspec/changes/archive/2026-10-20-add-faq/design.md` D6 的 LINE 訊息最後一段），給之後的「品牌故事＋聯絡方式」change 用
+- （選擇性）用 ultralab.tw 重新掃首頁，看 AEO 分數（上次 46）。常見問題上線後，Search Console 與 Bing 已在 2026-10-20 對首頁要求建立索引
 - 開賣（第一件商品填上賣貨便連結）時，改常見問題第 4 題「賣場開賣前，可以私訊 Instagram 訂購」
 - 商品類型改變時（例如網格托特包重新上架），改首頁標題與描述（`_Layout.cshtml`，add-faq D7）
 - 約 2026-11-10（上線 2～3 週後）：看 Search Console「成效 → 查詢」大家實際搜什麼字，再決定標題要不要調整

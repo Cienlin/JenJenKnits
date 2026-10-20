@@ -3,7 +3,7 @@
 ## Context
 
 - 官網是 GitHub Pages 靜態網站：`tools/export-static.mjs` 從執行中的網站（localhost:5178）爬出 HTML、資產、`sitemap.xml`、`robots.txt`、`CNAME`；`tools/deploy-pages.sh` 每次在 `site-export/` 重新 `git init`，強制推到 `gh-pages`。推上去後約 1 分鐘生效
-- 每次部署「每一頁的 HTML 都會變」，即使內容沒變：頁尾 `<p class="mono version">` 印出建置時的 commit（`AppVersion.Display`），CSS／JS 網址帶 `?v=` 版本號（`asp-append-version`）
+- 每次部署「每一頁的 HTML 都會變」，即使內容沒變：頁尾 `<p b-… class="mono version">` 印出建置時的 commit（`AppVersion.Display`；`b-…` 是版型的 CSS 隔離屬性）。CSS、JS、`~/` 開頭的圖片由 `MapStaticAssets` 在檔名加上內容指紋（例如 `site.djzafdnge5.css`），內容一改檔名就變（實作時確認，原本以為是 `?v=`）
 - `sitemap.xml` 只列正式網址：首頁、作品列表、每件上架商品。分類篩選頁 `/products/category/X/` 有輸出但不在 sitemap，canonical 指回作品列表
 - GitHub Pages 的 CDN 回應 `Cache-Control: max-age=600`
 - IndexNow 協定（indexnow.org/documentation）：金鑰 8～128 字元（英數與 `-`）；金鑰檔放根目錄 `/{金鑰}.txt` 是官方「強烈建議」的做法；`POST /indexnow`，JSON `{host, key, keyLocation, urlList}`，一次最多 10,000 個網址；送給一個引擎會分享給所有參與的引擎。回應：200 成功、202 已收到但金鑰驗證中、400 格式錯誤、403 金鑰無效、422 網址不屬於這個網域、429 太頻繁
@@ -42,7 +42,7 @@
 
 - 範圍：新、舊兩份 `sitemap.xml` 的網址。分類篩選頁、404 頁不在 sitemap，不送
 - 新增：只在新 sitemap；刪除：只在舊 sitemap（Bing 收到後會看到 404）；更新：兩邊都有，且頁面內容不同
-- 比較內容前先去掉每次都會變的部分：頁尾版本 `<p class="mono version">…</p>`，以及網址裡的 `?v=…`
+- 比較內容前先去掉不算內容的部分：頁尾版本文字，以及 CSS、JS 檔名裡的指紋（`site.djzafdnge5.css` → `site.css`）。圖片檔名的指紋保留：圖片換了是看得到的內容變動，要通知
 - 網址對應檔案：`https://jhcraftstudio.com/` → `index.html`，`/products/puff-flower-net/` → `products/puff-flower-net/index.html`
 - 抓不到上一版（第一次部署）時，送新 sitemap 的全部網址
 
@@ -77,7 +77,7 @@
 
 ## Risks / Trade-offs
 
-- [頁尾版本的 HTML 改了，去不掉版本號] → 每一頁都會被當成有變動，結果是多送而不是漏送；預覽模式看得出來（沒改內容卻列出全部網址）。`indexnow.mjs` 的比對規則旁註明要和 `_Layout.cshtml` 頁尾一起改
+- [頁尾版本的 HTML 或指紋格式改了，去不掉] → 每一頁都會被當成有變動，結果是多送而不是漏送；預覽模式看得出來（沒改內容卻列出全部網址）。`indexnow.mjs` 的比對規則旁註明要和 `_Layout.cshtml` 頁尾一起改
 - [第一次送出回 202，Bing 還沒驗證金鑰] → 正常；之後在 Bing Webmaster Tools 的 IndexNow 頁面確認有收到網址
 - [GitHub Pages 超過 5 分鐘才生效] → 不送出，列出網址請使用者手動提交
 - [金鑰外流被拿來亂送] → 只能送我們網域的網址，影響有限；換金鑰（D1）即可

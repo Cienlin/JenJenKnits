@@ -71,7 +71,12 @@ GitHub Pages 只能放靜態檔案，所以是把本機執行中的網站輸出�
 ```bash
 cd JenJenKnits && dotnet run --launch-profile http     # 另開一個終端機讓它一直跑
 bash tools/deploy-pages.sh                              # 在 repo 根目錄執行：輸出到 site-export/ 並推到 gh-pages（需要 Node.js）
+bash tools/deploy-pages.sh --dry-run                    # 預覽：只輸出並列出會通知 IndexNow 的網址，不推、不送
 ```
+
+推上去之後會用 [IndexNow](https://www.indexnow.org/) 通知 Bing（也分享給 Yandex 等；Google 不支援）哪些網址新增、更新或刪除：和線上目前的版本比對 sitemap 裡的網址，頁尾版本與 CSS／JS 檔名指紋不算內容，沒有變動就不送；等 GitHub Pages 換成新版才送出。通知失敗不影響部署，會列出網址請你到 Bing Webmaster Tools 的「URL Submission」手動提交。
+
+IndexNow 的金鑰在 `tools/indexnow-key.txt`，輸出時放在網站根目錄（`/{金鑰}.txt`）。金鑰本來就公開，只證明通知是網站擁有者送的，不是密碼；要換金鑰就改這個檔再部署。比對與通知的程式在 `tools/indexnow.mjs`，測試：`node --test tools/indexnow.test.mjs`。
 
 網址由 `appsettings.json` 的 `Site:BaseUrl` 決定：社群分享預覽、canonical、sitemap 的網址，輸出時站內連結的子路徑，以及 GitHub Pages 自訂網域用的 `CNAME` 檔，都從這個設定來。網域 `jhcraftstudio.com` 在 Namecheap，DNS 指向 GitHub Pages（設定步驟見 `openspec/changes/archive/2026-10-16-use-custom-domain/design.md`）。
 

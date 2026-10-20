@@ -7,7 +7,7 @@
 // 對外網址（Site:BaseUrl）從網站的 robots.txt 取得，不另外指定：網址有子路徑時（例如 https://cienlin.github.io/JenJenKnits）
 // 站內連結都加上子路徑；網域不是 *.github.io 時另外輸出 CNAME（GitHub Pages 的自訂網域）。
 //
-// 做的事：從首頁開始爬所有站內頁面（另外輸出 sitemap.xml、robots.txt 與社群分享照片），存成 資料夾/index.html；下載頁面用到的 CSS、JS、圖片；
+// 做的事：從首頁開始爬所有站內頁面（另外輸出 sitemap.xml、robots.txt、IndexNow 金鑰檔與社群分享照片），存成 資料夾/index.html；下載頁面用到的 CSS、JS、圖片；
 // 所有站內連結加上子路徑；分類篩選 /products?category=X 改成 /products/category/X/；
 // /not-found 存成 404.html。最後檢查每個站內連結都對得到檔案。
 import fs from "node:fs/promises";
@@ -82,6 +82,10 @@ for (const url of assets) {
 await save(path.join(out, ".nojekyll"), "");
 // 自訂網域記在發布分支根目錄的 CNAME；deploy-pages.sh 每次都重建分支，所以每次輸出都要帶上
 if (!hostname.endsWith(".github.io")) await save(path.join(out, "CNAME"), `${hostname}\n`);
+
+// IndexNow 金鑰檔：放在網站根目錄，搜尋引擎用它確認通知是網站擁有者送的（金鑰本來就公開，見 indexnow.mjs）
+const indexNowKey = (await fs.readFile(new URL("indexnow-key.txt", import.meta.url), "utf8")).trim();
+await save(path.join(out, `${indexNowKey}.txt`), indexNowKey);
 
 // 搜尋引擎用的檔案：內容已是絕對網址，原樣輸出
 for (const file of ["sitemap.xml", "robots.txt"]) {

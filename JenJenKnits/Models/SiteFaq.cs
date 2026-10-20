@@ -12,6 +12,12 @@ public sealed class SiteFaq(IReadOnlyList<FaqItem> items)
     public IReadOnlyList<FaqItem> Items { get; } = items;
 
     /// <summary>
+    /// 題目或答案最後修改的日期，首頁的更新日期會參考它（add-page-dates-author design D3）。
+    /// 改 Default 的題目或答案時，一起改這個日期。沒有值時首頁的日期只看商品。
+    /// </summary>
+    public DateOnly? UpdatedOn { get; init; }
+
+    /// <summary>
     /// 正式網站的題目，依買家下單前後會想知道的順序。只放確認過的答案，
     /// 確認的經過記在 openspec/changes/archive/2026-10-20-add-faq/design.md D6。清單是空的時候首頁不顯示這個章節。
     /// </summary>
@@ -28,5 +34,8 @@ public sealed class SiteFaq(IReadOnlyList<FaqItem> items)
             "建議用冷水手洗，輕輕按壓、不要用力擰乾，攤平放在陰涼處晾乾。不建議丟洗衣機或烘衣機，容易變形；也不要用漂白水。"),
         new("可以退換貨嗎？",
             "每件作品都是依你選的顏色接單後才鉤織，屬於客製商品，不適用七天鑑賞期，下單前請先確認好顏色。收到時如果有瑕疵或寄錯，請在收到後 7 天內私訊 Instagram，我們會協助處理。"),
-    ]);
+    ])
+    {
+        UpdatedOn = new(2026, 10, 20),
+    };
 }

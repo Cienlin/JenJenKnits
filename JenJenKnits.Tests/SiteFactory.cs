@@ -40,10 +40,13 @@ public sealed partial class SiteFactory : WebApplicationFactory<Program>
     public void UseSetting(string key, string value) => _settings[key] = value;
 
     /// <summary>
-    /// 換成測試自己的常見問題（不給題目 = 沒有常見問題），要在第一次 Client() 之前呼叫。
+    /// 換成測試自己的常見問題（不給題目 = 沒有常見問題），要在第一次 Client() 或 Seed() 之前呼叫。
     /// 沒呼叫時用正式網站的清單，所以要測常見問題的測試都要自己指定。
     /// </summary>
     public void UseFaq(params FaqItem[] items) => _faq = new SiteFaq(items);
+
+    /// <summary>換成指定的常見問題（可以帶更新日期），要在第一次 Client() 或 Seed() 之前呼叫。</summary>
+    public void UseFaq(SiteFaq faq) => _faq = faq;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {

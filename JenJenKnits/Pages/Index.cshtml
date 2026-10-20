@@ -9,12 +9,20 @@
     // 也認得網站名稱，搜尋結果就能顯示「織物製造所」而不只是網址（WebSite 只能放首頁）
     var home = Model.Site.PageUrl("/");
     var organizationId = $"{home}#organization";
-    // 常見問題和頁面上的章節用同一份清單；沒有題目時不放這個節點
-    var faqPage = Model.Faq.Count == 0 ? null : new Dictionary<string, object?>
+    var websiteId = $"{home}#website";
+    // 首頁本身：作者是品牌，帶更新日期（和頁尾顯示的同一個值）。有常見問題時同時是 FAQPage
+    // （FAQPage 是 WebPage 的一種，同一頁只描述一次），題目和頁面上的章節用同一份清單
+    var webPage = new Dictionary<string, object?>
     {
-        ["@type"] = "FAQPage",
-        ["@id"] = $"{home}#faq",
-        ["mainEntity"] = Model.Faq.Select(item => new Dictionary<string, object?>
+        ["@type"] = Model.Faq.Count > 0 ? new[] { "WebPage", "FAQPage" } : "WebPage",
+        ["@id"] = $"{home}#webpage",
+        ["url"] = home,
+        ["name"] = "織物製造所",
+        ["isPartOf"] = new Dictionary<string, object?> { ["@id"] = websiteId },
+        ["about"] = new Dictionary<string, object?> { ["@id"] = organizationId },
+        ["author"] = new Dictionary<string, object?> { ["@id"] = organizationId },
+        ["dateModified"] = Model.Modified?.ToString("yyyy-MM-dd"),
+        ["mainEntity"] = Model.Faq.Count == 0 ? null : Model.Faq.Select(item => new Dictionary<string, object?>
         {
             ["@type"] = "Question",
             ["name"] = item.Question,
@@ -23,14 +31,16 @@
     };
     ViewData["Seo"] = new PageSeo
     {
+        Modified = Model.Modified,
         JsonLd = new Dictionary<string, object?>
         {
             ["@context"] = "https://schema.org",
-            ["@graph"] = new object?[]
+            ["@graph"] = new object[]
             {
+                // 網路商店（Organization 的子類型）：在賣貨便販售、沒有實體店面
                 new Dictionary<string, object?>
                 {
-                    ["@type"] = "Organization",
+                    ["@type"] = "OnlineStore",
                     ["@id"] = organizationId,
                     ["name"] = "織物製造所",
                     ["alternateName"] = "JH Craft Studio",
@@ -42,14 +52,14 @@
                 new Dictionary<string, object?>
                 {
                     ["@type"] = "WebSite",
-                    ["@id"] = $"{home}#website",
+                    ["@id"] = websiteId,
                     ["name"] = "織物製造所",
                     ["alternateName"] = "JH Craft Studio",
                     ["url"] = home,
                     ["publisher"] = new Dictionary<string, object?> { ["@id"] = organizationId },
                 },
-                faqPage,
-            }.OfType<object>().ToArray(), // 拿掉沒有的節點：PageSeo 不會拿掉陣列裡的 null
+                webPage,
+            },
         },
     };
 }

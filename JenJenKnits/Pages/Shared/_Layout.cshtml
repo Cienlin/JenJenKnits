@@ -23,6 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@pageTitle</title>
     <meta name="description" content="@description" />
+    <meta name="author" content="織物製造所" />
     <link rel="canonical" href="@canonical" />
     <meta property="og:site_name" content="織物製造所" />
     <meta property="og:locale" content="zh_TW" />
@@ -82,6 +83,12 @@
                         <div><dt>內容</dt><dd>手鉤織的日常小物</dd></div>
                         <div><dt>線材色卡</dt><dd>Excel LOTTO EX088・22 色</dd></div>
                         <div><dt>販售</dt><dd>7-11 賣貨便</dd></div>
+                        @* 這一頁的更新日期，和結構化資料的 dateModified 是同一個值 *@
+                        @if (seo.Modified is DateOnly modified)
+                        {
+                            var date = modified.ToString("yyyy-MM-dd");
+                            <div><dt>更新</dt><dd><time datetime="@date">@date</time></dd></div>
+                        }
                     </dl>
                 </div>
                 <nav class="colophon-nav" aria-label="頁尾選單">

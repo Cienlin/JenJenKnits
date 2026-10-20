@@ -21,6 +21,12 @@ public class PageSeo
     /// <summary>canonical 用的站內路徑；null = 目前請求的路徑（不含查詢字串）。</summary>
     public string? CanonicalPath { get; init; }
 
+    /// <summary>
+    /// 這一頁內容最後更新的日期（台灣時間）。有值時頁尾版權頁顯示「更新」，
+    /// 結構化資料的 dateModified 也用同一個值，畫面和資料一定一致。
+    /// </summary>
+    public DateOnly? Modified { get; init; }
+
     /// <summary>schema.org 結構化資料，由 _Layout 序列化成 JSON-LD。</summary>
     public object? JsonLd { get; init; }
 

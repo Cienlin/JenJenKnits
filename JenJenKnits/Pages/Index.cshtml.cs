@@ -13,11 +13,13 @@ public class IndexModel : PageModel
 
     private readonly IProductCatalog _catalog;
     private readonly SiteOptions _site;
+    private readonly SiteFaq _faq;
 
     public IndexModel(IProductCatalog catalog, IOptions<SiteOptions> site, SiteFaq faq)
     {
         _catalog = catalog;
         _site = site.Value;
+        _faq = faq;
         Faq = faq.Items;
     }
 
@@ -25,6 +27,9 @@ public class IndexModel : PageModel
 
     /// <summary>沒有題目時，首頁不顯示常見問題章節，也不輸出 FAQPage。</summary>
     public IReadOnlyList<FaqItem> Faq { get; }
+
+    /// <summary>首頁的更新日期：精選商品與常見問題之中最新的（add-page-dates-author design D3）；都沒有時是 null。</summary>
+    public DateOnly? Modified { get; private set; }
 
     /// <summary>至少一件商品有賣貨便連結 = 已開賣。</summary>
     public bool IsOnSale { get; private set; }
@@ -45,6 +50,9 @@ public class IndexModel : PageModel
         }
 
         Featured = featured;
+        Modified = featured.Select(p => (DateOnly?)p.UpdatedOn)
+            .Append(Faq.Count > 0 ? _faq.UpdatedOn : null)
+            .Max();
         IsOnSale = _catalog.GetAll().Any(p => p.BuyUrl is not null);
     }
 }

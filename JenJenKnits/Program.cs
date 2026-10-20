@@ -143,14 +143,14 @@ app.MapGet("/sitemap.xml", (IProductCatalog catalog, IOptions<SiteOptions> optio
 {
     var site = options.Value;
     XNamespace ns = "http://www.sitemaps.org/schemas/sitemap/0.9";
-    XElement Url(string path, DateTime? lastModified = null) => new(ns + "url",
+    XElement Url(string path, DateOnly? lastModified = null) => new(ns + "url",
         new XElement(ns + "loc", site.PageUrl(path)),
-        lastModified is DateTime date ? new XElement(ns + "lastmod", date.ToString("yyyy-MM-dd")) : null);
+        lastModified is DateOnly date ? new XElement(ns + "lastmod", date.ToString("yyyy-MM-dd")) : null);
 
     var sitemap = new XDocument(new XDeclaration("1.0", "utf-8", null), new XElement(ns + "urlset",
         Url("/"),
         Url("/products"),
-        catalog.GetAll().Select(p => Url($"/products/{Uri.EscapeDataString(p.Slug)}", p.UpdatedAt))));
+        catalog.GetAll().Select(p => Url($"/products/{Uri.EscapeDataString(p.Slug)}", p.UpdatedOn))));
     return Results.Text(sitemap.Declaration + sitemap.ToString(), "application/xml; charset=utf-8");
 });
 app.MapGet("/robots.txt", (IOptions<SiteOptions> options) => Results.Text(

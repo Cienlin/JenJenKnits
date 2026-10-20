@@ -4,30 +4,53 @@
     var product = Model.Product;
     ViewData["Title"] = product.Name;
     ViewData["Description"] = product.ShortDescription;
-    // 分享時顯示商品封面；結構化資料讓搜尋結果認得這是商品（有價格才宣告 Offer，不宣告庫存狀態）
+    // 分享時顯示商品封面。結構化資料：這一頁（ItemPage，作者是品牌、帶更新日期，和頁尾顯示的同一個值）
+    // 的主要內容是這件商品（Product，有價格才宣告 Offer，不宣告庫存狀態）
+    var pageUrl = Model.Site.PageUrl($"/products/{product.Slug}");
+    var home = Model.Site.PageUrl("/");
+    var productId = $"{pageUrl}#product";
     ViewData["Seo"] = new PageSeo
     {
         Type = "product",
         Image = product.CoverImagePath,
+        Modified = product.UpdatedOn,
         JsonLd = new Dictionary<string, object?>
         {
             ["@context"] = "https://schema.org",
-            ["@type"] = "Product",
-            ["name"] = product.Name,
-            ["description"] = product.ShortDescription,
-            ["image"] = Model.Images.Select(Model.Site.Absolute).ToArray(),
-            ["brand"] = new Dictionary<string, object?> { ["@type"] = "Brand", ["name"] = "織物製造所" },
-            ["category"] = product.Category,
-            ["material"] = product.Material,
-            ["offers"] = product.Price is int amount
-                ? new Dictionary<string, object?>
+            ["@graph"] = new object[]
+            {
+                new Dictionary<string, object?>
                 {
-                    ["@type"] = "Offer",
-                    ["price"] = amount,
-                    ["priceCurrency"] = "TWD",
-                    ["url"] = Model.Site.PageUrl($"/products/{product.Slug}"),
-                }
-                : null,
+                    ["@type"] = "ItemPage",
+                    ["@id"] = $"{pageUrl}#webpage",
+                    ["url"] = pageUrl,
+                    ["name"] = product.Name,
+                    ["isPartOf"] = new Dictionary<string, object?> { ["@id"] = $"{home}#website" },
+                    ["author"] = new Dictionary<string, object?> { ["@id"] = $"{home}#organization" },
+                    ["dateModified"] = product.UpdatedOn.ToString("yyyy-MM-dd"),
+                    ["mainEntity"] = new Dictionary<string, object?> { ["@id"] = productId },
+                },
+                new Dictionary<string, object?>
+                {
+                    ["@type"] = "Product",
+                    ["@id"] = productId,
+                    ["name"] = product.Name,
+                    ["description"] = product.ShortDescription,
+                    ["image"] = Model.Images.Select(Model.Site.Absolute).ToArray(),
+                    ["brand"] = new Dictionary<string, object?> { ["@type"] = "Brand", ["name"] = "織物製造所" },
+                    ["category"] = product.Category,
+                    ["material"] = product.Material,
+                    ["offers"] = product.Price is int amount
+                        ? new Dictionary<string, object?>
+                        {
+                            ["@type"] = "Offer",
+                            ["price"] = amount,
+                            ["priceCurrency"] = "TWD",
+                            ["url"] = pageUrl,
+                        }
+                        : null,
+                },
+            },
         },
     };
 

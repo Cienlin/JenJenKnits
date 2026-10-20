@@ -9,7 +9,7 @@ public partial class SeoTests
 {
     private const string Base = SiteFactory.BaseUrl;
 
-    private static ProductRecord Product(string slug, int? price = null, bool published = true) => new()
+    private static ProductRecord Product(string slug, int? price = null, bool published = true, DateTime? updatedAt = null) => new()
     {
         Slug = slug,
         Name = "泡芙小花提網",
@@ -17,7 +17,7 @@ public partial class SeoTests
         ShortDescription = "提著水壺出門 </script> 也不會壞",
         Price = price,
         IsPublished = published,
-        UpdatedAt = new DateTime(2026, 10, 8, 3, 0, 0, DateTimeKind.Utc),
+        UpdatedAt = updatedAt ?? new DateTime(2026, 10, 8, 3, 0, 0, DateTimeKind.Utc),
     };
 
     private static string Meta(string html, string property) =>
@@ -28,8 +28,12 @@ public partial class SeoTests
     private static JsonElement JsonLd(string html) =>
         JsonDocument.Parse(JsonLdScript().Match(html).Groups[1].Value).RootElement;
 
+    // @type 可能是字串，也可能是陣列（首頁同時是 WebPage 與 FAQPage）
+    private static bool HasType(JsonElement node, string type) => node.GetProperty("@type") is var types
+        && (types.ValueKind == JsonValueKind.Array ? types.EnumerateArray().Any(t => t.GetString() == type) : types.GetString() == type);
+
     private static JsonElement GraphNode(JsonElement jsonLd, string type) =>
-        jsonLd.GetProperty("@graph").EnumerateArray().Single(node => node.GetProperty("@type").GetString() == type);
+        jsonLd.GetProperty("@graph").EnumerateArray().Single(node => HasType(node, type));
 
     [Fact]
     public async Task Product_page_has_share_preview_canonical_and_product_data()
@@ -44,8 +48,7 @@ public partial class SeoTests
         Assert.Equal($"{Base}/products/puff/", Canonical(html));
         Assert.Equal(Canonical(html), Meta(html, "og:url"));
 
-        var product = JsonLd(html);
-        Assert.Equal("Product", product.GetProperty("@type").GetString());
+        var product = GraphNode(JsonLd(html), "Product");
         Assert.Equal("提著水壺出門 </script> 也不會壞", product.GetProperty("description").GetString());
         Assert.Equal(2, product.GetProperty("image").GetArrayLength());
         Assert.Equal(450, product.GetProperty("offers").GetProperty("price").GetInt32());
@@ -60,7 +63,26 @@ public partial class SeoTests
         site.Seed(Product("tote"));
         var html = await site.Client().GetStringAsync("/products/tote");
 
-        Assert.False(JsonLd(html).TryGetProperty("offers", out _));
+        Assert.False(GraphNode(JsonLd(html), "Product").TryGetProperty("offers", out _));
+    }
+
+    [Fact]
+    public async Task Product_page_is_an_item_page_with_author_and_date()
+    {
+        using var site = new SiteFactory();
+        ProductFiles.Folder(site.ProductsPath, "puff", "cover.jpg");
+        site.Seed(Product("puff"));
+        var html = await site.Client().GetStringAsync("/products/puff");
+
+        var page = GraphNode(JsonLd(html), "ItemPage");
+        Assert.Equal($"{Base}/products/puff/", page.GetProperty("url").GetString());
+        Assert.Equal(GraphNode(JsonLd(html), "Product").GetProperty("@id").GetString(), page.GetProperty("mainEntity").GetProperty("@id").GetString());
+        Assert.Equal($"{Base}/#organization", page.GetProperty("author").GetProperty("@id").GetString());
+        Assert.Equal("織物製造所", Meta(html, "author"));
+
+        // 結構化資料的日期和頁尾顯示的一樣（台灣時間）
+        Assert.Equal("2026-10-08", page.GetProperty("dateModified").GetString());
+        Assert.Matches("<time[^>]*datetime=\"2026-10-08\"[^>]*>2026-10-08</time>", html);
     }
 
     [Fact]
@@ -81,7 +103,7 @@ public partial class SeoTests
         var home = await site.Client().GetStringAsync("/");
         Assert.Equal($"{Base}/", Canonical(home));
 
-        var organization = GraphNode(JsonLd(home), "Organization");
+        var organization = GraphNode(JsonLd(home), "OnlineStore");
         Assert.Equal("織物製造所", organization.GetProperty("name").GetString());
         Assert.Equal("JH Craft Studio", organization.GetProperty("alternateName").GetString());
         Assert.Equal("https://www.instagram.com/example/", organization.GetProperty("sameAs")[0].GetString());
@@ -103,6 +125,8 @@ public partial class SeoTests
 
         Assert.Equal("作品：手鉤織飲料提網｜織物製造所", PageTitle().Match(list).Groups[1].Value);
         Assert.Contains("手鉤織的飲料提網等日常小物", Meta(list, "description"));
+        Assert.Equal("織物製造所", Meta(list, "author"));
+        Assert.DoesNotContain(">更新</dt>", list); // 版型的元素帶 CSS 隔離屬性（<dt b-…>），只比對結尾
     }
 
     [Fact]
@@ -126,7 +150,8 @@ public partial class SeoTests
         var home = await site.Client().GetStringAsync("/");
 
         var faq = GraphNode(JsonLd(home), "FAQPage");
-        Assert.Equal($"{Base}/#faq", faq.GetProperty("@id").GetString());
+        Assert.True(HasType(faq, "WebPage"), "常見問題就是首頁本身的頁面資料");
+        Assert.Equal($"{Base}/#webpage", faq.GetProperty("@id").GetString());
         var questions = faq.GetProperty("mainEntity").EnumerateArray().ToList();
         Assert.Equal(2, questions.Count);
         Assert.All(questions, question => Assert.Equal("Question", question.GetProperty("@type").GetString()));
@@ -147,7 +172,28 @@ public partial class SeoTests
 
         var graph = JsonLd(home).GetProperty("@graph").EnumerateArray().ToList();
         Assert.All(graph, node => Assert.Equal(JsonValueKind.Object, node.ValueKind));
-        Assert.DoesNotContain(graph, node => node.GetProperty("@type").GetString() == "FAQPage");
+        Assert.DoesNotContain(graph, node => HasType(node, "FAQPage"));
+        Assert.False(GraphNode(JsonLd(home), "WebPage").TryGetProperty("mainEntity", out _));
+    }
+
+    [Fact]
+    public async Task Home_page_has_author_and_the_latest_date()
+    {
+        using var site = new SiteFactory();
+        site.UseFaq(new SiteFaq([new FaqItem("Q", "A")]) { UpdatedOn = new DateOnly(2026, 10, 12) }); // Seed 會啟動網站，要先設定
+        ProductFiles.Folder(site.ProductsPath, "puff", "cover.jpg");
+        site.Seed(Product("puff"));
+        var home = await site.Client().GetStringAsync("/");
+
+        var page = GraphNode(JsonLd(home), "WebPage");
+        Assert.Equal($"{Base}/", page.GetProperty("url").GetString());
+        Assert.Equal($"{Base}/#website", page.GetProperty("isPartOf").GetProperty("@id").GetString());
+        Assert.Equal(GraphNode(JsonLd(home), "OnlineStore").GetProperty("@id").GetString(), page.GetProperty("author").GetProperty("@id").GetString());
+        Assert.Equal("織物製造所", Meta(home, "author"));
+
+        // 商品 10-08、常見問題 10-12：取最新的，頁尾顯示同一天
+        Assert.Equal("2026-10-12", page.GetProperty("dateModified").GetString());
+        Assert.Matches("<time[^>]*datetime=\"2026-10-12\"[^>]*>2026-10-12</time>", home);
     }
 
     [Fact]
@@ -174,7 +220,7 @@ public partial class SeoTests
         site.UseSetting("Site:InstagramUrl", "");
         var home = await site.Client().GetStringAsync("/");
 
-        Assert.False(GraphNode(JsonLd(home), "Organization").TryGetProperty("sameAs", out _));
+        Assert.False(GraphNode(JsonLd(home), "OnlineStore").TryGetProperty("sameAs", out _));
     }
 
     [Fact]
@@ -206,6 +252,11 @@ public partial class SeoTests
         Assert.Contains($"<loc>{Base}/</loc>", sitemap);
         Assert.DoesNotContain("draft", sitemap);
         Assert.DoesNotContain("no-cover", sitemap);
+
+        // UTC 晚上 8 點以後，在台灣已經是隔天
+        site.Seed(Product("late", updatedAt: new DateTime(2026, 10, 8, 16, 30, 0, DateTimeKind.Utc)));
+        ProductFiles.Folder(site.ProductsPath, "late", "cover.jpg");
+        Assert.Contains("<lastmod>2026-10-09</lastmod>", await client.GetStringAsync("/sitemap.xml"));
 
         var robots = await client.GetStringAsync("/robots.txt");
         Assert.Contains("Disallow: /admin", robots);

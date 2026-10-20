@@ -28,8 +28,14 @@ public class Product
 
     public string? StoryHtml { get; init; }
 
-    /// <summary>最後修改時間（UTC），sitemap 用。</summary>
+    /// <summary>最後修改時間（UTC）。</summary>
     public DateTime UpdatedAt { get; init; }
+
+    /// <summary>
+    /// 最後修改的日期（台灣時間；台灣沒有日光節約時間，固定 UTC+8）。
+    /// 商品頁與首頁的更新日期、sitemap 的 lastmod 都用它，三處不會差一天。
+    /// </summary>
+    public DateOnly UpdatedOn => DateOnly.FromDateTime(UpdatedAt.AddHours(8));
 
     /// <summary>作品卡片滑鼠移上去時換上的照片（第一張 gallery）。</summary>
     public string? HoverImagePath => GalleryImagePaths.Count > 0 ? GalleryImagePaths[0] : null;

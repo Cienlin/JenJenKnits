@@ -14,13 +14,17 @@ public class IndexModel : PageModel
     private readonly IProductCatalog _catalog;
     private readonly SiteOptions _site;
 
-    public IndexModel(IProductCatalog catalog, IOptions<SiteOptions> site)
+    public IndexModel(IProductCatalog catalog, IOptions<SiteOptions> site, SiteFaq faq)
     {
         _catalog = catalog;
         _site = site.Value;
+        Faq = faq.Items;
     }
 
     public IReadOnlyList<Product> Featured { get; private set; } = [];
+
+    /// <summary>沒有題目時，首頁不顯示常見問題章節，也不輸出 FAQPage。</summary>
+    public IReadOnlyList<FaqItem> Faq { get; }
 
     /// <summary>至少一件商品有賣貨便連結 = 已開賣。</summary>
     public bool IsOnSale { get; private set; }

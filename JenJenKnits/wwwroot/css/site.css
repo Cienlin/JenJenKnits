@@ -866,6 +866,56 @@ figcaption {
   }
 }
 
+/* ---------- 首頁：常見問題 ---------- */
+
+/* 雜誌的問答欄：手機上題號、題目、答案由上往下排；桌機題目在左、答案在右 */
+.faq {
+  padding: 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  list-style: none;
+}
+
+.faq li {
+  padding-block: 1.4rem;
+}
+
+.faq li + li {
+  border-top: 1px solid var(--hair);
+}
+
+.faq-no {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--blue);
+}
+
+.faq h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 900;
+  line-height: 1.5;
+}
+
+.faq p {
+  max-width: 40em;
+}
+
+@media (min-width: 52rem) {
+  .faq li {
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 2fr) minmax(0, 3fr);
+    column-gap: clamp(1rem, 3vw, 3rem);
+    align-items: baseline;
+    padding-block: 1.8rem;
+  }
+
+  .faq-no,
+  .faq h3 {
+    margin-bottom: 0;
+  }
+}
+
 /* ---------- 作品列表 ---------- */
 
 .page {

@@ -83,6 +83,7 @@ public partial class SeoTests
 
         var organization = GraphNode(JsonLd(home), "Organization");
         Assert.Equal("織物製造所", organization.GetProperty("name").GetString());
+        Assert.Equal("JH Craft Studio", organization.GetProperty("alternateName").GetString());
         Assert.Equal("https://www.instagram.com/example/", organization.GetProperty("sameAs")[0].GetString());
 
         var website = GraphNode(JsonLd(home), "WebSite");
@@ -90,6 +91,57 @@ public partial class SeoTests
         Assert.Equal("JH Craft Studio", website.GetProperty("alternateName").GetString());
         Assert.Equal(Canonical(home), website.GetProperty("url").GetString());
         Assert.Equal(organization.GetProperty("@id").GetString(), website.GetProperty("publisher").GetProperty("@id").GetString());
+    }
+
+    [Fact]
+    public async Task Home_has_faq_data_in_page_order()
+    {
+        using var site = new SiteFactory();
+        site.UseFaq(
+            new FaqItem("可以自己挑顏色嗎？", "可以，從色卡挑。"),
+            new FaqItem("怎麼清洗？", "冷水手洗 </script> 不要擰乾。"));
+        var home = await site.Client().GetStringAsync("/");
+
+        var faq = GraphNode(JsonLd(home), "FAQPage");
+        Assert.Equal($"{Base}/#faq", faq.GetProperty("@id").GetString());
+        var questions = faq.GetProperty("mainEntity").EnumerateArray().ToList();
+        Assert.Equal(2, questions.Count);
+        Assert.All(questions, question => Assert.Equal("Question", question.GetProperty("@type").GetString()));
+        Assert.Equal("可以自己挑顏色嗎？", questions[0].GetProperty("name").GetString());
+        Assert.Equal("怎麼清洗？", questions[1].GetProperty("name").GetString());
+
+        var answer = questions[1].GetProperty("acceptedAnswer");
+        Assert.Equal("Answer", answer.GetProperty("@type").GetString());
+        Assert.Equal("冷水手洗 </script> 不要擰乾。", answer.GetProperty("text").GetString());
+    }
+
+    [Fact]
+    public async Task Home_without_faq_has_no_faq_data()
+    {
+        using var site = new SiteFactory();
+        site.UseFaq();
+        var home = await site.Client().GetStringAsync("/");
+
+        var graph = JsonLd(home).GetProperty("@graph").EnumerateArray().ToList();
+        Assert.All(graph, node => Assert.Equal(JsonValueKind.Object, node.ValueKind));
+        Assert.DoesNotContain(graph, node => node.GetProperty("@type").GetString() == "FAQPage");
+    }
+
+    [Fact]
+    public async Task Home_title_and_description_say_what_the_shop_sells()
+    {
+        using var site = new SiteFactory();
+        var home = await site.Client().GetStringAsync("/");
+
+        var title = PageTitle().Match(home).Groups[1].Value;
+        Assert.StartsWith("織物製造所｜", title);
+        Assert.Contains("水壺提網", title);
+        Assert.Equal(title, Meta(home, "og:title"));
+
+        var description = Meta(home, "description");
+        Assert.Contains("JH Craft Studio", description);
+        Assert.Contains($"{YarnPalette.Colors.Count} 色", description);
+        Assert.Equal(description, Meta(home, "og:description"));
     }
 
     [Fact]
@@ -136,6 +188,9 @@ public partial class SeoTests
         Assert.Contains("Disallow: /admin", robots);
         Assert.Contains($"Sitemap: {Base}/sitemap.xml", robots);
     }
+
+    [GeneratedRegex("<title>([^<]*)</title>")]
+    private static partial Regex PageTitle();
 
     [GeneratedRegex("<link rel=\"canonical\" href=\"([^\"]*)\"")]
     private static partial Regex CanonicalLink();

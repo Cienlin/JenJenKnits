@@ -87,6 +87,7 @@ builder.Services.AddSingleton(new ProductFolders(
     builder.Configuration["Catalog:ProductsPath"] ?? Path.Combine(builder.Environment.WebRootPath, "products")));
 builder.Services.AddScoped<ProductImporter>();
 builder.Services.AddScoped<IProductCatalog, DbProductCatalog>();
+builder.Services.AddSingleton(SiteFaq.Default);
 
 var app = builder.Build();
 

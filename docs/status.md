@@ -16,14 +16,15 @@
 | SEO 網站名稱：首頁 WebSite 結構化資料（「織物製造所」／JH Craft Studio），Schema Markup Validator 0 錯誤 | `openspec/changes/archive/2026-10-16-add-site-name` |
 
 - 目前規格：`openspec/specs/product-showcase`、`openspec/specs/product-admin`
-- 26 個自動化測試（`dotnet test`）
+- 31 個自動化測試（`dotnet test`）
 - 只用 `main` 分支；`gh-pages` 由 `tools/export-static.mjs` 產生，不要手改
 - 官網：https://jhcraftstudio.com （GitHub Pages 靜態輸出；改內容後要重新輸出才會更新，步驟見 README）
 
 ## 進行中
 
 **AEO：首頁常見問題＋品牌別名**（`openspec/changes/add-faq`，2026-10-19 開）
-- proposal、design、specs、tasks 已寫好，還沒實作；**（建議下一步）`/opsx:apply add-faq`，medium effort**
+- 2026-10-20 已完成程式（tasks 第 2～4 組，6/11）：品牌別名、首頁標題與描述、常見問題清單與 FAQPage、首頁「03 常見問題」章節與樣式（390px、1280px 實測過）。清單目前是空的，首頁不會顯示章節；31 個測試通過
+- **剩下**：把 D6 訊息傳給貞貞（1.1）→ 收到答案後放進 `JenJenKnits/Models/SiteFaq.cs` 的 `Default`（5.1）→ 上線與檢查（5.2～5.4）。標題、描述與別名可以不等答案先部署
 - 程式可以先做，不用等貞貞的答案：題目清單先留空，首頁就不會出現常見問題章節；收到答案後再放進清單（tasks 第 5 組）
 - 2026-10-20 依外部檢查擴充：加第 5 題「可以丟洗衣機嗎」、第 6 題退換貨，並併入首頁標題與描述（design D7）
 

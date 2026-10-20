@@ -9,18 +9,31 @@
     // 也認得網站名稱，搜尋結果就能顯示「織物製造所」而不只是網址（WebSite 只能放首頁）
     var home = Model.Site.PageUrl("/");
     var organizationId = $"{home}#organization";
+    // 常見問題和頁面上的章節用同一份清單；沒有題目時不放這個節點
+    var faqPage = Model.Faq.Count == 0 ? null : new Dictionary<string, object?>
+    {
+        ["@type"] = "FAQPage",
+        ["@id"] = $"{home}#faq",
+        ["mainEntity"] = Model.Faq.Select(item => new Dictionary<string, object?>
+        {
+            ["@type"] = "Question",
+            ["name"] = item.Question,
+            ["acceptedAnswer"] = new Dictionary<string, object?> { ["@type"] = "Answer", ["text"] = item.Answer },
+        }).ToArray(),
+    };
     ViewData["Seo"] = new PageSeo
     {
         JsonLd = new Dictionary<string, object?>
         {
             ["@context"] = "https://schema.org",
-            ["@graph"] = new object[]
+            ["@graph"] = new object?[]
             {
                 new Dictionary<string, object?>
                 {
                     ["@type"] = "Organization",
                     ["@id"] = organizationId,
                     ["name"] = "織物製造所",
+                    ["alternateName"] = "JH Craft Studio",
                     ["url"] = home,
                     ["logo"] = Model.Site.Absolute("/images/brand-icon.svg"),
                     ["description"] = "手鉤織的日常小物，顏色可以客製。",
@@ -35,7 +48,8 @@
                     ["url"] = home,
                     ["publisher"] = new Dictionary<string, object?> { ["@id"] = organizationId },
                 },
-            },
+                faqPage,
+            }.OfType<object>().ToArray(), // 拿掉沒有的節點：PageSeo 不會拿掉陣列裡的 null
         },
     };
 }
@@ -58,6 +72,10 @@
             <ol>
                 <li><a href="#works"><span class="mono toc-no">01</span><span class="toc-title">作品</span><span class="toc-dots"></span><span class="toc-page">p.02</span></a></li>
                 <li><a href="#buy"><span class="mono toc-no">02</span><span class="toc-title">購買方式</span><span class="toc-dots"></span><span class="toc-page">p.08</span></a></li>
+                @if (Model.Faq.Count > 0)
+                {
+                    <li><a href="#faq"><span class="mono toc-no">03</span><span class="toc-title">常見問題</span><span class="toc-dots"></span><span class="toc-page">p.10</span></a></li>
+                }
             </ol>
         </nav>
     </div>
@@ -171,3 +189,26 @@
         <li><b>三</b><h3>門市取貨</h3><p>到 7-11 門市取貨。</p></li>
     </ol>
 </section>
+
+@* 全部展開不收合，像雜誌的問答欄；題目與答案和 FAQPage 結構化資料是同一份 *@
+@if (Model.Faq.Count > 0)
+{
+    <section class="wrap chapter" id="faq" aria-labelledby="faq-title">
+        <div class="sec-head">
+            <span class="sec-no">03</span>
+            <h2 id="faq-title">常見問題</h2>
+            <span class="sec-en">FAQ</span>
+        </div>
+
+        <ol class="faq">
+            @for (var i = 0; i < Model.Faq.Count; i++)
+            {
+                <li>
+                    <span class="mono faq-no">Q.@((i + 1).ToString("00"))</span>
+                    <h3>@Model.Faq[i].Question</h3>
+                    <p>@Model.Faq[i].Answer</p>
+                </li>
+            }
+        </ol>
+    </section>
+}

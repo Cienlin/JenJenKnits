@@ -14,6 +14,7 @@
 | 官網改用自己的網域 `jhcraftstudio.com`（GitHub Pages、HTTPS、舊網址與 www 自動轉址） | `openspec/changes/archive/2026-10-16-use-custom-domain` |
 | 後台列表顯示「待補：」，提醒還沒填的欄位 | commit `ebbb462` |
 | SEO 網站名稱：首頁 WebSite 結構化資料（「織物製造所」／JH Craft Studio），Schema Markup Validator 0 錯誤 | `openspec/changes/archive/2026-10-16-add-site-name` |
+| AEO：首頁「03 常見問題」6 題＋FAQPage、品牌別名 JH Craft Studio、首頁標題與描述（2026-10-20 上線） | `openspec/changes/add-faq` |
 
 - 目前規格：`openspec/specs/product-showcase`、`openspec/specs/product-admin`
 - 31 個自動化測試（`dotnet test`）
@@ -22,11 +23,8 @@
 
 ## 進行中
 
-**AEO：首頁常見問題＋品牌別名**（`openspec/changes/add-faq`，2026-10-19 開）
-- 2026-10-20 已完成程式（tasks 第 2～4 組，6/11）：品牌別名、首頁標題與描述、常見問題清單與 FAQPage、首頁「03 常見問題」章節與樣式（390px、1280px 實測過）。清單目前是空的，首頁不會顯示章節；31 個測試通過
-- **剩下**：把 D6 訊息傳給貞貞（1.1）→ 收到答案後放進 `JenJenKnits/Models/SiteFaq.cs` 的 `Default`（5.1）→ 上線與檢查（5.2～5.4）。標題、描述與別名已在 2026-10-20 先部署上線（`f6a6c6a`），線上確認過；可以順手在 Search Console 與 Bing Webmaster Tools 對首頁重新要求建立索引，FAQ 上線後再要求一次
-- 程式可以先做，不用等貞貞的答案：題目清單先留空，首頁就不會出現常見問題章節；收到答案後再放進清單（tasks 第 5 組）
-- 2026-10-20 依外部檢查擴充：加第 5 題「可以丟洗衣機嗎」、第 6 題退換貨，並併入首頁標題與描述（design D7）
+**AEO：首頁常見問題**（`openspec/changes/add-faq`）：程式與 6 題答案都已上線（2026-10-20），只剩 tasks 5.4（Search Console、Bing 對首頁要求建立索引，要你自己操作），做完就可以 `/opsx:archive add-faq`
+- 題目在 `JenJenKnits/Models/SiteFaq.cs`，頁面與 FAQPage 共用；改答案要改這裡、跑測試、重新部署
 
 **第三階段：部署＋CI/CD**
 - 官網先用 GitHub Pages＋自己的網域（2026-10-16 已完成）；後台仍只在本機使用
@@ -43,7 +41,11 @@
 ## 不用寫程式的待辦
 
 - 跟貞貞收集泡芙小花提網的尺寸、各商品的賣貨便連結，到後台補上
-- 把 `openspec/changes/add-faq/design.md` D6 的訊息（可直接貼到 LINE）傳給貞貞，確認常見問題的答案並填數字；第 5 題保養方式是依棉線的一般做法寫的，要特別確認；第 6 題退換貨要先確認「每件都接單後才做、沒有現貨」。同一則訊息也問品牌故事與聯絡方式（2026-10-20 更新過訊息，還沒傳的話傳新版）
+- 問貞貞品牌故事與聯絡方式（要問的題目在 `openspec/changes/add-faq/design.md` D6 的 LINE 訊息最後一段），給之後的「品牌故事＋聯絡方式」change 用
+- Search Console 與 Bing Webmaster Tools 對首頁要求建立索引（常見問題 2026-10-20 上線），之後可以用 ultralab.tw 重新掃首頁，看 AEO 分數（上次 46）
+- 開賣（第一件商品填上賣貨便連結）時，改常見問題第 4 題「賣場開賣前，可以私訊 Instagram 訂購」
+- 商品類型改變時（例如網格托特包重新上架），改首頁標題與描述（`_Layout.cshtml`，add-faq D7）
+- 約 2026-11-10（上線 2～3 週後）：看 Search Console「成效 → 查詢」大家實際搜什麼字，再決定標題要不要調整
 - （暫緩）網格托特包的價格、材質、尺寸、賣貨便連結：2026-10-16 先從前台下架，目前不是主力
 - 一週後（約 2026-10-23）在 Google 搜尋 `site:jhcraftstudio.com`，或看 Search Console 的「網頁」報表，確認已收錄（2026-10-16 已用「網域」類型登錄 Search Console、提交 sitemap，並對首頁與兩件商品頁要求建立索引）。順便看搜尋結果是否顯示網站名稱「織物製造所」（2026-10-16 上線，生效需幾天到幾週，Google 不保證採用）。Bing 也一起看：搜尋 `site:jhcraftstudio.com` 或在 Bing Webmaster Tools 重做 URL Inspection
 - Namecheap：15 天內（2026-10-31 前）點 ICANN 驗證信（2026-10-16 購買）、帳號開兩步驟驗證、確認網域自動續約已開

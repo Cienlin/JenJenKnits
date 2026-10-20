@@ -9,9 +9,10 @@
     var site = SiteOptions.Value;
     var seo = ViewData["Seo"] as PageSeo ?? new PageSeo();
     // 沒有設定標題的是首頁：品牌在前，再寫賣什麼；商品類型改變時要一起改（add-faq design D7）
-    var pageTitle = ViewData["Title"] is string title ? $"{title}｜織物製造所" : "織物製造所｜手鉤織水壺提網、杯墊，顏色可客製";
+    // 商品類型的叫法和分類一致（飲料提網、杯墊）；能裝哪些容器寫在描述裡
+    var pageTitle = ViewData["Title"] is string title ? $"{title}｜織物製造所" : "織物製造所｜手鉤織飲料提網、杯墊，顏色可客製";
     var description = ViewData["Description"] as string
-        ?? $"織物製造所（JH Craft Studio）的手鉤織日常小物：水壺提網、杯墊，從 {YarnPalette.Colors.Count} 色棉線挑選喜歡的顏色，提網還能在網頁上先模擬配色。";
+        ?? $"織物製造所（JH Craft Studio）的手鉤織日常小物：飲料提網、杯墊，可以從 {YarnPalette.Colors.Count} 色棉線挑顏色。飲料提網裝得下水壺、保溫杯和咖啡杯，還能先在網頁上模擬配色。";
     var canonical = site.PageUrl(seo.CanonicalPath ?? path);
 }
 @inject Microsoft.Extensions.Options.IOptions<SiteOptions> SiteOptions

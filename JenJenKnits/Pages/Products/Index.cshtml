@@ -1,8 +1,13 @@
 @page
 @model JenJenKnits.Pages.Products.IndexModel
 @{
-    ViewData["Title"] = string.IsNullOrEmpty(Model.Category) ? "作品" : $"{Model.Category}｜作品";
-    ViewData["Description"] = "織物製造所的全部作品：手鉤織的提網、提袋等日常小物，部分作品可以從 22 色線材挑選顏色。";
+    // 標題與描述列出目前有的分類，商品上下架時自動跟著變
+    var types = string.Join("、", Model.Categories);
+    ViewData["Title"] = !string.IsNullOrEmpty(Model.Category) ? $"{Model.Category}｜作品"
+        : types.Length > 0 ? $"作品：手鉤織{types}" : "作品";
+    ViewData["Description"] = types.Length > 0
+        ? $"織物製造所的全部作品：手鉤織的{types}等日常小物，每件都可以從 {YarnPalette.Colors.Count} 色線材挑選顏色。"
+        : "織物製造所的全部作品：手鉤織的日常小物。";
     // 分類篩選是 /products 的子集，canonical 指回主列表
     ViewData["Seo"] = new PageSeo { CanonicalPath = "/products" };
 }

@@ -94,6 +94,18 @@ public partial class SeoTests
     }
 
     [Fact]
+    public async Task Product_list_title_and_description_name_the_categories()
+    {
+        using var site = new SiteFactory();
+        ProductFiles.Folder(site.ProductsPath, "puff", "cover.jpg");
+        site.Seed(Product("puff"));
+        var list = await site.Client().GetStringAsync("/products");
+
+        Assert.Equal("作品：手鉤織飲料提網｜織物製造所", PageTitle().Match(list).Groups[1].Value);
+        Assert.Contains("手鉤織的飲料提網等日常小物", Meta(list, "description"));
+    }
+
+    [Fact]
     public async Task Home_cover_link_has_alt_text()
     {
         using var site = new SiteFactory();
@@ -146,7 +158,7 @@ public partial class SeoTests
 
         var title = PageTitle().Match(home).Groups[1].Value;
         Assert.StartsWith("織物製造所｜", title);
-        Assert.Contains("水壺提網", title);
+        Assert.Contains("飲料提網", title);
         Assert.Equal(title, Meta(home, "og:title"));
 
         var description = Meta(home, "description");

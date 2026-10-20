@@ -23,5 +23,5 @@
 
 - [x] 5.1 把 1.1 確認過的答案依 D6 的順序放進預設清單；`dotnet run` 後首頁看得到章節，頁面文字與 JSON-LD 的答案一字不差
 - [x] 5.2 `docs/status.md`：「之後」移除 AEO 這項、「已完成」加上這次的 change；待辦加「開賣（填上賣貨便連結）時改常見問題第 4 題」「商品類型改變時改首頁標題與描述」「上線 2～3 週後看 Search Console 的查詢字詞」
-- [ ] 5.3 commit、push，執行 `bash tools/deploy-pages.sh`；用 Schema Markup Validator（validator.schema.org）檢查 `https://jhcraftstudio.com/`，Organization（含別名）、WebSite、FAQPage 都被讀到、沒有錯誤；再用 ultralab.tw 重新掃一次首頁，記下 AEO 分數的變化
+- [x] 5.3 commit、push，執行 `bash tools/deploy-pages.sh`；用 Schema Markup Validator（validator.schema.org）檢查 `https://jhcraftstudio.com/`，Organization（含別名）、WebSite、FAQPage 都被讀到、沒有錯誤；再用 ultralab.tw 重新掃一次首頁，記下 AEO 分數的變化（2026-10-20：部署 `f842c28`，Validator 讀到 WebSite、Organization（含別名）、FAQPage 6 題，0 錯誤；ultralab 重掃留給使用者，記在 `docs/status.md` 待辦）
 - [ ] 5.4 Search Console 與 Bing Webmaster Tools 對首頁重新要求建立索引；`docs/status.md` 記下日期

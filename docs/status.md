@@ -23,7 +23,7 @@
 
 ## 進行中
 
-**AEO：首頁常見問題**（`openspec/changes/add-faq`）：程式與 6 題答案都已上線（2026-10-20），只剩 tasks 5.4（Search Console、Bing 對首頁要求建立索引，要你自己操作），做完就可以 `/opsx:archive add-faq`
+**AEO：首頁常見問題**（`openspec/changes/add-faq`）：程式與 6 題答案都已上線（2026-10-20，`f842c28`；Schema Markup Validator 讀到 Organization（含別名）、WebSite、FAQPage，0 錯誤），只剩 tasks 5.4（Search Console、Bing 對首頁要求建立索引，要你自己操作），做完就可以 `/opsx:archive add-faq`
 - 題目在 `JenJenKnits/Models/SiteFaq.cs`，頁面與 FAQPage 共用；改答案要改這裡、跑測試、重新部署
 
 **第三階段：部署＋CI/CD**

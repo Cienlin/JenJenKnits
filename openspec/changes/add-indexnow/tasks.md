@@ -16,6 +16,6 @@
 
 ## 4. 上線與確認
 
-- [ ] 4.1 真正部署：線上 `https://jhcraftstudio.com/{金鑰}.txt` 回 200 且內容是金鑰；IndexNow 回 200 或 202，送出的網址和 2.2 預覽的一樣
-- [ ] 4.2 不改內容再部署一次，確認顯示「沒有內容變動」，沒有送出
-- [ ] 4.3 `docs/status.md`：「已完成」加上這個 change、「之後」移除 IndexNow；待辦加「幾天後到 Bing Webmaster Tools 的 IndexNow 頁面確認收到網址」
+- [x] 4.1 真正部署：線上 `https://jhcraftstudio.com/{金鑰}.txt` 回 200 且內容是金鑰；IndexNow 回 200 或 202，送出的網址和 2.2 預覽的一樣（2026-10-20：和 add-page-dates-author 一起部署 `2266872`，金鑰檔 200 且內容正確，4 個網址回 HTTP 202）
+- [x] 4.2 不改內容再部署一次，確認顯示「沒有內容變動」，沒有送出（2026-10-20 確認）
+- [x] 4.3 `docs/status.md`：「已完成」加上這個 change、「之後」移除 IndexNow；待辦加「幾天後到 Bing Webmaster Tools 的 IndexNow 頁面確認收到網址」

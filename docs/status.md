@@ -14,16 +14,18 @@
 | 官網改用自己的網域 `jhcraftstudio.com`（GitHub Pages、HTTPS、舊網址與 www 自動轉址） | `openspec/changes/archive/2026-10-16-use-custom-domain` |
 | 後台列表顯示「待補：」，提醒還沒填的欄位 | commit `ebbb462` |
 | SEO 網站名稱：首頁 WebSite 結構化資料（「織物製造所」／JH Craft Studio），Schema Markup Validator 0 錯誤 | `openspec/changes/archive/2026-10-16-add-site-name` |
+| IndexNow：`deploy-pages.sh` 部署後自動通知 Bing 有變動的網址（只送 sitemap 裡內容真的變了的；`--dry-run` 預覽；金鑰 `tools/indexnow-key.txt`，公開的） | `openspec/changes/add-indexnow`（2026-10-20 上線，第一次回 202） |
+| 結構化資料：品牌改 OnlineStore、首頁 WebPage＋FAQPage、商品頁 ItemPage；作者 meta 與 author；頁尾版權頁顯示更新日期（dateModified，台灣時間） | `openspec/changes/add-page-dates-author`（2026-10-20 上線，Validator 0 錯誤） |
 | AEO：首頁「03 常見問題」6 題＋FAQPage、品牌別名 JH Craft Studio、首頁標題與描述（2026-10-20 上線，`f842c28`；Schema Markup Validator 0 錯誤） | `openspec/changes/archive/2026-10-20-add-faq` |
 
 - 目前規格：`openspec/specs/product-showcase`、`openspec/specs/product-admin`
-- 33 個自動化測試（`dotnet test`）
+- 35 個自動化測試（`dotnet test`）＋ IndexNow 腳本 11 個（`node --test tools/indexnow.test.mjs`）
 - 只用 `main` 分支；`gh-pages` 由 `tools/export-static.mjs` 產生，不要手改
 - 官網：https://jhcraftstudio.com （GitHub Pages 靜態輸出；改內容後要重新輸出才會更新，步驟見 README）
 
 ## 進行中
 
-**IndexNow**（`openspec/changes/add-indexnow`，2026-10-20 開）：proposal、design、tasks 已寫好，還沒實作；下一步 `/opsx:apply add-indexnow`，medium effort。部署時自動通知 Bing 哪些網址新增、更新、刪除
+**IndexNow**（`openspec/changes/add-indexnow`）與**頁面作者與更新日期**（`openspec/changes/add-page-dates-author`）：2026-10-20 都已上線、任務全部完成，等歸檔（`/opsx:archive`）
 
 **第三階段：部署＋CI/CD**
 - 官網先用 GitHub Pages＋自己的網域（2026-10-16 已完成）；後台仍只在本機使用
@@ -31,7 +33,6 @@
 
 ## 之後
 
-- **IndexNow**（另開 change，medium effort；Bing 指南提到 4 次，是對照後最主要的缺口）：根目錄放金鑰檔，`deploy-pages.sh` 部署後把有變動的網址送給 IndexNow（Bing、Yandex 等；Google 不用）。順便考慮首頁與作品列表在 sitemap 沒有 lastmod 的問題
 - GitHub Actions：push 後自動測試、輸出並部署 GitHub Pages，取代手動 `tools/deploy-pages.sh`（另開 change）
 - **品牌故事＋聯絡方式**（另開 change，等貞貞的素材）：品牌故事、聯絡方式（IG 之外要不要放 LINE／Email；Email 用 Namecheap 免費轉寄）、頁尾加版權聲明。注意：2026-10-05 編織誌改版時移除了首頁的「關於」區塊，規格寫著「首頁不顯示品牌故事」，要一起改；放首頁章節還是獨立頁面到時再決定
 - 商品頁加麵包屑的結構化資料（BreadcrumbList），畫面上已經有麵包屑
@@ -42,7 +43,8 @@
 
 - 跟貞貞收集泡芙小花提網的尺寸、各商品的賣貨便連結，到後台補上
 - 問貞貞品牌故事與聯絡方式（要問的題目在 `openspec/changes/archive/2026-10-20-add-faq/design.md` D6 的 LINE 訊息最後一段），給之後的「品牌故事＋聯絡方式」change 用
-- （選擇性）用 ultralab.tw 重新掃首頁，看 AEO 分數（上次 46）。常見問題上線後，Search Console 與 Bing 已在 2026-10-20 對首頁要求建立索引
+- 用 ultralab.tw 重新掃首頁，看 AEO 分數（上次 46），特別是 2026-10-20 修的「Content type schema」「Author information」「Publication date」三項；結果記在這裡。內容類型若仍未通過，不為了分數加 Article 等不準確的類型（見「已討論過的決定」）
+- 幾天後到 Bing Webmaster Tools 左邊選單的「IndexNow」頁面，確認收到 2026-10-20 送出的 4 個網址（第一次回 202 是金鑰驗證中）
 - 開賣（第一件商品填上賣貨便連結）時，改常見問題第 4 題「賣場開賣前，可以私訊 Instagram 訂購」
 - 商品類型改變時（例如網格托特包重新上架），改首頁標題與描述（`_Layout.cshtml`，add-faq D7）；作品列表的標題與描述會自動列出目前的分類，不用改
 - 約 2026-11-10（上線 2～3 週後）：看 Search Console「成效 → 查詢」大家實際搜什麼字，再決定標題要不要調整（商品叫法已在 2026-10-20 統一為「飲料提網」，見「已討論過的決定」）
@@ -70,6 +72,7 @@
   - 工具建議的長度（標題 30～60、描述 120～160 字元）是照英文算的，中文控制在標題約 25 字、描述 70～80 字；「多點一次流失 20%」這類數字沒有出處，參考就好
 - **Bing 網站管理員指南對照**（2026-10-20，https://www.bing.com/webmasters/help/webmaster-guidelines-30fba23a ；網頁是前端產生的，全文在 `https://www.bing.com/webmasters/api/help/htmlcontent?ArticleId=30fba23a`）：伺服器產生的 HTML、robots、sitemap 只列正式網址、下架商品回 404、canonical 與 301、沒有 noindex／nosnippet／noarchive、結構化資料與畫面一致、GitHub Pages 有 ETag，都已符合；禁止事項都沒有。要做的：IndexNow（見「之後」）、商品叫法統一（見待辦）、首頁封面照片連結補 alt（2026-10-20 已改）。
 - **商品叫法統一為「飲料提網」**（2026-10-20，Bing 指南第 16 點）：原本首頁標題寫「水壺提網」、分類是「飲料提網」、常見問題寫「水壺或杯子」。選「飲料提網」是因為分類本來就是它，也涵蓋常見問題寫的寶特瓶、咖啡杯、保溫杯；首頁描述另外寫出「裝得下水壺、保溫杯和咖啡杯」，搜尋「水壺」還是對得上。作品列表標題改為「作品：手鉤織飲料提網、杯墊」（第 13 點：標題太短），由目前的分類自動產生。照片檔名與 alt 描述性（第 12 點）跟照片管理一起做
+- **ultralab 的內容類型、作者、日期三項**（2026-10-20，`add-page-dates-author`）：只標準確的資訊。品牌用 OnlineStore（沒有實體店面，不用 Store／LocalBusiness），頁面用 WebPage／FAQPage／ItemPage；不加 Article、ProfessionalService（不符合事實，Bing 禁止誤導性結構化資料）。作者是品牌。只有更新日期（dateModified），沒有發布日期（資料庫沒有建立時間）；日期一定顯示在頁尾，和結構化資料一致。首頁版型文字改了不會更新日期（沒有可靠來源）
 - **主機**：台灣的「虛擬主機」（PChome 等）多為 PHP／WordPress 共用主機、年約、無法 CI/CD，不適合；網域與主機分開買
 - **官網先用 GitHub Pages，Azure 延後**（2026-10-16）：客源與 IG 還在起步，先不付主機費（Azure 約 6,000 元／年，GitHub Pages 只有網域費約 490 元／年）。上 Azure 時選 Linux：本專案是 ASP.NET Core，跨平台；Windows B1 貴約 4 倍。細節見 `openspec/changes/add-deployment/design.md`
 - **網域**（2026-10-16）：`jhcraftstudio.com` 在 Namecheap 購買，登記在個人名下（沒勾「代表公司」），有免費 Domain Privacy，DNS 用 BasicDNS。Namecheap 推銷的主機、SSL、PremiumDNS、信箱都不需要；要品牌信箱時用免費的信件轉寄
@@ -88,5 +91,6 @@
 - 每台電腦要各自用 `dotnet run -- hash-password` + `dotnet user-secrets` 設定管理員帳號
 - 網站執行中時 `dotnet build` / `dotnet test` 會因為 exe 被鎖住失敗，先關掉網站
 - Namecheap DNS 的兩筆 TXT 不能刪：`_github-pages-challenge-cienlin`（GitHub 網域驗證）、`@` 的 `google-site-verification=...`（Search Console 驗證）
+- 改常見問題：改 `JenJenKnits/Models/SiteFaq.cs` 的題目，並把 `UpdatedOn` 改成當天（首頁的更新日期看它），`dotnet test` 後部署
 - `bash tools/deploy-pages.sh` 會直接更新正式官網 `https://jhcraftstudio.com`。自訂網域靠輸出裡的 `CNAME` 檔（由 `Site:BaseUrl` 產生）維持，不要在 GitHub repo Settings → Pages 手動改 Custom domain
 - 偏好：繁體中文回答；UI 要用手機實際操作檢查（390px）；前台維持編織誌風格

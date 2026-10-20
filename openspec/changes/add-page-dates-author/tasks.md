@@ -13,5 +13,5 @@
 ## 3. 畫面與上線
 
 - [x] 3.1 390px 手機看首頁與商品頁的頁尾：更新日期這一列和其他列對齊、沒有水平捲軸；桌機 1280px 看一次
-- [ ] 3.2 和 `add-indexnow` 一起部署（部署前先 `--dry-run` 給使用者看會通知哪些網址）；Schema Markup Validator 檢查首頁與泡芙小花提網商品頁 0 錯誤，OnlineStore、WebPage／FAQPage、ItemPage、Product 都讀得到；請使用者用 ultralab 重掃首頁，結果記在 `docs/status.md`
-- [ ] 3.3 `docs/status.md`：「已完成」加這個 change；改常見問題的流程補上「一起改 `SiteFaq.UpdatedOn`」
+- [x] 3.2 和 `add-indexnow` 一起部署（部署前先 `--dry-run` 給使用者看會通知哪些網址）；Schema Markup Validator 檢查首頁與泡芙小花提網商品頁 0 錯誤，OnlineStore、WebPage／FAQPage、ItemPage、Product 都讀得到；請使用者用 ultralab 重掃首頁，結果記在 `docs/status.md`（2026-10-20：部署 `2266872`，線上 Validator 首頁與商品頁 0 錯誤；ultralab 重掃留給使用者，記在 `docs/status.md` 待辦）
+- [x] 3.3 `docs/status.md`：「已完成」加這個 change；改常見問題的流程補上「一起改 `SiteFaq.UpdatedOn`」

@@ -1,25 +1,55 @@
 @page
 @model JenJenKnits.Pages.Admin.CreateModel
+@using Microsoft.Extensions.Options
+@inject IOptions<SiteOptions> Site
 @{
     ViewData["Title"] = "新增商品";
+    ViewData["AdminSection"] = "create";
+    // 網址預覽：去掉 https://，例如 jhcraftstudio.com/products/
+    var productsUrl = System.Text.RegularExpressions.Regex.Replace(Site.Value.BaseUrl.TrimEnd('/'), "^https?://", "") + "/products/";
 }
 
-<div class="admin-head">
-    <h1>新增商品</h1>
-</div>
+<div class="admin-narrow admin-create">
+    <a class="admin-back" asp-page="/Admin/Index">← 商品</a>
 
-<form method="post" class="admin-form admin-form-narrow">
-    <label>
-        <span>名稱</span>
-        <input asp-for="Input.Name" required />
-        <span asp-validation-for="Input.Name" class="field-error"></span>
-    </label>
-    <label>
-        <span>網址代稱（slug）</span>
-        <input asp-for="Input.Slug" required pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="例如 puff-flower-net" autocapitalize="off" spellcheck="false" />
-        <small class="hint">會變成網址 /products/代稱，也是照片資料夾的名稱；建立後不能修改。</small>
-        <span asp-validation-for="Input.Slug" class="field-error"></span>
-    </label>
-    <p class="hint">新商品會先存成草稿，補完資料、放好照片後再發布。</p>
-    <button class="btn" type="submit">建立草稿</button>
-</form>
+    <div class="admin-head">
+        <h1>新增商品</h1>
+    </div>
+
+    <ol class="admin-steps" aria-label="上架步驟">
+        <li aria-current="step">
+            <span class="step-no">1</span>
+            <span><strong>建立草稿</strong>名稱和網址代稱</span>
+        </li>
+        <li>
+            <span class="step-no">2</span>
+            <span><strong>放照片</strong>放進以代稱命名的資料夾</span>
+        </li>
+        <li>
+            <span class="step-no">3</span>
+            <span><strong>補資料、發布</strong>在編輯頁完成</span>
+        </li>
+    </ol>
+
+    <form method="post" class="admin-card admin-create">
+        <div class="field">
+            <label class="field-label" asp-for="Input.Name">名稱</label>
+            <input asp-for="Input.Name" required placeholder="例如 泡芙小花提網" />
+            <span asp-validation-for="Input.Name" class="field-error"></span>
+        </div>
+
+        <div class="field">
+            <label class="field-label" asp-for="Input.Slug">網址代稱</label>
+            <input asp-for="Input.Slug" required pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="例如 puff-flower-net" autocapitalize="off" spellcheck="false" aria-describedby="slug-hint" data-slug-input />
+            <p class="url-preview"><span class="label">網址會是</span><span class="code">@productsUrl<span data-slug-preview>代稱</span></span></p>
+            <small id="slug-hint" class="hint">只能用小寫英文字母、數字，中間用 - 連接。網址和照片資料夾（wwwroot/products/代稱/）都用它，建立後不能修改。</small>
+            <span asp-validation-for="Input.Slug" class="field-error"></span>
+        </div>
+
+        <div class="form-actions">
+            <button class="admin-btn" type="submit">建立草稿</button>
+            <a class="admin-link" asp-page="/Admin/Index">取消</a>
+        </div>
+        <p class="hint">建立後會直接進到編輯頁。草稿只在後台看得到，資料補好、照片放好再發布。</p>
+    </form>
+</div>

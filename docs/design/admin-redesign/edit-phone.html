@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>後台：編輯商品（手機）（樣稿）</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&amp;family=Noto+Sans+TC:wght@400;500;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f4f0e8;color:#16140f;font-family:"Noto Sans TC",system-ui,sans-serif}
+a{color:#16140f}a:hover{color:#1f3c8e}
+button,input,select,textarea{font:inherit;color:inherit}
+input::placeholder,textarea::placeholder{color:#7a7366}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #1f3c8e;outline-offset:2px}
+</style>
+<style>body{display:flex;justify-content:center;padding:24px 0;background:#d9d3c7}</style>
+</head>
+<body>
+<div style="width: 390px; min-height: 3200px; box-sizing: border-box; display: flex; flex-direction: column; background: #f4f0e8; color: #16140f; font-family: 'Noto Sans TC', system-ui, sans-serif; font-size: 16px; line-height: 1.6;">
+
+  <header style="border-bottom: 3px double #16140f; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; min-height: 52px;">
+    <a href="list-phone.html" style="display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; font-size: 15px;">← 商品</a>
+    <a href="https://jhcraftstudio.com/products/puff-flower-net/" style="display: inline-flex; align-items: center; min-height: 44px; font-size: 15px;">看前台 ↗</a>
+  </header>
+
+  <p style="margin: 0; display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: #f7e6cf; color: #7a420c; font-size: 13px; border-bottom: 1px solid #e8cfa9;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"></path><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"></path></svg>
+    資料 10-20 16:14 改過・記得 commit＋push
+  </p>
+
+  <main style="flex-grow: 1; padding: 20px 16px 32px; display: flex; flex-direction: column; gap: 16px;">
+
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;">
+      <h1 style="margin: 0; font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: 26px; line-height: 1.3; letter-spacing: 0.05em;">泡芙小花提網</h1>
+      <span style="display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; border-radius: 999px; background: #e4e9f5; color: #1f3c8e; font-size: 12px; font-weight: 500;"><span style="width: 6px; height: 6px; border-radius: 50%; background: #1f3c8e;"></span>已發布</span>
+    </div>
+
+    <div style="padding: 14px 16px; border: 1px solid #ddd7cb; border-radius: 10px; background: #fbf9f4; display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; align-items: baseline; justify-content: space-between;">
+        <span style="font-weight: 700; font-size: 15px;">資料完成度</span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">4 / 6</span>
+      </div>
+      <div style="height: 6px; border-radius: 999px; background: #ebe6dc; overflow: hidden;"><div style="width: 66.7%; height: 100%; background: #1f3c8e;"></div></div>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 14px;">
+        <span style="color: #7a420c;">待補：</span>
+        <a href="#m-dimensions" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; color: #7a420c;">尺寸</a>
+        <a href="#m-buy-url" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; color: #7a420c;">賣貨便連結</a>
+      </div>
+    </div>
+
+    <form style="display: flex; flex-direction: column; gap: 16px;">
+
+      <section aria-labelledby="m-basic" style="background: #fbf9f4; border: 1px solid #ddd7cb; border-radius: 10px; padding: 20px 16px; display: flex; flex-direction: column; gap: 18px;">
+        <h2 id="m-basic" style="margin: 0; display: flex; align-items: baseline; gap: 10px; font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 20px;"><span style="font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 12px; color: #1f3c8e;">01</span>基本資料</h2>
+        <label style="display: flex; flex-direction: column; gap: 6px;">
+          <span style="font-weight: 500; font-size: 15px;">名稱</span>
+          <input value="泡芙小花提網" style="min-height: 48px; padding: 8px 12px; box-sizing: border-box; border: 1px solid #8f887b; border-radius: 6px; background: #ffffff; font-size: 16px;">
+        </label>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label for="m-slug" style="font-weight: 500; font-size: 15px;">網址代稱</label>
+          <div style="display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 12px; box-sizing: border-box; border: 1px solid #ddd7cb; border-radius: 6px; background: #ebe6dc;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5e584e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+            <input id="m-slug" value="puff-flower-net" readonly="readonly" style="flex-grow: 1; min-width: 0; border: 0; background: transparent; font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: #4f4a41;">
+          </div>
+          <small style="color: #5e584e; font-size: 13px;">網址與照片資料夾都用它，建立後不能修改。</small>
+        </div>
+        <label style="display: flex; flex-direction: column; gap: 6px;">
+          <span style="font-weight: 500; font-size: 15px;">分類</span>
+          <input value="飲料提網" style="min-height: 48px; padding: 8px 12px; box-sizing: border-box; border: 1px solid #8f887b; border-radius: 6px; background: #ffffff; font-size: 16px;">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 6px;">
+          <span style="font-weight: 500; font-size: 15px;">簡介</span>
+          <textarea rows="4" style="padding: 10px 12px; box-sizing: border-box; border: 1px solid #8f887b; border-radius: 6px; background: #ffffff; font-size: 16px; line-height: 1.7; resize: vertical;">提著水壺出門，不用時收進花朵底座，扣上木釦就是一朵小花吊飾，掛在包包上隨身帶著走 ~</textarea>
+          <small style="color: #5e584e; font-size: 13px;">顯示在商品頁名稱下方與首頁。</small>
+        </label>
+      </section>
+
+      <section aria-labelledby="m-spec" style="background: #fbf9f4; border: 1px solid #ddd7cb; border-radius: 10px; padding: 20px 16px; display: flex; flex-direction: column; gap: 18px;">
+        <h2 id="m-spec" style="margin: 0; display: flex; align-items: baseline; gap: 10px; font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 20px;"><span style="font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 12px; color: #1f3c8e;">02</span>價格與規格</h2>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label for="m-price" style="font-weight: 500; font-size: 15px;">價格</label>
+          <div style="display: flex; align-items: center; min-height: 48px; box-sizing: border-box; border: 1px solid #8f887b; border-radius: 6px; background: #ffffff; overflow: hidden;">
+            <span style="align-self: stretch; display: flex; align-items: center; padding: 0 12px; background: #ebe6dc; border-right: 1px solid #ddd7cb; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #4f4a41;">NT$</span>
+            <input id="m-price" value="450" inputmode="numeric" style="flex-grow: 1; min-width: 0; padding: 8px 12px; border: 0; background: transparent; font-size: 16px;">
+          </div>
+        </div>
+        <label style="display: flex; flex-direction: column; gap: 6px;">
+          <span style="font-weight: 500; font-size: 15px;">材質</span>
+          <input value="100% 純棉（Excel 樂透棉）" style="min-height: 48px; padding: 8px 12px; box-sizing: border-box; border: 1px solid #8f887b; border-radius: 6px; background: #ffffff; font-size: 16px;">
+        </label>
+        <div id="m-dimensions" style="display: flex; flex-direction: column; gap: 6px;">
+          <label for="m-dim" style="display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: 15px;">尺寸 <span style="padding: 0 8px; border-radius: 999px; background: #f7e6cf; color: #7a420c; font-size: 12px;">待補</span></label>
+          <input id="m-dim" placeholder="例如 寬 12 × 高 20 cm" style="min-height: 48px; padding: 8px 12px; box-sizing: border-box; border: 1.5px solid #b5741f; border-radius: 6px; background: #fffaf2; font-size: 16px;">
+        </div>
+      </section>
+
+      <section aria-labelledby="m-buy" style="background: #fbf9f4; border: 1px solid #ddd7cb; border-radius: 10px; padding: 20px 16px; display: flex; flex-direction: column; gap: 18px;">
+        <h2 id="m-buy" style="margin: 0; display: flex; align-items: baseline; gap: 10px; font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 20px;"><span style="font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 12px; color: #1f3c8e;">03</span>購買與首頁</h2>
+        <div id="m-buy-url" style="display: flex; flex-direction: column; gap: 6px;">
+          <label for="m-buy-input" style="display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: 15px;">賣貨便連結 <span style="padding: 0 8px; border-radius: 999px; background: #f7e6cf; color: #7a420c; font-size: 12px;">待補</span></label>
+          <input id="m-buy-input" type="url" placeholder="https://myship.7-11.com.tw/..." style="min-height: 48px; padding: 8px 12px; box-sizing: border-box; border: 1.5px solid #b5741f; border-radius: 6px; background: #fffaf2; font-size: 16px;">
+          <small style="color: #5e584e; font-size: 13px;">留空時，商品頁顯示「即將開賣」。</small>
+        </div>
+        <div style="display: flex; gap: 12px;">
+          <label style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-weight: 500; font-size: 15px;">首頁精選</span>
+            <input value="1" inputmode="numeric" style="min-height: 48px; padding: 8px 12px; box-sizing: border-box; border: 1px solid #8f887b; border-radius: 6px; background: #ffffff; font-size: 16px;">
+          </label>
+          <label style="flex: 1.4 1 0; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-weight: 500; font-size: 15px;">配色模擬器</span>
+            <select style="min-height: 48px; padding: 8px 10px; box-sizing: border-box; border: 1px solid #8f887b; border-radius: 6px; background: #ffffff; font-size: 16px;">
+              <option>不顯示</option>
+              <option selected="selected">泡芙小花</option>
+            </select>
+          </label>
+        </div>
+        <small style="margin-top: -8px; color: #5e584e; font-size: 13px;">精選：數字愈小愈前面；留空就不放首頁。</small>
+      </section>
+
+      <section aria-labelledby="m-story" style="background: #fbf9f4; border: 1px solid #ddd7cb; border-radius: 10px; padding: 20px 16px; display: flex; flex-direction: column; gap: 14px;">
+        <h2 id="m-story" style="margin: 0; display: flex; align-items: baseline; gap: 10px; font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 20px;"><span style="font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 12px; color: #1f3c8e;">04</span>故事</h2>
+
+        <div role="group" aria-label="故事檢視方式" style="display: flex; padding: 4px; border-radius: 8px; background: #ebe6dc;">
+          <button type="button" aria-pressed="true" data-tab="edit" style="flex: 1 1 0; min-height: 44px; border: 0; border-radius: 6px; cursor: pointer; font-size: 15px; background: #fbf9f4; color: #16140f; font-weight: 700; box-shadow: 0 1px 2px rgba(22, 20, 15, 0.15);">編輯</button>
+          <button type="button" aria-pressed="false" data-tab="preview" style="flex: 1 1 0; min-height: 44px; border: 0; border-radius: 6px; cursor: pointer; font-size: 15px; background: transparent; color: #4f4a41; font-weight: 400;">預覽</button>
+        </div>
+
+        <div data-panel="edit">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div role="toolbar" aria-label="格式" style="display: flex; gap: 4px; padding: 4px; border: 1px solid #ddd7cb; border-radius: 6px; background: #f4f0e8;">
+              <button type="button" aria-label="粗體" style="flex: 1 1 0; height: 44px; border: 0; border-radius: 4px; background: transparent; cursor: pointer; font-weight: 700;">B</button>
+              <button type="button" aria-label="小標題" style="flex: 1 1 0; height: 44px; border: 0; border-radius: 4px; background: transparent; cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: 14px;">H2</button>
+              <button type="button" aria-label="清單" style="flex: 1 1 0; height: 44px; border: 0; border-radius: 4px; background: transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"></path><circle cx="4.5" cy="6" r="1"></circle><circle cx="4.5" cy="12" r="1"></circle><circle cx="4.5" cy="18" r="1"></circle></svg></button>
+              <button type="button" aria-label="連結" style="flex: 1 1 0; height: 44px; border: 0; border-radius: 4px; background: transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"></path><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg></button>
+            </div>
+            <label for="m-story-text" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">故事 Markdown</label>
+            <textarea id="m-story-text" rows="14" style="padding: 12px; box-sizing: border-box; border: 1px solid #8f887b; border-radius: 6px; background: #ffffff; font-size: 16px; line-height: 1.75; resize: vertical;">鉤織的網狀提網，裝得下水壺或飲料杯，提著就能出門。
+
+不用的時候，把網子收進花朵形狀的底座，扣上木釦，就變成一朵圓鼓鼓的小花吊飾。
+
+## 自己挑配色
+
+每個提網用兩個顏色：
+
+- **主色**：網子和花朵外圈
+- **配色**：提把和花心
+
+兩個顏色都可以從下方色卡的 22 色中挑選。</textarea>
+          </div>
+        </div>
+
+        <div data-panel="preview" hidden>
+          <div aria-live="polite" style="padding: 16px 18px; border: 1px dashed #b9b2a5; border-radius: 6px; background: #f4f0e8; font-family: 'Noto Serif TC', serif; font-size: 16px; line-height: 1.95;">
+            <p style="margin: 0 0 14px;">鉤織的網狀提網，裝得下水壺或飲料杯，提著就能出門。</p>
+            <p style="margin: 0 0 14px;">不用的時候，把網子收進花朵形狀的底座，扣上木釦，就變成一朵圓鼓鼓的小花吊飾。</p>
+            <h3 style="margin: 22px 0 10px; font-weight: 600; font-size: 19px;">自己挑配色</h3>
+            <p style="margin: 0 0 8px;">每個提網用兩個顏色：</p>
+            <ul style="margin: 0 0 14px; padding-left: 1.4em;">
+              <li><strong>主色</strong>：網子和花朵外圈</li>
+              <li><strong>配色</strong>：提把和花心</li>
+            </ul>
+            <p style="margin: 0;">兩個顏色都可以從下方色卡的 22 色中挑選。</p>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="m-photos" style="background: #fbf9f4; border: 1px solid #ddd7cb; border-radius: 10px; padding: 20px 16px; display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+          <h2 id="m-photos" style="margin: 0; display: flex; align-items: baseline; gap: 10px; font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 20px;"><span style="font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 12px; color: #1f3c8e;">05</span>照片</h2>
+          <span style="font-size: 13px; color: #5e584e;">封面＋8 張・色卡</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
+          <img src="../../../JenJenKnits/wwwroot/products/puff-flower-net/cover.jpg" alt="封面" style="grid-column: span 2; grid-row: span 2; width: 100%; height: 100%; object-fit: cover; border-radius: 6px; outline: 2px solid #1f3c8e; outline-offset: 2px;">
+          <img src="../../../JenJenKnits/wwwroot/products/puff-flower-net/01.jpg" alt="照片 01" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 6px;">
+          <img src="../../../JenJenKnits/wwwroot/products/puff-flower-net/02.jpg" alt="照片 02" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 6px;">
+          <img src="../../../JenJenKnits/wwwroot/products/puff-flower-net/03.jpg" alt="照片 03" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 6px;">
+          <img src="../../../JenJenKnits/wwwroot/products/puff-flower-net/04.jpg" alt="照片 04" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 6px;">
+          <img src="../../../JenJenKnits/wwwroot/products/puff-flower-net/05.jpg" alt="照片 05" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 6px;">
+          <img src="../../../JenJenKnits/wwwroot/products/puff-flower-net/06.jpg" alt="照片 06" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 6px;">
+          <img src="../../../JenJenKnits/wwwroot/products/puff-flower-net/07.jpg" alt="照片 07" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 6px;">
+          <img src="../../../JenJenKnits/wwwroot/products/puff-flower-net/08.jpg" alt="照片 08" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 6px;">
+          <img src="../../../JenJenKnits/wwwroot/products/puff-flower-net/colors.jpg" alt="色卡" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 6px;">
+        </div>
+        <p style="margin: 0; font-size: 13px; color: #4f4a41;">外框的是封面，其後依 01、02… 排列，最後一張是色卡。照片放在 <code style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; overflow-wrap: anywhere;">wwwroot/products/puff-flower-net/</code>。</p>
+      </section>
+    </form>
+  </main>
+
+  <div style="position: sticky; bottom: 0; display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-top: 1px solid #ddd7cb; background: #fbf9f4; box-shadow: 0 -4px 16px rgba(22, 20, 15, 0.08);">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <button type="button" role="switch" aria-checked="true" aria-labelledby="m-pub-label" style="position: relative; width: 52px; height: 30px; flex-shrink: 0; padding: 0; border: 0; border-radius: 999px; background: #1f3c8e; cursor: pointer;"><span style="position: absolute; top: 4px; left: 26px; width: 22px; height: 22px; border-radius: 50%; background: #ffffff;"></span></button>
+      <span style="display: flex; flex-direction: column; line-height: 1.3;">
+        <span id="m-pub-label" style="font-weight: 700; font-size: 14px;">發布</span>
+        <span style="display: flex; align-items: center; gap: 5px; font-size: 12px; color: #7a420c;"><span style="width: 6px; height: 6px; border-radius: 50%; background: #b5741f;"></span>未儲存</span>
+      </span>
+    </div>
+    <button type="submit" style="flex-grow: 1; min-height: 48px; border: 0; border-radius: 8px; background: #1f3c8e; color: #ffffff; cursor: pointer; font-weight: 700; font-size: 16px;">儲存</button>
+  </div>
+</div>
+<script>
+// 故事的「編輯／預覽」切換（樣稿用）
+const on = "flex: 1 1 0; min-height: 44px; border: 0; border-radius: 6px; cursor: pointer; font-size: 15px; background: #fbf9f4; color: #16140f; font-weight: 700; box-shadow: 0 1px 2px rgba(22, 20, 15, 0.15);", off = "flex: 1 1 0; min-height: 44px; border: 0; border-radius: 6px; cursor: pointer; font-size: 15px; background: transparent; color: #4f4a41; font-weight: 400;";
+document.querySelectorAll("[data-tab]").forEach((button) => button.addEventListener("click", () => {
+  document.querySelectorAll("[data-tab]").forEach((b) => { const active = b === button; b.setAttribute("aria-pressed", active); b.style.cssText = active ? on : off; });
+  document.querySelectorAll("[data-panel]").forEach((p) => { p.hidden = p.dataset.panel !== button.dataset.tab; });
+}));
+</script>
+</body>
+</html>

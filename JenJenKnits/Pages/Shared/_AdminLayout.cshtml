@@ -2,7 +2,8 @@
 @inject SiteDbContext Db
 @{
     var signedIn = User.Identity?.IsAuthenticated == true;
-    // 提醒：資料庫檔進 git，改完要 commit + push，另一台電腦才拿得到
+    var section = ViewData["AdminSection"] as string;
+    // 提醒：資料庫檔進 git，改完要 commit + push，另一台電腦才拿得到。UpdatedAt 是 UTC，加 8 小時是台灣時間
     var lastUpdated = signedIn ? Db.Products.Max(p => (DateTime?)p.UpdatedAt) : null;
 }
 <!DOCTYPE html>
@@ -15,7 +16,7 @@
     <title>@(ViewData["Title"] is string title ? $"{title}｜" : "")後台｜織物製造所</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&family=Noto+Sans+TC:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
 </head>
@@ -23,17 +24,28 @@
     <a class="skip-link" href="#main">跳到主要內容</a>
     <header class="admin-bar">
         <div class="wrap admin-bar-inner">
-            <a class="admin-brand" asp-page="/Admin/Index">織物製造所 <span class="mono">後台</span></a>
+            <a class="admin-brand" asp-page="/Admin/Index">織物製造所 <span class="admin-brand-tag">後台</span></a>
             @if (signedIn)
             {
                 <nav class="admin-nav" aria-label="後台選單">
-                    <a asp-page="/Admin/Index">商品</a>
-                    <a asp-page="/Admin/Create">新增商品</a>
+                    <a asp-page="/Admin/Index" aria-current="@(section == "products" ? "page" : null)">商品</a>
+                    <a asp-page="/Admin/Create" aria-current="@(section == "create" ? "page" : null)">新增商品</a>
                     <a href="/" target="_blank" rel="noopener">看前台 ↗</a>
-                    <form method="post" asp-page="/Admin/Logout">
-                        <button type="submit">登出</button>
-                    </form>
                 </nav>
+                <p class="admin-sync">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3" /><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5" /><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3" /></svg>
+                    @if (lastUpdated is DateTime updated)
+                    {
+                        <span>資料 <time datetime="@updated.ToString("yyyy-MM-ddTHH:mm")Z">@updated.AddHours(8).ToString("MM-dd HH:mm")</time> 改過・記得 commit＋push</span>
+                    }
+                    else
+                    {
+                        <span>改完記得 commit＋push 資料庫</span>
+                    }
+                </p>
+                <form class="admin-logout" method="post" asp-page="/Admin/Logout">
+                    <button type="submit">登出</button>
+                </form>
             }
         </div>
     </header>
@@ -41,18 +53,13 @@
     <main id="main" class="wrap admin-main">
         @if (TempData["Notice"] is string notice)
         {
-            <p class="admin-notice" role="status">@notice</p>
+            <p class="admin-notice" role="status">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+                <span>@notice</span>
+            </p>
         }
         @RenderBody()
     </main>
-
-    @if (signedIn)
-    {
-        <footer class="wrap admin-foot mono">
-            資料最後更新：@(lastUpdated?.ToLocalTime().ToString("yyyy-MM-dd HH:mm") ?? "—")
-            · 改完記得 commit 並 push <code>App_Data/jenjenknits.db</code>
-        </footer>
-    }
 
     <script src="~/js/admin.js" asp-append-version="true"></script>
 </body>

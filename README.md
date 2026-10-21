@@ -51,8 +51,10 @@ dotnet user-secrets set "Admin:PasswordHash" "上一步印出的雜湊值"
 ### 上架新商品
 
 1. 後台「新增商品」：輸入名稱與網址代稱（slug，例如 `mustard-tote`），會先存成草稿
-2. 照片放進 `wwwroot/products/{slug}/`
-3. 回到後台補完資料，勾選「發布到前台」並儲存
+2. 照片放進 `wwwroot/products/{slug}/`：`cover.jpg`（封面）、`01.jpg`、`02.jpg`…、`colors.jpg`（色卡），重新整理編輯頁就會在「照片」區看到縮圖
+3. 回到後台照「資料完成度」補完資料，打開「發布到前台」並儲存（故事打字時會自動預覽；沒存就離開頁面，瀏覽器會先詢問）
+
+後台的版面樣稿在 `docs/design/admin-redesign/`（瀏覽器直接打開）。
 
 ### 兩台電腦之間同步（重要）
 
@@ -62,7 +64,7 @@ dotnet user-secrets set "Admin:PasswordHash" "上一步印出的雜湊值"
 - **改完立刻 commit 並 push** `JenJenKnits/App_Data/jenjenknits.db`（和新放的照片）
 - 不要在兩台電腦上同時改資料：資料庫檔沒辦法自動合併，衝突時只能二選一
 
-後台頁尾會顯示「資料最後更新」時間，可以用來確認是不是最新的資料。
+後台頁首會顯示資料最後修改的時間（台灣時間），可以用來確認是不是最新的資料。
 
 ## 更新展示網站（GitHub Pages）
 

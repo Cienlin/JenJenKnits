@@ -2,11 +2,21 @@
 @model JenJenKnits.Pages.Admin.IndexModel
 @{
     ViewData["Title"] = "商品";
+    ViewData["AdminSection"] = "products";
 }
 
 <div class="admin-head">
-    <h1>商品 <span class="mono">@Model.Rows.Count</span></h1>
-    <a class="btn btn-quiet" asp-page="/Admin/Create">＋ 新增商品</a>
+    <div>
+        <h1>商品<span class="admin-count">@Model.Rows.Count</span></h1>
+        @if (Model.Rows.Count > 0)
+        {
+            <p class="admin-summary">@Model.PublishedCount 件已發布・@Model.DraftCount 件草稿・@Model.IncompleteCount 件有欄位待補</p>
+        }
+    </div>
+    <a class="admin-btn" asp-page="/Admin/Create">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+        新增商品
+    </a>
 </div>
 
 @if (Model.Rows.Count == 0)
@@ -15,44 +25,64 @@
 }
 else
 {
-    <ul class="admin-list">
-        @foreach (var row in Model.Rows)
-        {
-            var product = row.Product;
-            <li>
-                <div class="admin-list-name">
-                    <a asp-page="/Admin/Edit" asp-route-slug="@product.Slug">@product.Name</a>
-                    <span class="mono">@product.Slug</span>
-                </div>
-                <div>@(product.Category ?? "—")</div>
-                <div>
-                    <span class="status @(product.IsPublished ? "is-published" : "is-draft")">@(product.IsPublished ? "已發布" : "草稿")</span>
-                </div>
-                <div>
-                    @if (row.Images.CoverPath is null)
-                    {
-                        <span class="warn">缺封面</span>
-                    }
-                    else
-                    {
-                        <span>封面 ＋ @row.Images.GalleryPaths.Count 張</span>
-                    }
-                </div>
-                <div class="missing">
-                    @if (row.Missing.Count == 0)
-                    {
-                        <span class="done">資料齊全</span>
-                    }
-                    else
-                    {
-                        <span class="missing-label">待補：</span>
-                        @foreach (var field in row.Missing)
-                        {
-                            <span class="chip-todo">@field</span>
-                        }
-                    }
-                </div>
+    <div>
+        @* 欄位名稱只在寬螢幕顯示；每格內容本身就看得懂，所以對讀螢幕軟體隱藏 *@
+        <ul class="admin-list">
+            <li class="admin-list-head" aria-hidden="true">
+                <span>作品</span><span>分類</span><span>價格</span><span>狀態</span><span>首頁精選</span><span>照片</span><span>待補資料</span><span>更新</span>
             </li>
-        }
-    </ul>
+            @foreach (var row in Model.Rows)
+            {
+                var product = row.Product;
+                <li class="admin-item @(product.IsPublished ? "is-published" : "is-draft")">
+                    @if (row.Images.CoverPath is string cover)
+                    {
+                        <img class="admin-item-thumb" src="@cover" alt="" loading="lazy" />
+                    }
+                    else
+                    {
+                        <span class="admin-item-thumb is-missing" aria-hidden="true">沒有封面</span>
+                    }
+                    <div class="admin-item-name">
+                        <a asp-page="/Admin/Edit" asp-route-slug="@product.Slug">@product.Name</a>
+                        <span class="code">@product.Slug</span>
+                    </div>
+                    <div class="admin-item-status">
+                        <span class="badge @(product.IsPublished ? "badge-published" : "badge-draft")">@(product.IsPublished ? "已發布" : "草稿")</span>
+                    </div>
+                    <div class="admin-item-meta">
+                        <span class="admin-item-cat">@(product.Category ?? "未分類")</span>
+                        <span class="admin-item-price">@(product.Price is int price ? $"NT$ {price}" : "未定價")</span>
+                        <span class="admin-item-featured">@(product.Featured is int featured ? $"精選 No. {featured}" : "不上首頁")</span>
+                        <span class="admin-item-photos">
+                            @if (row.Images.CoverPath is null)
+                            {
+                                <span class="warn">缺封面</span>
+                            }
+                            else
+                            {
+                                @($"封面＋{row.Images.GalleryPaths.Count}{(row.Images.ColorChartPath is not null ? "・色卡" : "")}")
+                            }
+                        </span>
+                        <span class="admin-item-updated">@row.UpdatedOn</span>
+                    </div>
+                    <div class="admin-item-todo">
+                        @if (row.Missing.Count == 0)
+                        {
+                            <span class="done">資料齊全</span>
+                        }
+                        else
+                        {
+                            <span class="todo-label">待補</span>
+                            @foreach (var field in row.Missing)
+                            {
+                                <span class="chip-todo">@field</span>
+                            }
+                        }
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+    <p class="hint">順序和前台相同（首頁精選數字小的在前）。草稿只在後台看得到。</p>
 }

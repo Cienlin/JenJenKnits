@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>後台：新增商品（樣稿）</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&amp;family=Noto+Sans+TC:wght@400;500;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f4f0e8;color:#16140f;font-family:"Noto Sans TC",system-ui,sans-serif}
+a{color:#16140f}a:hover{color:#1f3c8e}
+button,input{font:inherit;color:inherit}
+input::placeholder{color:#7a7366}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #1f3c8e;outline-offset:2px}
+</style>
+</head>
+<body>
+<div style="min-height: 100vh; background: #f4f0e8; color: #16140f; font-family: 'Noto Sans TC', system-ui, sans-serif; font-size: 16px; line-height: 1.6;">
+
+  <header style="border-bottom: 3px double #16140f;">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 0 32px; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 32px; min-height: 64px;">
+      <a href="list.html" style="display: inline-flex; align-items: baseline; gap: 10px; min-height: 44px; padding-top: 10px; box-sizing: border-box; text-decoration: none; font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: 18px; letter-spacing: 0.1em;">織物製造所 <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 13px; letter-spacing: 0.08em; color: #1f3c8e;">後台</span></a>
+      <nav aria-label="後台選單" style="display: flex; flex-wrap: wrap; align-items: center; gap: 0 24px; flex-grow: 1;">
+        <a href="list.html" style="display: inline-flex; align-items: center; min-height: 44px; text-decoration: none;">商品</a>
+        <a href="create.html" aria-current="page" style="display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; font-weight: 700; box-shadow: inset 0 -2px 0 #1f3c8e;">新增商品</a>
+        <a href="https://jhcraftstudio.com/" style="display: inline-flex; align-items: center; min-height: 44px; text-decoration: none;">看前台 ↗</a>
+      </nav>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px;">
+        <span style="display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border: 1px solid #b5741f; border-radius: 999px; background: #f7e6cf; color: #7a420c; font-size: 13px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"></path><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"></path></svg>
+          資料 10-20 16:14 改過・記得 commit＋push
+        </span>
+        <button type="button" style="min-height: 44px; padding: 0 4px; border: 0; background: none; cursor: pointer; font-size: 15px;">登出</button>
+      </div>
+    </div>
+  </header>
+
+  <main style="max-width: 760px; margin: 0 auto; padding: 24px 32px 96px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px;">
+
+    <a href="list.html" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; color: #5e584e; font-size: 15px;">← 商品</a>
+
+    <h1 style="margin: 0; font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: 34px; line-height: 1.2; letter-spacing: 0.06em;">新增商品</h1>
+
+    <ol aria-label="上架步驟" style="margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 12px;">
+      <li aria-current="step" style="flex: 1 1 180px; display: flex; gap: 12px; padding: 14px 16px; border: 1.5px solid #1f3c8e; border-radius: 10px; background: #fbf9f4;">
+        <span style="flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: #1f3c8e; color: #ffffff; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 14px;">1</span>
+        <span style="display: flex; flex-direction: column; font-size: 14px; color: #4f4a41;"><strong style="font-size: 15px; color: #16140f;">建立草稿</strong>名稱和網址代稱</span>
+      </li>
+      <li style="flex: 1 1 180px; display: flex; gap: 12px; padding: 14px 16px; border: 1px solid #ddd7cb; border-radius: 10px;">
+        <span style="flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; border: 1px solid #8f887b; display: flex; align-items: center; justify-content: center; box-sizing: border-box; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #4f4a41;">2</span>
+        <span style="display: flex; flex-direction: column; font-size: 14px; color: #4f4a41;"><strong style="font-size: 15px; color: #16140f;">放照片</strong>放進以代稱命名的資料夾</span>
+      </li>
+      <li style="flex: 1 1 180px; display: flex; gap: 12px; padding: 14px 16px; border: 1px solid #ddd7cb; border-radius: 10px;">
+        <span style="flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; border: 1px solid #8f887b; display: flex; align-items: center; justify-content: center; box-sizing: border-box; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #4f4a41;">3</span>
+        <span style="display: flex; flex-direction: column; font-size: 14px; color: #4f4a41;"><strong style="font-size: 15px; color: #16140f;">補資料、發布</strong>在編輯頁完成</span>
+      </li>
+    </ol>
+
+    <form style="background: #fbf9f4; border: 1px solid #ddd7cb; border-radius: 10px; padding: 28px 32px; display: flex; flex-direction: column; gap: 22px;">
+      <label style="display: flex; flex-direction: column; gap: 6px;">
+        <span style="font-weight: 500; font-size: 15px;">名稱</span>
+        <input placeholder="例如 泡芙小花提網" style="min-height: 44px; padding: 8px 12px; box-sizing: border-box; border: 1px solid #8f887b; border-radius: 6px; background: #ffffff; font-size: 16px;">
+      </label>
+
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <label for="new-slug" style="font-weight: 500; font-size: 15px;">網址代稱</label>
+        <input id="new-slug" placeholder="例如 puff-flower-net" autocapitalize="off" spellcheck="false" aria-describedby="new-slug-hint" style="min-height: 44px; padding: 8px 12px; box-sizing: border-box; border: 1px solid #8f887b; border-radius: 6px; background: #ffffff; font-family: 'IBM Plex Mono', monospace; font-size: 15px;">
+        <div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; padding: 10px 12px; border-radius: 6px; background: #f4f0e8; font-size: 14px;">
+          <span style="color: #5e584e;">網址會是</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; overflow-wrap: anywhere;">jhcraftstudio.com/products/<span style="color: #1f3c8e; border-bottom: 1px dashed #1f3c8e;">代稱</span></span>
+        </div>
+        <small id="new-slug-hint" style="color: #5e584e; font-size: 13px;">只能用小寫英文和數字，中間用 - 連接。網址和照片資料夾都用它，建立後不能修改。</small>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px;">
+        <button type="submit" style="min-height: 48px; padding: 0 28px; border: 0; border-radius: 8px; background: #1f3c8e; color: #ffffff; cursor: pointer; font-weight: 700; font-size: 16px;">建立草稿</button>
+        <a href="list.html" style="display: inline-flex; align-items: center; min-height: 44px; font-size: 15px;">取消</a>
+      </div>
+      <p style="margin: 0; font-size: 14px; color: #4f4a41;">建立後會直接進到編輯頁。草稿只在後台看得到，資料補好、照片放好再發布。</p>
+    </form>
+  </main>
+</div>
+
+</body>
+</html>

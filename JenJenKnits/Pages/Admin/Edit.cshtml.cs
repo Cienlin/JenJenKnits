@@ -25,6 +25,14 @@ public class EditModel(SiteDbContext db, ProductFolders folders) : PageModel
 
     public IReadOnlyList<string> Categories { get; private set; } = [];
 
+    /// <summary>資料完成度：依表單目前的值計算（驗證失敗時就是剛輸入的內容）。</summary>
+    public IReadOnlyList<ProductCompleteness.Item> Completeness { get; private set; } = [];
+
+    /// <summary>上次儲存時間（台灣時間）；UpdatedAt 是 UTC。</summary>
+    public string LastSaved { get; private set; } = "";
+
+    public bool IsMissing(string field) => Completeness.Any(i => i.Field == field && !i.IsFilled);
+
     public IActionResult OnGet(string slug)
     {
         var product = db.Products.AsNoTracking().FirstOrDefault(p => p.Slug == slug);
@@ -34,7 +42,7 @@ public class EditModel(SiteDbContext db, ProductFolders folders) : PageModel
         }
 
         Input = ProductInput.From(product);
-        LoadPageData(slug);
+        LoadPageData(product);
         return Page();
     }
 
@@ -60,7 +68,7 @@ public class EditModel(SiteDbContext db, ProductFolders folders) : PageModel
         if (!ModelState.IsValid)
         {
             // 有錯就整份不存，保留已輸入的內容
-            LoadPageData(slug);
+            LoadPageData(product);
             return Page();
         }
 
@@ -78,7 +86,7 @@ public class EditModel(SiteDbContext db, ProductFolders folders) : PageModel
         product.UpdatedAt = DateTime.UtcNow;
         db.SaveChanges();
 
-        TempData["Notice"] = "已儲存";
+        TempData["Notice"] = $"已儲存「{product.Name}」。";
         return RedirectToPage(new { slug });
     }
 
@@ -86,10 +94,12 @@ public class EditModel(SiteDbContext db, ProductFolders folders) : PageModel
     public IActionResult OnPostPreview([FromForm(Name = "Input.StoryMarkdown")] string? story) =>
         Content(StoryRenderer.ToHtml(story) ?? "<p class=\"hint\">故事是空的，前台不會顯示故事區塊。</p>", "text/html; charset=utf-8");
 
-    private void LoadPageData(string slug)
+    private void LoadPageData(ProductRecord product)
     {
-        Slug = slug;
-        Images = folders.FindImages(slug);
+        Slug = product.Slug;
+        Images = folders.FindImages(product.Slug);
+        LastSaved = product.UpdatedAt.AddHours(8).ToString("MM-dd HH:mm");
+        Completeness = ProductCompleteness.Check(Input.Price, Input.Material, Input.Dimensions, Input.ShortDescription, Input.StoryMarkdown, Input.BuyUrl);
         Categories = db.Products.Select(p => p.Category).OfType<string>().Distinct().OrderBy(c => c).ToList();
     }
 

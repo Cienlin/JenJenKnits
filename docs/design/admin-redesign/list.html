@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>後台：商品列表（樣稿）</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&amp;family=Noto+Sans+TC:wght@400;500;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f4f0e8;color:#16140f;font-family:"Noto Sans TC",system-ui,sans-serif}
+a{color:#16140f}a:hover{color:#1f3c8e}
+button{font:inherit;color:inherit}
+th{font-weight:500}
+</style>
+</head>
+<body>
+<div style="min-height: 100vh; background: #f4f0e8; color: #16140f; font-family: 'Noto Sans TC', system-ui, sans-serif; font-size: 16px; line-height: 1.6;">
+
+  <header style="border-bottom: 3px double #16140f;">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 0 32px; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 32px; min-height: 64px;">
+      <a href="list.html" style="display: inline-flex; align-items: baseline; gap: 10px; min-height: 44px; padding-top: 10px; box-sizing: border-box; text-decoration: none; font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: 18px; letter-spacing: 0.1em;">織物製造所 <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 13px; letter-spacing: 0.08em; color: #1f3c8e;">後台</span></a>
+      <nav aria-label="後台選單" style="display: flex; flex-wrap: wrap; align-items: center; gap: 0 24px; flex-grow: 1;">
+        <a href="list.html" aria-current="page" style="display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; font-weight: 700; box-shadow: inset 0 -2px 0 #1f3c8e;">商品</a>
+        <a href="create.html" style="display: inline-flex; align-items: center; min-height: 44px; text-decoration: none;">新增商品</a>
+        <a href="https://jhcraftstudio.com/" style="display: inline-flex; align-items: center; min-height: 44px; text-decoration: none;">看前台 ↗</a>
+      </nav>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px;">
+        <span style="display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border: 1px solid #b5741f; border-radius: 999px; background: #f7e6cf; color: #7a420c; font-size: 13px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"></path><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"></path></svg>
+          資料 10-20 16:14 改過・記得 commit＋push
+        </span>
+        <button type="button" style="min-height: 44px; padding: 0 4px; border: 0; background: none; cursor: pointer; font-size: 15px;">登出</button>
+      </div>
+    </div>
+  </header>
+
+  <main style="max-width: 1240px; margin: 0 auto; padding: 32px 32px 80px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px;">
+
+    <p role="status" style="margin: 0; display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 8px; background: #e4e9f5; color: #16140f; font-size: 15px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1f3c8e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+      已儲存「泡芙小花提網」。
+    </p>
+
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;">
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <h1 style="margin: 0; font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: 34px; line-height: 1.2; letter-spacing: 0.06em;">商品 <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 400; font-size: 18px; color: #5e584e; letter-spacing: 0;">3</span></h1>
+        <p style="margin: 0; color: #5e584e; font-size: 15px;">2 件已發布・1 件草稿・3 件有欄位待補</p>
+      </div>
+      <a href="create.html" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 20px; border-radius: 8px; background: #1f3c8e; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 15px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+        新增商品
+      </a>
+    </div>
+
+    <div style="background: #fbf9f4; border: 1px solid #ddd7cb; border-radius: 10px; overflow-x: auto;">
+      <table style="width: 100%; min-width: 1080px; border-collapse: collapse; font-size: 15px;">
+        <thead>
+          <tr style="text-align: left; color: #5e584e; font-size: 13px; border-bottom: 1px solid #ddd7cb;">
+            <th scope="col" style="padding: 12px 20px;">作品</th>
+            <th scope="col" style="padding: 12px 12px;">分類</th>
+            <th scope="col" style="padding: 12px 12px;">價格</th>
+            <th scope="col" style="padding: 12px 12px;">狀態</th>
+            <th scope="col" style="padding: 12px 12px;">首頁精選</th>
+            <th scope="col" style="padding: 12px 12px;">照片</th>
+            <th scope="col" style="padding: 12px 12px;">待補資料</th>
+            <th scope="col" style="padding: 12px 20px 12px 12px;">更新</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid #ebe6dc;">
+            <td style="padding: 14px 20px;">
+              <div style="display: flex; align-items: center; gap: 16px;">
+                <img src="../../../JenJenKnits/wwwroot/products/puff-flower-net/cover.jpg" alt="" style="width: 64px; height: 64px; object-fit: cover; border-radius: 6px; flex-shrink: 0;">
+                <div style="display: flex; flex-direction: column;">
+                  <a href="edit.html" style="font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 18px; text-decoration: none;">泡芙小花提網</a>
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5e584e;">puff-flower-net</span>
+                </div>
+              </div>
+            </td>
+            <td style="padding: 14px 12px;">飲料提網</td>
+            <td style="padding: 14px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 14px;">NT$ 450</td>
+            <td style="padding: 14px 12px;"><span style="display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 999px; background: #e4e9f5; color: #1f3c8e; font-size: 13px; font-weight: 500; white-space: nowrap;"><span style="width: 6px; height: 6px; border-radius: 50%; background: #1f3c8e;"></span>已發布</span></td>
+            <td style="padding: 14px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 14px;">No. 1</td>
+            <td style="padding: 14px 12px; color: #4f4a41; white-space: nowrap;">封面＋8・色卡</td>
+            <td style="padding: 14px 12px;">
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <span style="padding: 2px 10px; border-radius: 999px; background: #f7e6cf; color: #7a420c; font-size: 13px; white-space: nowrap;">尺寸</span>
+                <span style="padding: 2px 10px; border-radius: 999px; background: #f7e6cf; color: #7a420c; font-size: 13px; white-space: nowrap;">賣貨便連結</span>
+              </div>
+            </td>
+            <td style="padding: 14px 20px 14px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #5e584e;">10-20</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #ebe6dc;">
+            <td style="padding: 14px 20px;">
+              <div style="display: flex; align-items: center; gap: 16px;">
+                <img src="../../../JenJenKnits/wwwroot/products/floral-coaster/cover.jpg" alt="" style="width: 64px; height: 64px; object-fit: cover; border-radius: 6px; flex-shrink: 0;">
+                <div style="display: flex; flex-direction: column;">
+                  <a href="edit.html" style="font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 18px; text-decoration: none;">花花杯墊</a>
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5e584e;">floral-coaster</span>
+                </div>
+              </div>
+            </td>
+            <td style="padding: 14px 12px;">杯墊</td>
+            <td style="padding: 14px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 14px;">NT$ 200</td>
+            <td style="padding: 14px 12px;"><span style="display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 999px; background: #e4e9f5; color: #1f3c8e; font-size: 13px; font-weight: 500; white-space: nowrap;"><span style="width: 6px; height: 6px; border-radius: 50%; background: #1f3c8e;"></span>已發布</span></td>
+            <td style="padding: 14px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 14px;">No. 2</td>
+            <td style="padding: 14px 12px; color: #4f4a41; white-space: nowrap;">封面＋3・色卡</td>
+            <td style="padding: 14px 12px;">
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <span style="padding: 2px 10px; border-radius: 999px; background: #f7e6cf; color: #7a420c; font-size: 13px; white-space: nowrap;">賣貨便連結</span>
+              </div>
+            </td>
+            <td style="padding: 14px 20px 14px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #5e584e;">10-20</td>
+          </tr>
+          <tr>
+            <td style="padding: 14px 20px;">
+              <div style="display: flex; align-items: center; gap: 16px;">
+                <img src="../../../JenJenKnits/wwwroot/products/net-tote/cover.jpg" alt="" style="width: 64px; height: 64px; object-fit: cover; border-radius: 6px; flex-shrink: 0; opacity: 0.75;">
+                <div style="display: flex; flex-direction: column;">
+                  <a href="edit.html" style="font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 18px; text-decoration: none;">網格托特包</a>
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5e584e;">net-tote</span>
+                </div>
+              </div>
+            </td>
+            <td style="padding: 14px 12px;">提袋</td>
+            <td style="padding: 14px 12px; color: #5e584e;">—</td>
+            <td style="padding: 14px 12px;"><span style="display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 999px; border: 1px dashed #8f887b; color: #4f4a41; font-size: 13px; font-weight: 500; white-space: nowrap;">草稿</span></td>
+            <td style="padding: 14px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #5e584e;">No. 2</td>
+            <td style="padding: 14px 12px; color: #4f4a41; white-space: nowrap;">封面＋5</td>
+            <td style="padding: 14px 12px;">
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <span style="padding: 2px 10px; border-radius: 999px; background: #f7e6cf; color: #7a420c; font-size: 13px; white-space: nowrap;">價格</span>
+                <span style="padding: 2px 10px; border-radius: 999px; background: #f7e6cf; color: #7a420c; font-size: 13px; white-space: nowrap;">材質</span>
+                <span style="padding: 2px 10px; border-radius: 999px; background: #f7e6cf; color: #7a420c; font-size: 13px; white-space: nowrap;">尺寸</span>
+                <span style="padding: 2px 10px; border-radius: 999px; background: #f7e6cf; color: #7a420c; font-size: 13px; white-space: nowrap;">賣貨便連結</span>
+              </div>
+            </td>
+            <td style="padding: 14px 20px 14px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #5e584e;">10-16</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin: 0; color: #5e584e; font-size: 13px;">順序和前台相同（首頁精選數字小的在前）。草稿只在後台看得到。</p>
+  </main>
+</div>
+
+</body>
+</html>

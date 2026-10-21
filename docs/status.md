@@ -54,7 +54,6 @@
 - 約 2026-11-10（上線 2～3 週後）：看 Search Console「成效 → 查詢」大家實際搜什麼字，再決定標題要不要調整（商品叫法已在 2026-10-20 統一為「飲料提網」，見「已討論過的決定」）
 - （暫緩）網格托特包的價格、材質、尺寸、賣貨便連結：2026-10-16 先從前台下架，目前不是主力
 - 一週後（約 2026-10-23）在 Google 搜尋 `site:jhcraftstudio.com`，或看 Search Console 的「網頁」報表，確認已收錄（2026-10-16 已用「網域」類型登錄 Search Console、提交 sitemap，並對首頁與兩件商品頁要求建立索引）。順便看搜尋結果是否顯示網站名稱「織物製造所」（2026-10-16 上線，生效需幾天到幾週，Google 不保證採用）。Bing 也一起看：搜尋 `site:jhcraftstudio.com` 或在 Bing Webmaster Tools 重做 URL Inspection
-- Namecheap：ICANN 驗證（2026-10-16 當天）與網域自動續約都已確認；剩帳號開兩步驟驗證
 
 ## 已討論過的決定（不在 OpenSpec 裡的）
 
@@ -83,7 +82,7 @@
 - **GitHub Actions 自動部署的討論**（2026-10-21，暫緩）：repo 公開，Actions 免費；不需要任何密碼（IndexNow 金鑰公開、推 gh-pages 用 GITHUB_TOKEN）；沿用 gh-pages 分支（IndexNow 比對上一版與 CNAME 都靠它），雲端機器上跑同一支 `deploy-pages.sh`（要處理：`site-export/` 是新 repo、推送權限不會自動帶過去；commit 身分改 `github-actions[bot]`；部署要排隊）。Linux 分大小寫，檔名寫錯會在輸出時就失敗。觸發方式建議 B：push 自動跑測試、部署用 GitHub 網頁上的 Run workflow 按鈕（使用者收工必 push、push 不代表做完）；之後想全自動再改成 push 就部署
 - **主機**：台灣的「虛擬主機」（PChome 等）多為 PHP／WordPress 共用主機、年約、無法 CI/CD，不適合；網域與主機分開買
 - **官網先用 GitHub Pages，Azure 延後**（2026-10-16）：客源與 IG 還在起步，先不付主機費（Azure 約 6,000 元／年，GitHub Pages 只有網域費約 490 元／年）。上 Azure 時選 Linux：本專案是 ASP.NET Core，跨平台；Windows B1 貴約 4 倍。細節見 `openspec/changes/add-deployment/design.md`
-- **網域**（2026-10-16）：`jhcraftstudio.com` 在 Namecheap 購買，登記在個人名下（沒勾「代表公司」），有免費 Domain Privacy，DNS 用 BasicDNS。Namecheap 推銷的主機、SSL、PremiumDNS、信箱都不需要；要品牌信箱時用免費的信件轉寄
+- **網域**（2026-10-16）：`jhcraftstudio.com` 在 Namecheap 購買，登記在個人名下（沒勾「代表公司」），有免費 Domain Privacy，DNS 用 BasicDNS。Namecheap 推銷的主機、SSL、PremiumDNS、信箱都不需要；要品牌信箱時用免費的信件轉寄。帳號安全（2026-10-21 確認）：ICANN 驗證已完成、網域自動續約已開、帳號已開兩步驟驗證
 - **分享預覽測試**：LINE Page Poker 已在 2025-06 停止服務；改在 LINE 把網址傳給自己看卡片，Facebook（也涵蓋 IG、Threads）用分享偵錯工具
 - **整理 repo**（2026-10-16）：網站沒用到的檔案從 `wwwroot` 移出：舊品牌「貞心卉織 / J&S Crafted」logo（`images/logo/`）、`images/hero/net-tote-trio.jpg`、`images/about/puff-flower-glacier.jpg`、肩背包照片（`products/_watermarked/`）、棕色包草稿（`products/_wip-brown-bag/`）。原檔在筆電的 `D:\jenjenknits-workspace\repo-unused\`（保留原本相對路徑），git 歷史也查得到（commit `ffef3d9` 以前）。舊的 LINE 原始照片在同一台的 `D:\jenjenknits-workspace\photo\`
 - **手機實測**：公司電腦的 Edge 被公司政策關閉遠端偵錯（`RemoteDebuggingAllowed=0`），自動化點擊與截圖改用無頭 Chrome

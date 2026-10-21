@@ -1,4 +1,4 @@
-# 專案進度（最後更新：2026-10-20）
+# 專案進度（最後更新：2026-10-21）
 
 給下一次開工（不論哪台電腦、哪個 Claude）快速接手用。開工、收工請用 `/start-work`、`/end-work`。
 
@@ -16,16 +16,20 @@
 | SEO 網站名稱：首頁 WebSite 結構化資料（「織物製造所」／JH Craft Studio），Schema Markup Validator 0 錯誤 | `openspec/changes/archive/2026-10-16-add-site-name` |
 | IndexNow：`deploy-pages.sh` 部署後自動通知 Bing 有變動的網址（只送 sitemap 裡內容真的變了的；`--dry-run` 預覽；金鑰 `tools/indexnow-key.txt`，公開的） | `openspec/changes/archive/2026-10-20-add-indexnow`（2026-10-20 上線） |
 | 結構化資料：品牌 Organization＋OnlineStore（含 IG 聯絡窗口）、首頁 WebPage＋FAQPage、商品頁 ItemPage；作者 meta 與 author；頁尾版權頁顯示更新日期（dateModified，台灣時間）與 IG 聯絡列 | `openspec/changes/archive/2026-10-20-add-page-dates-author`（2026-10-20 上線，Validator 0 錯誤） |
+| 後台 UI/UX 改版：列表縮圖與總覽、編輯頁五段欄位＋資料完成度＋照片縮圖、故事格式按鈕與自動預覽、未儲存提醒、手機底部儲存列、新增頁步驟與網址預覽（樣稿 `docs/design/admin-redesign/`；2026-10-21 使用者實際操作確認） | `openspec/changes/archive/2026-10-21-redesign-admin-ui` |
 | AEO：首頁「03 常見問題」6 題＋FAQPage、品牌別名 JH Craft Studio、首頁標題與描述（2026-10-20 上線，`f842c28`；Schema Markup Validator 0 錯誤） | `openspec/changes/archive/2026-10-20-add-faq` |
 
 - 目前規格：`openspec/specs/product-showcase`、`openspec/specs/product-admin`
-- 35 個自動化測試（`dotnet test`）＋ IndexNow 腳本 11 個（`node --test tools/indexnow.test.mjs`）
+- 40 個自動化測試（`dotnet test`）＋ IndexNow 腳本 11 個（`node --test tools/indexnow.test.mjs`）
 - 只用 `main` 分支；`gh-pages` 由 `tools/export-static.mjs` 產生，不要手改
 - 官網：https://jhcraftstudio.com （GitHub Pages 靜態輸出；改內容後要重新輸出才會更新，步驟見 README）
 
 ## 進行中
 
-目前沒有進行中的 OpenSpec change（`add-deployment` 延後）。**下次開工建議**：10-23 檢查 Google、Bing 收錄（見待辦）；要寫程式的話，從「商品頁麵包屑結構化資料」（low～medium effort）或「GitHub Actions 自動部署」（high effort）挑一個
+- **`add-breadcrumb-jsonld`**（商品頁 BreadcrumbList，2026-10-21 提案完成、尚未實作）：效益小（Google 只在桌機顯示、只有兩層「作品 → 商品」，不放分類，理由見其 `design.md` D1），成本也小；不急，可等下次要部署時一起做
+- `add-deployment` 延後
+
+**下次開工建議**：10-23 檢查 Google、Bing 收錄（見待辦）；寫程式就提案 `add-photo-upload`（照片上傳）
 
 **第三階段：部署＋CI/CD**
 - 官網先用 GitHub Pages＋自己的網域（2026-10-16 已完成）；後台仍只在本機使用
@@ -33,10 +37,10 @@
 
 ## 之後
 
-- GitHub Actions：push 後自動測試、輸出並部署 GitHub Pages，取代手動 `tools/deploy-pages.sh`（另開 change）
+- GitHub Actions：push 後自動測試、輸出並部署 GitHub Pages，取代手動 `tools/deploy-pages.sh`（另開 change，2026-10-21 討論後暫緩，見「已討論過的決定」）
 - **品牌故事**（另開 change，等貞貞的素材；也解決 ultralab 的「關於頁面連結」「專業度 E-E-A-T」）：品牌故事與專業度（鉤織年資、幫親友做過的件數，只寫真的；沒有擺過市集、教過課，不提）、頁尾加版權聲明；已決定（2026-10-20）：只寫品牌名、不放創作者名字與新照片、JH 只說是兩位創作者名字的字首、聯絡先只用 IG（已上線：頁尾「聯絡」列＋ContactPoint；細節見 `docs/brand/about-questions.md`）。注意：2026-10-05 編織誌改版時移除了首頁的「關於」區塊，規格寫著「首頁不顯示品牌故事」，要一起改；建議做成獨立的「關於」頁面（`/about`，頁尾放連結），首頁維持現在的版面
 - 商品頁加麵包屑的結構化資料（BreadcrumbList），畫面上已經有麵包屑
-- 後台第二階段：照片上傳、排序、刪除商品（建議部署完成後再做）；照片的 alt 改成描述性文字（現在是「泡芙小花提網 照片 2」）
+- **`add-photo-upload`**（後台第二階段，接在 `redesign-admin-ui` 之後，不等部署）：編輯頁照片區上傳，第一次上傳自動建立 `wwwroot/products/{代稱}/`、自動命名 cover／01、02…／colors，排序、刪除照片；刪除商品。提案時要決定：上傳時是否自動縮小並轉 JPG（手機照片數 MB、iPhone 可能是 HEIC；可一併解決「照片產生較小的版本」）、執行中上傳的檔案 `MapStaticAssets()` 看不到要另外提供、上傳後照片也要 commit＋push（頁首提醒涵蓋照片）。存放位置已規劃在 `add-deployment` 的 design.md；照片的 alt 改成描述性文字（現在是「泡芙小花提網 照片 2」）
 - 照片產生較小的版本（手機載入速度）
 
 ## 不用寫程式的待辦
@@ -75,6 +79,8 @@
 - **ultralab 的內容類型、作者、日期三項**（2026-10-20，`add-page-dates-author`）：只標準確的資訊。品牌用 OnlineStore（沒有實體店面，不用 Store／LocalBusiness），頁面用 WebPage／FAQPage／ItemPage；不加 Article、ProfessionalService（不符合事實，Bing 禁止誤導性結構化資料）。作者是品牌。只有更新日期（dateModified），沒有發布日期（資料庫沒有建立時間）；日期一定顯示在頁尾，和結構化資料一致。首頁版型文字改了不會更新日期（沒有可靠來源）
 - **首頁標題改成品牌標題**（2026-10-20，使用者覺得列商品類型的標題「太侷限、不像標題」）：標題「織物製造所 JH Craft Studio｜顏色可客製的手作編織小物」（33 字），商品交給各商品頁與作品列表的標題；描述開頭用使用者寫的句子，後面接常見問題確認過的事實（121 字，符合 ultralab 建議的長度）。英文名維持「JH Craft Studio」（和 IG、結構化資料一致，不用 J&H Craft）；材質原本只寫「棉線」所以先寫棉線；同日確認線材是 Excel 樂透棉 LOTTO EX088、製造商標示 100% 棉，已改成「純棉」（見 `docs/brand/about-questions.md`）。取捨：首頁對「鉤織 飲料提網」這類搜尋稍弱，由商品頁承接。2026-10-20 部署 `808f0be`，IndexNow 回 200（金鑰已通過驗證）
 - **ultralab 其他四項**（2026-10-20）：「品牌名稱一致性」是改成 OnlineStore 造成的（工具只認字面上的 Organization），改成兩個類型都列；聯絡方式先用 IG（頁尾＋ContactPoint）；「關於頁面連結」「專業度」等品牌故事；「關鍵詞強調（粗體）」不做：對排名影響很小，常見問題答案是純文字、和結構化資料共用（add-faq D4），雜誌風格也不適合到處粗體
+- **後台改版與照片上傳分兩次做**（2026-10-21）：先 `redesign-admin-ui`（只改畫面與互動），再 `add-photo-upload`。原本照片上傳要等部署，但部署一直延後；照片位置本來就能用設定（`Catalog:ProductsPath`）改，之後上 Azure 只改存放位置與提供方式
+- **GitHub Actions 自動部署的討論**（2026-10-21，暫緩）：repo 公開，Actions 免費；不需要任何密碼（IndexNow 金鑰公開、推 gh-pages 用 GITHUB_TOKEN）；沿用 gh-pages 分支（IndexNow 比對上一版與 CNAME 都靠它），雲端機器上跑同一支 `deploy-pages.sh`（要處理：`site-export/` 是新 repo、推送權限不會自動帶過去；commit 身分改 `github-actions[bot]`；部署要排隊）。Linux 分大小寫，檔名寫錯會在輸出時就失敗。觸發方式建議 B：push 自動跑測試、部署用 GitHub 網頁上的 Run workflow 按鈕（使用者收工必 push、push 不代表做完）；之後想全自動再改成 push 就部署
 - **主機**：台灣的「虛擬主機」（PChome 等）多為 PHP／WordPress 共用主機、年約、無法 CI/CD，不適合；網域與主機分開買
 - **官網先用 GitHub Pages，Azure 延後**（2026-10-16）：客源與 IG 還在起步，先不付主機費（Azure 約 6,000 元／年，GitHub Pages 只有網域費約 490 元／年）。上 Azure 時選 Linux：本專案是 ASP.NET Core，跨平台；Windows B1 貴約 4 倍。細節見 `openspec/changes/add-deployment/design.md`
 - **網域**（2026-10-16）：`jhcraftstudio.com` 在 Namecheap 購買，登記在個人名下（沒勾「代表公司」），有免費 Domain Privacy，DNS 用 BasicDNS。Namecheap 推銷的主機、SSL、PremiumDNS、信箱都不需要；要品牌信箱時用免費的信件轉寄

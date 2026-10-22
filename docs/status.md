@@ -1,4 +1,4 @@
-# 專案進度（最後更新：2026-10-21）
+# 專案進度（最後更新：2026-10-22）
 
 給下一次開工（不論哪台電腦、哪個 Claude）快速接手用。開工、收工請用 `/start-work`、`/end-work`。
 
@@ -86,6 +86,7 @@
 - **分享預覽測試**：LINE Page Poker 已在 2025-06 停止服務；改在 LINE 把網址傳給自己看卡片，Facebook（也涵蓋 IG、Threads）用分享偵錯工具
 - **整理 repo**（2026-10-16）：網站沒用到的檔案從 `wwwroot` 移出：舊品牌「貞心卉織 / J&S Crafted」logo（`images/logo/`）、`images/hero/net-tote-trio.jpg`、`images/about/puff-flower-glacier.jpg`、肩背包照片（`products/_watermarked/`）、棕色包草稿（`products/_wip-brown-bag/`）。原檔在筆電的 `D:\jenjenknits-workspace\repo-unused\`（保留原本相對路徑），git 歷史也查得到（commit `ffef3d9` 以前）。舊的 LINE 原始照片在同一台的 `D:\jenjenknits-workspace\photo\`
 - **手機實測**：公司電腦的 Edge 被公司政策關閉遠端偵錯（`RemoteDebuggingAllowed=0`），自動化點擊與截圖改用無頭 Chrome
+- **claude.ai 帳號已改成自己專用**（2026-10-22）：可以發布 artifact。後台改版樣稿已重新發布：https://claude.ai/artifact/Eb8pDhinsHbhmeY2U88voV（原始檔仍在 `docs/design/admin-redesign/`）。另一台電腦的 Claude 記憶裡還有「帳號共用、不能發布」那條，到那台時要請 Claude 刪掉
 
 ## 品牌與社群素材
 
